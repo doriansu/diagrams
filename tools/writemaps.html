@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WriteMaps · 30 个图工具调研</title>
+<link rel="stylesheet" href="../assets/kit.css">
+<style>
+  :root {
+    --accent: #2f9e44;
+    --bg: #ffffff;
+    --panel: #f6f9f6;
+    --ink: #14201a;
+    --muted: #64716a;
+    --line: rgba(20, 32, 26, 0.10);
+  }
+  .topbar { background: color-mix(in srgb, var(--bg) 88%, transparent); }
+  .shot { background: #eaf5ec; }
+
+  .wm-stage { background: #f4f8f4; color: #14201a; }
+  .wm-bar {
+    display: flex; align-items: center; gap: 12px;
+    padding: 9px 16px; background: #fff; border-bottom: 1px solid #e3ebe4;
+  }
+  .wm-brand { display: flex; align-items: center; gap: 7px; font-size: 12.5px; font-weight: 650; }
+  .wm-tabs { display: flex; gap: 2px; margin-left: 10px; }
+  .wm-tabs span { font-size: 11.5px; color: #78857d; padding: 4px 10px; border-radius: 6px; }
+  .wm-tabs span.on { color: #2f9e44; background: #edf7ef; font-weight: 600; }
+  .wm-bar .right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+  .wm-btn {
+    font-size: 11px; padding: 5px 12px; border-radius: 5px;
+    border: 1px solid #dbe6dd; color: #4a5750; background: #fff;
+  }
+  .wm-btn.solid { background: #e8552f; border-color: #e8552f; color: #fff; font-weight: 600; letter-spacing: .02em; }
+
+  .wm-body { display: grid; grid-template-columns: 300px 1fr; min-height: 540px; }
+  @media (max-width: 860px) { .wm-body { grid-template-columns: 1fr; } }
+
+  .wm-panel {
+    background: #fff; border-right: 1px solid #e3ebe4; padding: 16px 18px;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .wm-panel .kicker {
+    font: 600 9.5px/1 ui-monospace, "SF Mono", Menlo, monospace;
+    letter-spacing: .12em; text-transform: uppercase; color: #9aab9e;
+  }
+  .wm-panel h4 { margin: 0; font-size: 15px; font-weight: 650; letter-spacing: -.01em; }
+  .wm-panel .path { font-size: 10.5px; color: #9aab9e; margin-top: -8px; }
+  .wm-note {
+    background: #fbfcfb; border: 1px solid #e8efe9; border-radius: 8px;
+    padding: 10px 12px; font-size: 11.5px; line-height: 1.6; color: #4a5750;
+  }
+  .wm-note b { display: block; font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; color: #9aab9e; font-weight: 600; margin-bottom: 4px; }
+  .wm-list { list-style: none; margin: 0; padding: 0; font-size: 11.5px; }
+  .wm-list li {
+    display: flex; align-items: center; gap: 8px; padding: 7px 0;
+    border-bottom: 1px dashed #eaf0eb; color: #4a5750;
+  }
+  .wm-list li:last-child { border-bottom: 0; }
+  .wm-list .tick {
+    width: 13px; height: 13px; border-radius: 3px; flex: none;
+    border: 1.4px solid #c3d6c7; display: grid; place-items: center;
+    font-size: 8px; color: #fff;
+  }
+  .wm-list li.done .tick { background: #2f9e44; border-color: #2f9e44; }
+  .wm-list li.done span { color: #9aab9e; text-decoration: line-through; }
+  .wm-panel .foot { margin-top: auto; display: flex; gap: 6px; }
+  .wm-attrs {
+    display: grid; grid-template-columns: 60px 1fr; gap: 7px 10px;
+    font-size: 11.5px; align-items: center;
+  }
+  .wm-attrs span { color: #9aab9e; font-size: 10.5px; }
+  .wm-attrs b { font-weight: 500; color: #4a5750; }
+  .wm-attrs b.tag {
+    justify-self: start; font-size: 10px; padding: 2px 8px; border-radius: 999px;
+    background: #edf7ef; color: #2f7a3d; font-weight: 600;
+  }
+  .wm-quote {
+    font-size: 11.5px; line-height: 1.6; color: #6b7a70;
+    border-left: 2px solid #cfe4d3; padding: 2px 0 2px 10px;
+  }
+  .wm-panel .foot span {
+    flex: 1; text-align: center; font-size: 10.5px; padding: 6px 0;
+    border-radius: 6px; border: 1px solid #e3ebe4; color: #78857d;
+  }
+  .wm-panel .foot span.on { background: #2f9e44; border-color: #2f9e44; color: #fff; font-weight: 600; }
+
+  .wm-canvas {
+    padding: 18px 20px;
+    background:
+      radial-gradient(circle at 1px 1px, rgba(47,158,68,.10) 1px, transparent 0) 0 0/18px 18px,
+      #f4f8f4;
+    overflow: hidden;
+  }
+  .wm-svg { display: block; width: 100%; height: auto; }
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <a href="../index.html">← 30 个图工具调研</a>
+  <span class="crumb-sep">/</span>
+  <span>网站规划</span>
+  <a class="back" href="../index.html">总览</a>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <div class="kicker">Sitemap &amp; content · 网站规划</div>
+  <h1>WriteMaps</h1>
+  <p class="tagline">不只画结构，还给每个页面留一个位置，把该写的内容先收齐再动设计。</p>
+  <div class="meta-row">
+    <span>类别 <b>Diagrams &amp; Whiteboards / 网站规划</b></span>
+    <span>平台 <b>Web</b></span>
+    <span>价格 <b>Freemium，价格见官网</b></span>
+    <span>用户 <b>网页设计师、网站规划者</b></span>
+  </div>
+</div></header>
+
+<section class="block"><div class="wrap">
+  <div class="block-head">
+    <span class="num">01</span>
+    <h2>它画出来是什么样</h2>
+    <p>左侧页面详情面板，右侧每个节点带一张缩略图占位</p>
+  </div>
+
+  <div class="stage wm-stage">
+    <div class="wm-bar">
+      <div class="wm-brand">
+        <svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true">
+          <rect x="1" y="1" width="6" height="6" rx="1.4" fill="#2f9e44"/>
+          <rect x="9" y="1" width="6" height="6" rx="1.4" fill="#7ac383"/>
+          <rect x="1" y="9" width="6" height="6" rx="1.4" fill="#7ac383"/>
+          <rect x="9" y="9" width="6" height="6" rx="1.4" fill="#2f9e44"/>
+        </svg>
+        <span>WriteMaps</span>
+      </div>
+      <div class="wm-tabs"><span class="on">Sitemap</span><span>Content</span><span>Outline</span></div>
+      <div class="right">
+        <span class="wm-btn">Share</span>
+        <span class="wm-btn solid">CREATE NEW SITEMAP</span>
+      </div>
+    </div>
+
+    <div class="wm-body">
+      <aside class="wm-panel">
+        <div class="kicker">Page content</div>
+        <h4>新西兰 · 农场故事</h4>
+        <div class="path">/new-zealand/farming</div>
+
+        <div class="wm-note">
+          <b>备注</b>
+          这一页讲 Finances 农场的家庭经营史，配 3 张现场照片；引用采访原话，不写产品介绍。
+        </div>
+
+        <div>
+          <div class="kicker" style="margin-bottom:8px">内容清单 · 4 项</div>
+          <ul class="wm-list">
+            <li class="done"><span class="tick">✓</span><span>标题与导语（150 字内）</span></li>
+            <li class="done"><span class="tick">✓</span><span>现场照片 3 张 + 图注</span></li>
+            <li><span class="tick"></span><span>农户采访摘录（待补）</span></li>
+            <li><span class="tick"></span><span>相关阅读 2 条链接</span></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="kicker" style="margin-bottom:8px">页面属性</div>
+          <div class="wm-attrs">
+            <span>状态</span><b class="tag">内容收集中</b>
+            <span>负责人</span><b>Lina</b>
+            <span>模板</span><b>Story · 图文长页</b>
+            <span>共享给</span><b>客户 · 已可查看</b>
+          </div>
+        </div>
+
+        <div class="wm-quote">“这一页别写成公司简介，写成一个人的一天。”</div>
+
+        <div class="foot"><span class="on">Notes</span><span>Files</span><span>History</span></div>
+      </aside>
+
+      <div class="wm-canvas">
+        <svg class="wm-svg" viewBox="0 0 660 520" role="img" aria-label="WriteMaps 带页面缩略图的网站规划地图">
+          <defs>
+            <symbol id="wm-thumb" viewBox="0 0 120 54">
+              <rect width="120" height="54" fill="#eef1ee"/>
+              <rect x="0" y="0" width="120" height="9" fill="#e2e7e2"/>
+              <circle cx="5" cy="4.5" r="1.6" fill="#c9d2ca"/>
+              <circle cx="10" cy="4.5" r="1.6" fill="#c9d2ca"/>
+              <circle cx="15" cy="4.5" r="1.6" fill="#c9d2ca"/>
+              <rect x="9" y="17" width="46" height="5" rx="2" fill="#d3dbd4"/>
+              <rect x="9" y="27" width="30" height="3.5" rx="1.7" fill="#dde3dd"/>
+              <rect x="9" y="38" width="60" height="8" rx="2" fill="#d7ded8"/>
+              <rect x="76" y="17" width="35" height="29" rx="2" fill="#dde3dd"/>
+            </symbol>
+            <symbol id="wm-note" viewBox="0 0 12 12">
+              <path d="M1.6 1.6h8.8v6.6L7 11H1.6z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+              <path d="M10.4 8.2H7V11" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+            </symbol>
+          </defs>
+
+          <!-- connectors -->
+          <g fill="none" stroke="#bcd3bf" stroke-width="1.5" stroke-linejoin="round">
+            <path d="M110 214 H110 V96 H126"/>
+            <path d="M110 96 V96"/>
+            <path d="M256 96 H272"/>
+            <path d="M402 96 H418"/>
+            <path d="M110 214 H126"/>
+            <path d="M256 214 H272"/>
+            <path d="M402 214 H418"/>
+            <path d="M110 214 V332 H126"/>
+            <path d="M256 332 H272"/>
+            <path d="M110 214 V450 H126"/>
+          </g>
+
+          <!-- root -->
+          <g>
+            <rect x="14" y="166" width="96" height="96" rx="8" fill="#fff" stroke="#2f9e44" stroke-width="1.8"/>
+            <use href="#wm-thumb" x="20" y="172" width="84" height="46"/>
+            <text x="22" y="234" font-size="11" font-weight="650" fill="#14201a">首页</text>
+            <text x="22" y="249" font-size="9" fill="#93a096">Home</text>
+            <use href="#wm-note" x="92" y="238" width="10" height="10" color="#2f9e44"/>
+          </g>
+
+          <!-- level 1 -->
+          <g>
+            <rect x="126" y="50" width="130" height="92" rx="8" fill="#fff" stroke="#e0e8e1"/>
+            <use href="#wm-thumb" x="132" y="56" width="118" height="46"/>
+            <text x="134" y="117" font-size="10.5" font-weight="600" fill="#14201a">目的地</text>
+            <text x="134" y="131" font-size="9" fill="#93a096">/destinations</text>
+            <use href="#wm-note" x="232" y="122" width="10" height="10" color="#9aab9e"/>
+          </g>
+          <g>
+            <rect x="126" y="168" width="130" height="92" rx="8" fill="#fff" stroke="#e0e8e1"/>
+            <use href="#wm-thumb" x="132" y="174" width="118" height="46"/>
+            <text x="134" y="235" font-size="10.5" font-weight="600" fill="#14201a">播客</text>
+            <text x="134" y="249" font-size="9" fill="#93a096">/podcast</text>
+            <use href="#wm-note" x="232" y="240" width="10" height="10" color="#9aab9e"/>
+          </g>
+          <g>
+            <rect x="126" y="286" width="130" height="92" rx="8" fill="#fff" stroke="#e0e8e1"/>
+            <use href="#wm-thumb" x="132" y="292" width="118" height="46"/>
+            <text x="134" y="353" font-size="10.5" font-weight="600" fill="#14201a">关于</text>
+            <text x="134" y="367" font-size="9" fill="#93a096">/about</text>
+          </g>
+          <g>
+            <rect x="126" y="404" width="130" height="92" rx="8" fill="#fff" stroke="#e0e8e1"/>
+            <use href="#wm-thumb" x="132" y="410" width="118" height="46"/>
+            <text x="134" y="471" font-size="10.5" font-weight="600" fill="#14201a">联系我们</text>
+            <text x="134" y="485" font-size="9" fill="#93a096">/contact</text>
+          </g>
+
+          <!-- level 2 -->
+          <g>
+            <rect x="272" y="50" width="130" height="92" rx="8" fill="#fff" stroke="#e0e8e1"/>
+            <use href="#wm-thumb" x="278" y="56" width="118" height="46"/>
+            <text x="280" y="117" font-size="10.5" font-weight="600" fill="#14201a">新西兰</text>
+            <text x="280" y="131" font-size="9" fill="#93a096">/new-zealand</text>
+            <use href="#wm-note" x="378" y="122" width="10" height="10" color="#9aab9e"/>
+          </g>
+          <g>
+            <rect x="272" y="168" width="130" height="92" rx="8" fill="#fff" stroke="#e0e8e1"/>
+            <use href="#wm-thumb" x="278" y="174" width="118" height="46"/>
+            <text x="280" y="235" font-size="10.5" font-weight="600" fill="#14201a">单集列表</text>
+            <text x="280" y="249" font-size="9" fill="#93a096">/podcast/episodes</text>
+          </g>
+          <g>
+            <rect x="272" y="286" width="130" height="92" rx="8" fill="#fff" stroke="#e0e8e1"/>
+            <use href="#wm-thumb" x="278" y="292" width="118" height="46"/>
+            <text x="280" y="353" font-size="10.5" font-weight="600" fill="#14201a">团队</text>
+            <text x="280" y="367" font-size="9" fill="#93a096">/about/team</text>
+          </g>
+
+          <!-- level 3 : selected -->
+          <g>
+            <rect x="418" y="50" width="140" height="92" rx="8" fill="#fff" stroke="#2f9e44" stroke-width="1.8"/>
+            <rect x="418" y="50" width="140" height="92" rx="8" fill="#2f9e44" opacity=".05"/>
+            <use href="#wm-thumb" x="424" y="56" width="128" height="46"/>
+            <text x="426" y="117" font-size="10.5" font-weight="650" fill="#14201a">农场故事</text>
+            <text x="426" y="131" font-size="9" fill="#5f8f68">/new-zealand/farming</text>
+            <use href="#wm-note" x="536" y="122" width="10" height="10" color="#2f9e44"/>
+            <circle cx="548" cy="64" r="6" fill="#2f9e44"/>
+            <path d="M545 64 l2 2 4-4.5" fill="none" stroke="#fff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+          </g>
+          <g>
+            <rect x="418" y="168" width="140" height="92" rx="8" fill="#fff" stroke="#e0e8e1"/>
+            <use href="#wm-thumb" x="424" y="174" width="128" height="46"/>
+            <text x="426" y="235" font-size="10.5" font-weight="600" fill="#14201a">第 12 集</text>
+            <text x="426" y="249" font-size="9" fill="#93a096">/podcast/12</text>
+          </g>
+
+          <!-- legend -->
+          <g font-size="9.5" fill="#93a096">
+            <rect x="272" y="404" width="286" height="92" rx="8" fill="#ffffff" stroke="#e6ece7" stroke-dasharray="5 4"/>
+            <text x="288" y="426" font-size="9" letter-spacing=".1em" fill="#a8b6ac">内容收集</text>
+            <text x="288" y="446" font-size="10.5" fill="#4a5750">点节点右侧的备注图标填写内容清单，</text>
+            <text x="288" y="462" font-size="10.5" fill="#4a5750">填完的内容会标记为已完成，可导出给团队。</text>
+            <text x="288" y="482" font-size="9.5" fill="#a8b6ac">灰色缩略图 = 页面还未设计，仅占位</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+  <p class="stage-note">WriteMaps 的视觉语言：每个节点上半是灰阶页面缩略占位、下半是页面名 + 路径 + 备注图标；选中节点用绿色描边和右下角对勾标记完成度。整体偏朴素 —— 白卡片、细边、浅绿连线，重心在左侧的内容面板而不是画布本身。</p>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">02</span><h2>官网原样</h2></div>
+  <figure class="shot">
+    <img src="../assets/shots/writemaps.png" alt="WriteMaps 官网首页截图">
+    <figcaption>writemaps.com —— 首屏那张「Content View」弹窗才是重点：左边页面列表按状态打彩点，右边是这个页面的正文编辑器。sitemap 在这里是内容的目录。</figcaption>
+  </figure>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">03</span><h2>定位与差异</h2></div>
+  <div class="grid2">
+    <div class="card">
+      <h3>它是什么</h3>
+      <p>一个在线 <strong>sitemap 构建器</strong>，主打在设计和开发之前先把网站规划好：几秒画出可视化站点地图，给每个页面收集内容与备注，再分享或导出给团队和客户。</p>
+      <p>官网还有一个关于 sitemap 基础和信息架构的学习中心，说明它的用户里有相当一部分是第一次做网站规划的人。</p>
+    </div>
+    <div class="card">
+      <h3>和近邻的差别</h3>
+      <ul class="vs">
+        <li><b>vs Octopus.do</b>　Octopus 的节点是纯结构卡片，快、轻、层级用颜色区分；WriteMaps 的节点带缩略图占位和内容清单，重点从「结构」挪到了「每个页面写什么」。</li>
+        <li><b>vs Flowmapp</b>　Flowmapp 把 sitemap 接到线框、工时估算和提案导出；WriteMaps 不往报价那条路走，停在内容和结构的交付上。</li>
+      </ul>
+    </div>
+  </div>
+  <div class="verdict">什么时候选它：<b>设计还没开始，但文案、图片、素材散在各方手里</b> —— 你需要一个按页面归位的容器，收齐了再开工。要出线框和提案，去 Flowmapp。</div>
+</div></section>
+
+<footer class="page-foot"><div class="wrap">
+  <span>DesignBookmark 30 图工具调研 · writemaps · demo 为风格复刻，非官方产品</span>
+  <span>截图采集于 2026-11-18</span>
+</div></footer>
+
+</body>
+</html>

@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>tldraw · 30 个图工具调研</title>
+<link rel="stylesheet" href="../assets/kit.css">
+<link rel="stylesheet" href="../assets/lib/tldraw.bundle.css">
+<style>
+  :root {
+    --accent: #2f6fd0;
+    --bg: #f4f2ee;
+    --panel: #fffefb;
+    --ink: #1b1b1f;
+    --muted: #6b6a72;
+    --line: rgba(27, 27, 31, 0.12);
+  }
+
+  /* live canvas stage */
+  /* tldraw's UI sizes itself in em, so kit.css's 15px body font would
+     inflate every toolbar/label by 1.5x. Pin the root back to 16px. */
+  .live #root, #root { font-size: 16px; }
+  .live { position: relative; height: 520px; background: #fbfaf7; }
+  .live #root { pointer-events: none; }
+  .live.active #root { pointer-events: auto; }
+
+  .veil {
+    position: absolute; inset: 0; z-index: 2;
+    display: flex; align-items: flex-end; justify-content: center;
+    padding: 0 16px 18px; border: 0; background: transparent;
+    cursor: pointer; font-family: inherit;
+  }
+  .veil span {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 9px 16px; border-radius: 999px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(27, 27, 31, 0.14);
+    box-shadow: 0 6px 22px rgba(27, 27, 31, 0.13);
+    font-size: 13px; font-weight: 500; color: #26262b;
+  }
+  .veil span::before { content: "▸"; color: var(--accent); }
+  .veil:hover span { border-color: var(--accent); color: var(--accent); }
+  .live.active .veil { display: none; }
+
+  .live-bar {
+    display: flex; align-items: center; gap: 9px;
+    margin-top: 11px; font-size: 13px; color: var(--muted);
+  }
+  .live-bar .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); flex: none; }
+  .live.active + .live-bar .dot { background: #2f9e44; }
+  .live-bar button {
+    margin-left: auto; padding: 5px 12px; border-radius: 8px;
+    border: 1px solid var(--line); background: var(--panel);
+    color: var(--ink); font-family: inherit; font-size: 12.5px; cursor: pointer;
+  }
+  .live-bar button:hover { border-color: var(--accent); color: var(--accent); }
+  .live-bar button[hidden] { display: none; }
+
+  /* code snippet */
+  .snippet {
+    margin-top: 22px; border: 1px solid var(--line); border-radius: var(--radius);
+    background: var(--panel); overflow: hidden;
+  }
+  .snippet .bar {
+    display: flex; align-items: center; gap: 8px; padding: 9px 14px;
+    border-bottom: 1px solid var(--line);
+    font: 12px ui-monospace, "SF Mono", Menlo, monospace; color: var(--muted);
+  }
+  .snippet .bar .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+  .snippet pre {
+    margin: 0; padding: 15px 16px; overflow-x: auto;
+    font: 12.5px/1.75 ui-monospace, "SF Mono", Menlo, monospace;
+    color: #2b2b31;
+  }
+  .snippet .tag { color: #b45309; }
+  .snippet .str { color: #1f7a4d; }
+  .snippet .cmt { color: #96959d; }
+  .snippet .attr { color: #7c3aed; }
+
+  /* visual DNA strip */
+  .dna {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+    margin-top: 22px; border: 1px solid var(--line); border-radius: var(--radius);
+    overflow: hidden; background: var(--line);
+  }
+  @media (max-width: 820px) { .dna { grid-template-columns: 1fr; } }
+  .dna div { background: var(--panel); padding: 16px 18px; }
+  .dna dt {
+    font: 600 11.5px/1 ui-monospace, "SF Mono", Menlo, monospace;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 7px;
+  }
+  .dna dd { margin: 0; font-size: 13.5px; line-height: 1.55; }
+  .dna dd b { font-weight: 600; }
+  .dna dd span { color: var(--muted); }
+
+  .swatches { display: flex; gap: 6px; margin-top: 8px; }
+  .swatches i {
+    width: 22px; height: 22px; border-radius: 5px; display: block;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <a href="../index.html">← 30 个图工具调研</a>
+  <span class="crumb-sep">/</span>
+  <span>真库嵌入</span>
+  <a class="back" href="../index.html">总览</a>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <div class="kicker">Diagrams &amp; Whiteboards · SDK</div>
+  <h1>tldraw</h1>
+  <p class="tagline">一块打开就能画的无限白板，同时也是一套能嵌进自己产品里的画布 SDK。</p>
+  <div class="meta-row">
+    <span>类别 <b>Diagrams &amp; Whiteboards / Dev Tools</b></span>
+    <span>平台 <b>Web / 移动 / 平板</b></span>
+    <span>价格 <b>白板免费 · SDK 价格见官网</b></span>
+    <span>用户 <b>快速开会的团队、要给产品嵌画布的开发者</b></span>
+  </div>
+</div></header>
+
+<section class="block"><div class="wrap">
+  <div class="block-head">
+    <span class="num">01</span>
+    <h2>它画出来是什么样</h2>
+    <p>真实运行的 tldraw，白板上是一段真实的评审讨论记录</p>
+  </div>
+
+  <div class="stage live" id="stage">
+    <div id="root" style="height:520px"></div>
+    <button class="veil" id="veil" type="button">
+      <span>点击进入白板 · 可拖动、便签、画笔</span>
+    </button>
+  </div>
+
+  <div class="live-bar">
+    <span class="dot"></span>
+    <span id="live-state">白板锁定中，页面可正常滚动</span>
+    <button id="live-exit" type="button" hidden>退出交互</button>
+  </div>
+
+  <p class="stage-note">便签有纸感阴影、圆角很轻，手绘字体是 Shantell Sans；箭头绑定在便签上，拖动便签时箭头跟着走 —— 这是白板而不是画图工具的关键差别。</p>
+
+  <dl class="dna">
+    <div>
+      <dt>图元</dt>
+      <dd>便签、几何图形、手绘笔迹、文本框、Frame 分区，都带纸面投影。</dd>
+    </div>
+    <div>
+      <dt>字体</dt>
+      <dd><b>Shantell Sans</b> 手绘体（draw），另有 sans / serif / mono 三档可切。</dd>
+    </div>
+    <div>
+      <dt>配色</dt>
+      <dd>黑、灰、紫、蓝、橙、绿、红等实色，填充分 none / semi / solid / pattern。
+        <div class="swatches">
+          <i style="background:#ffe8a3"></i><i style="background:#b9dcff"></i>
+          <i style="background:#b7e5b5"></i><i style="background:#e6d4f7"></i>
+          <i style="background:#ffc6c6"></i>
+        </div>
+      </dd>
+    </div>
+  </dl>
+
+  <div class="snippet">
+    <div class="bar"><span class="dot"></span> App.tsx —— 一行接入</div>
+<pre><span class="tag">import</span> { Tldraw } <span class="tag">from</span> <span class="str">'tldraw'</span>
+<span class="tag">import</span> <span class="str">'tldraw/tldraw.css'</span>
+
+<span class="tag">export default function</span> <span class="attr">App</span>() {
+  <span class="tag">return</span> (
+    <span class="cmt">&lt;!-- 容器需要固定尺寸，画布会撑满它 --&gt;</span>
+    &lt;<span class="tag">div</span> <span class="attr">style</span>={{ <span class="attr">position</span>: <span class="str">'fixed'</span>, <span class="attr">inset</span>: 0 }}&gt;
+      &lt;<span class="attr">Tldraw</span> /&gt;
+    &lt;/<span class="tag">div</span>&gt;
+  )
+}</pre>
+  </div>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">02</span><h2>官网原样</h2></div>
+  <figure class="shot">
+    <img src="../assets/shots/tldraw.png" alt="tldraw 官网首页截图">
+    <figcaption>tldraw.com —— 首页就是一块空白的无限画布。右侧是样式面板（颜色、描边粗细、填充、字号），底部是工具栏；没有首页介绍、没有模板墙，直接给你画板。</figcaption>
+  </figure>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">03</span><h2>定位与差异</h2></div>
+  <div class="grid2">
+    <div class="card">
+      <h3>它是什么</h3>
+      <p>一个<strong>免注册的在线白板</strong>：打开就是画布，支持多人实时协作，手机、平板、桌面都能用。</p>
+      <p>同时它把这块画布打包成了 <strong>SDK</strong>：开发者可以用一行组件把同一套白板能力嵌进自己的产品，而不只是去 tldraw.com 上画图。</p>
+    </div>
+    <div class="card">
+      <h3>和近邻的差别</h3>
+      <ul class="vs">
+        <li><b>vs Excalidraw</b>　都是免注册的协作白板；Excalidraw 的粗糙手绘是刻意风格，tldraw 更接近真实白板 —— 便签、笔迹、纸面阴影，且图形可被程序读写。</li>
+        <li><b>vs Miro</b>　Miro 是团队级的协作平台（模板、工作流、企业权限）；tldraw 更轻，重点在「即时打开」和「可以嵌进你自己的产品」。</li>
+        <li><b>vs FigJam</b>　FigJam 绑在 Figma 生态里，和设计文件互通；tldraw 不依附任何设计工具，可独立部署或作为 SDK 集成。</li>
+      </ul>
+    </div>
+  </div>
+  <div class="verdict">什么时候选它：<b>要一块随时打开就画的白板</b>，或者<b>要把白板能力做进自己的产品</b>时。前者用 tldraw.com 即可，后者用它的 SDK。</div>
+</div></section>
+
+<footer class="page-foot"><div class="wrap">
+  <span>DesignBookmark 30 图工具调研 · tldraw · demo 嵌入官方库，非官方产品</span>
+  <span>截图采集于 2026-11-18</span>
+</div></footer>
+
+<script src="../assets/lib/tldraw.bundle.js"></script>
+<script>
+(function () {
+  var stage = document.getElementById('stage');
+  var veil = document.getElementById('veil');
+  var exit = document.getElementById('live-exit');
+  var state = document.getElementById('live-state');
+
+  function setActive(on) {
+    stage.classList.toggle('active', on);
+    exit.hidden = !on;
+    state.textContent = on ? '白板交互中，滚轮会缩放画布' : '白板锁定中，页面可正常滚动';
+  }
+
+  veil.addEventListener('click', function () { setActive(true); });
+  exit.addEventListener('click', function () { setActive(false); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') setActive(false);
+  });
+
+  /* Seed a realistic review-board scene onto the empty canvas.
+     The bundle mounts a bare <Tldraw /> with no initial state, so the
+     editor instance is reached through the React fiber on .tl-container. */
+  var doc = function (s) {
+    return { type: 'doc', content: [{ type: 'paragraph', content: s ? [{ type: 'text', text: s }] : [] }] };
+  };
+
+  function findEditor() {
+    var el = document.querySelector('.tl-container');
+    if (!el) return null;
+    var key = Object.keys(el).filter(function (k) { return k.indexOf('__reactFiber') === 0; })[0];
+    if (!key) return null;
+    var top = el[key];
+    while (top.return) top = top.return;
+    var stack = [top], guard = 0;
+    while (stack.length && guard++ < 20000) {
+      var node = stack.pop();
+      var props = node.memoizedProps;
+      if (props && props.editor && typeof props.editor.createShapes === 'function') return props.editor;
+      if (node.child) stack.push(node.child);
+      if (node.sibling) stack.push(node.sibling);
+    }
+    return null;
+  }
+
+  function seed(editor) {
+    if (editor.getCurrentPageShapeIds().size > 0) return;
+    var NX = [40, 260, 480], NY = 110, NS = 190;
+    editor.createShapes([
+      { id: 'shape:title', type: 'text', x: 40, y: 30, props: { richText: doc('Q4 上线 · 白板讨论'), color: 'black', size: 'l', font: 'draw' } },
+      { id: 'shape:n1', type: 'note', x: NX[0], y: NY, props: { color: 'yellow', size: 'm', font: 'draw', richText: doc('导出只有 PNG') } },
+      { id: 'shape:n2', type: 'note', x: NX[1], y: NY, props: { color: 'light-blue', size: 'm', font: 'draw', richText: doc('要不要支持 SVG？') } },
+      { id: 'shape:n3', type: 'note', x: NX[2], y: NY, props: { color: 'light-green', size: 'm', font: 'draw', richText: doc('先做导出，再做导入') } },
+      { id: 'shape:g1', type: 'geo', x: 730, y: NY + 10, props: { geo: 'cloud', w: 230, h: 150, color: 'violet', fill: 'semi', dash: 'draw', size: 'm', richText: doc('下一个版本') } },
+      { id: 'shape:t2', type: 'text', x: 40, y: 350, props: { richText: doc('决策：先保证单页可用，多人协作放 Q1'), color: 'black', size: 'm', font: 'draw' } },
+      { id: 'shape:a1', type: 'arrow', x: NX[0] + NS, y: NY + NS / 2, props: { kind: 'arc', color: 'black', size: 'm', dash: 'draw', arrowheadStart: 'none', arrowheadEnd: 'arrow', font: 'draw', labelPosition: 0.5, bend: 0, start: { x: 0, y: 0 }, end: { x: 30, y: 0 }, text: '' } },
+      { id: 'shape:a2', type: 'arrow', x: NX[1] + NS, y: NY + NS / 2, props: { kind: 'arc', color: 'black', size: 'm', dash: 'draw', arrowheadStart: 'none', arrowheadEnd: 'arrow', font: 'draw', labelPosition: 0.5, bend: 0, start: { x: 0, y: 0 }, end: { x: 30, y: 0 }, text: '' } },
+      { id: 'shape:a3', type: 'arrow', x: NX[2] + NS, y: NY + NS / 2, props: { kind: 'arc', color: 'black', size: 'm', dash: 'draw', arrowheadStart: 'none', arrowheadEnd: 'arrow', font: 'draw', labelPosition: 0.5, bend: -40, start: { x: 0, y: 0 }, end: { x: 60, y: 0 }, text: '' } },
+      { id: 'shape:d1', type: 'draw', x: 40, y: 400, props: { segments: [{ type: 'free', points: [{ x: 0, y: 0 }, { x: 80, y: 3 }, { x: 160, y: 0 }, { x: 260, y: 4 }, { x: 360, y: 1 }, { x: 470, y: 3 }, { x: 560, y: 0 }] }], color: 'black', fill: 'none', dash: 'draw', size: 's', isComplete: true, isClosed: false, isPen: false, scale: 1 } }
+    ]);
+    var anchor = { x: 0.5, y: 0.5 };
+    editor.createBindings([
+      { id: 'binding:a1s', type: 'arrow', fromId: 'shape:a1', toId: 'shape:n1', props: { terminal: 'start', normalizedAnchor: anchor, isExact: false, isPrecise: true } },
+      { id: 'binding:a1e', type: 'arrow', fromId: 'shape:a1', toId: 'shape:n2', props: { terminal: 'end', normalizedAnchor: anchor, isExact: false, isPrecise: true } },
+      { id: 'binding:a2s', type: 'arrow', fromId: 'shape:a2', toId: 'shape:n2', props: { terminal: 'start', normalizedAnchor: anchor, isExact: false, isPrecise: true } },
+      { id: 'binding:a2e', type: 'arrow', fromId: 'shape:a2', toId: 'shape:n3', props: { terminal: 'end', normalizedAnchor: anchor, isExact: false, isPrecise: true } },
+      { id: 'binding:a3s', type: 'arrow', fromId: 'shape:a3', toId: 'shape:n3', props: { terminal: 'start', normalizedAnchor: anchor, isExact: false, isPrecise: true } },
+      { id: 'binding:a3e', type: 'arrow', fromId: 'shape:a3', toId: 'shape:g1', props: { terminal: 'end', normalizedAnchor: anchor, isExact: false, isPrecise: true } }
+    ]);
+  }
+
+  /* zoomToFit centers on the whole canvas, which puts content under the
+     right-hand style panel and the bottom toolbar. Fit manually to a box
+     that clears both. tldraw maps page -> screen as (page + camera) * zoom,
+     so placing a page point P at screen S means camera = S / zoom - P. */
+  function frame(editor) {
+    var b = editor.getCurrentPageBounds();
+    if (!b) return;
+    var vp = editor.getViewportScreenBounds();
+    var left = 28, top = 56, bottom = 96;
+    var right = vp.w > 900 ? 210 : left;   /* right-hand style panel */
+    var z = Math.min((vp.w - left - right) / b.w, (vp.h - top - bottom) / b.h, 1.4);
+    z = Math.max(z, 0.2);
+    editor.setCamera({
+      x: left / z - b.x,
+      y: top / z - b.y,
+      z: z
+    }, { immediate: true, force: true });
+  }
+
+  var tries = 0;
+  var timer = setInterval(function () {
+    if (++tries > 60) return clearInterval(timer);
+    if (!window.tldrawReady) return;
+    var editor = findEditor();
+    if (!editor) return;
+    clearInterval(timer);
+    try { seed(editor); frame(editor); } catch (e) { /* leave the canvas empty rather than break the page */ }
+  }, 100);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mural · 30 个图工具调研</title>
+<link rel="stylesheet" href="../assets/kit.css">
+<style>
+  :root {
+    --accent: #ff0066;
+    --bg: #fbfbfa;
+    --panel: #ffffff;
+    --ink: #14141a;
+    --muted: #6a6a72;
+    --line: rgba(0, 0, 0, 0.10);
+  }
+  .stage { background: #fbfbfa; }
+  .stage svg { display: block; width: 100%; height: auto; }
+  .shot { background: #fff; }
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <a href="../index.html">← 30 个图工具调研</a>
+  <span class="crumb-sep">/</span>
+  <span>白板 &amp; 协作</span>
+  <a class="back" href="../index.html">总览</a>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <div class="kicker">Diagrams &amp; Whiteboards · Freemium</div>
+  <h1>Mural</h1>
+  <p class="tagline">面向团队协作的可视化工作区，用模板和议程把讨论带到结论。</p>
+  <div class="meta-row">
+    <span>类别 <b>白板 &amp; 协作</b></span>
+    <span>平台 <b>Web / iOS / Android / 桌面</b></span>
+    <span>价格 <b>免费增值，价格见官网</b></span>
+    <span>用户 <b>咨询顾问、工作坊引导师、研究团队</b></span>
+  </div>
+</div></header>
+
+<section class="block"><div class="wrap">
+  <div class="block-head">
+    <span class="num">01</span>
+    <h2>它画出来是什么样</h2>
+    <p>一场 Design Sprint：五个阶段的流程带 + 投票贴纸 + 参与者头像</p>
+  </div>
+
+  <div class="stage">
+    <svg viewBox="0 0 1120 592" role="img" aria-label="Mural 风格的 Design Sprint 工作坊复刻">
+      <defs>
+        <pattern id="muralDots" width="24" height="24" patternUnits="userSpaceOnUse">
+          <circle cx="1.2" cy="1.2" r="1" fill="#dcdcd8"/>
+        </pattern>
+        <filter id="mShadow" x="-30%" y="-30%" width="160%" height="170%">
+          <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#1b1b22" flood-opacity="0.14"/>
+        </filter>
+        <marker id="muralChev" viewBox="0 0 12 12" refX="9" refY="6" markerWidth="7" markerHeight="7" orient="auto">
+          <path d="M 2 2 L 8 6 L 2 10" fill="none" stroke="#c9c9c4" stroke-width="2" stroke-linecap="round"/>
+        </marker>
+      </defs>
+
+      <style>
+        .mural-ui { font-family: ui-sans-serif, -apple-system, "PingFang SC", "Hiragino Sans GB", sans-serif; }
+        .mural-label { font-family: ui-sans-serif, -apple-system, "PingFang SC", sans-serif; font-weight: 700; letter-spacing: -0.01em; }
+      </style>
+
+      <rect width="1120" height="592" fill="#fbfbfa"/>
+      <rect width="1120" height="592" fill="url(#muralDots)"/>
+
+      <!-- board header -->
+      <text x="44" y="46" class="mural-label" font-size="19" fill="#14141a">Design Sprint · Week 1</text>
+      <text x="44" y="68" class="mural-ui" font-size="12" fill="#8a8a90">5 天冲刺：从理解到可测试的原型</text>
+
+      <!-- session avatars -->
+      <g transform="translate(878 30)">
+        <rect x="0" y="0" width="196" height="40" rx="20" fill="#ffffff" stroke="#e6e6e1"/>
+        <circle cx="24" cy="20" r="12" fill="#ffd9e4" stroke="#fff" stroke-width="2"/>
+        <text x="24" y="24" text-anchor="middle" class="mural-ui" font-size="9.5" fill="#a01b46">L</text>
+        <circle cx="44" cy="20" r="12" fill="#d8e8ff" stroke="#fff" stroke-width="2"/>
+        <text x="44" y="24" text-anchor="middle" class="mural-ui" font-size="9.5" fill="#1f4d8f">K</text>
+        <circle cx="64" cy="20" r="12" fill="#e2f5d5" stroke="#fff" stroke-width="2"/>
+        <text x="64" y="24" text-anchor="middle" class="mural-ui" font-size="9.5" fill="#3f6b28">R</text>
+        <circle cx="84" cy="20" r="12" fill="#ffe9c2" stroke="#fff" stroke-width="2"/>
+        <text x="84" y="24" text-anchor="middle" class="mural-ui" font-size="9.5" fill="#8a5a12">A</text>
+        <circle cx="104" cy="20" r="12" fill="#efe0ff" stroke="#fff" stroke-width="2"/>
+        <text x="104" y="24" text-anchor="middle" class="mural-ui" font-size="9.5" fill="#5a2e93">M</text>
+        <text x="124" y="24" class="mural-ui" font-size="11" fill="#8a8a90">5 人在线</text>
+      </g>
+
+      <!-- 5 stage columns -->
+      <g>
+        <!-- Understand -->
+        <rect x="44" y="104" width="196" height="316" rx="16" fill="#ffffff" stroke="#e8e8e3" stroke-width="1.5"/>
+        <rect x="44" y="104" width="196" height="46" rx="16" fill="#eaf2ff"/>
+        <rect x="44" y="132" width="196" height="18" fill="#eaf2ff"/>
+        <text x="66" y="126" class="mural-ui" font-size="11" fill="#7b93b8">DAY 1 · MON</text>
+        <text x="66" y="143" class="mural-label" font-size="16" fill="#1f4d8f">Understand</text>
+        <rect x="62" y="168" width="160" height="66" rx="4" fill="#fff4c2" filter="url(#mShadow)"/>
+        <text x="72" y="190" class="mural-ui" font-size="11.5" fill="#4a4620">访谈 5 位一线</text>
+        <text x="72" y="206" class="mural-ui" font-size="11.5" fill="#4a4620">客服同事</text>
+        <rect x="62" y="248" width="160" height="66" rx="4" fill="#ffdbe6" filter="url(#mShadow)"/>
+        <text x="72" y="270" class="mural-ui" font-size="11.5" fill="#5c2237">拆解竞品的</text>
+        <text x="72" y="286" class="mural-ui" font-size="11.5" fill="#5c2237">引导流程</text>
+        <rect x="62" y="328" width="160" height="66" rx="4" fill="#d9ecff" filter="url(#mShadow)"/>
+        <text x="72" y="350" class="mural-ui" font-size="11.5" fill="#1d3f5c">列出现有工单</text>
+        <text x="72" y="366" class="mural-ui" font-size="11.5" fill="#1d3f5c">里的高频问题</text>
+
+        <!-- Sketch -->
+        <rect x="262" y="104" width="196" height="316" rx="16" fill="#ffffff" stroke="#e8e8e3" stroke-width="1.5"/>
+        <rect x="262" y="104" width="196" height="46" rx="16" fill="#fdeaf2"/>
+        <rect x="262" y="132" width="196" height="18" fill="#fdeaf2"/>
+        <text x="284" y="126" class="mural-ui" font-size="11" fill="#b8748e">DAY 2 · TUE</text>
+        <text x="284" y="143" class="mural-label" font-size="16" fill="#a01b46">Sketch</text>
+        <rect x="280" y="168" width="160" height="66" rx="4" fill="#d9ecff" filter="url(#mShadow)"/>
+        <text x="290" y="190" class="mural-ui" font-size="11.5" fill="#1d3f5c">每人 8 格草图</text>
+        <text x="290" y="206" class="mural-ui" font-size="11.5" fill="#1d3f5c">（Crazy 8s）</text>
+        <rect x="280" y="248" width="160" height="66" rx="4" fill="#e2f5d5" filter="url(#mShadow)"/>
+        <text x="290" y="270" class="mural-ui" font-size="11.5" fill="#33541f">把「重新下单」</text>
+        <text x="290" y="286" class="mural-ui" font-size="11.5" fill="#33541f">画成 3 屏</text>
+        <rect x="280" y="328" width="160" height="66" rx="4" fill="#fff4c2" filter="url(#mShadow)"/>
+        <text x="290" y="350" class="mural-ui" font-size="11.5" fill="#4a4620">标注关键交互</text>
+        <text x="290" y="366" class="mural-ui" font-size="11.5" fill="#4a4620">和失败状态</text>
+
+        <!-- Decide -->
+        <rect x="480" y="104" width="196" height="316" rx="16" fill="#ffffff" stroke="#e8e8e3" stroke-width="1.5"/>
+        <rect x="480" y="104" width="196" height="46" rx="16" fill="#f0e9ff"/>
+        <rect x="480" y="132" width="196" height="18" fill="#f0e9ff"/>
+        <text x="502" y="126" class="mural-ui" font-size="11" fill="#8a7ab0">DAY 3 · WED</text>
+        <text x="502" y="143" class="mural-label" font-size="16" fill="#5a2e93">Decide</text>
+        <rect x="498" y="168" width="160" height="66" rx="4" fill="#ffdbe6" filter="url(#mShadow)"/>
+        <text x="508" y="190" class="mural-ui" font-size="11.5" fill="#5c2237">Heat map 投票</text>
+        <text x="508" y="206" class="mural-ui" font-size="11.5" fill="#5c2237">圈出强想法</text>
+        <rect x="498" y="248" width="160" height="66" rx="4" fill="#e2f5d5" filter="url(#mShadow)"/>
+        <text x="508" y="270" class="mural-ui" font-size="11.5" fill="#33541f">决策者 3 票</text>
+        <text x="508" y="286" class="mural-ui" font-size="11.5" fill="#33541f">定最终方向</text>
+        <rect x="498" y="328" width="160" height="66" rx="4" fill="#d9ecff" filter="url(#mShadow)"/>
+        <text x="508" y="350" class="mural-ui" font-size="11.5" fill="#1d3f5c">写故事板</text>
+        <text x="508" y="366" class="mural-ui" font-size="11.5" fill="#1d3f5c">Storyboard 6 格</text>
+
+        <!-- Prototype -->
+        <rect x="698" y="104" width="196" height="316" rx="16" fill="#ffffff" stroke="#e8e8e3" stroke-width="1.5"/>
+        <rect x="698" y="104" width="196" height="46" rx="16" fill="#e6f7f1"/>
+        <rect x="698" y="132" width="196" height="18" fill="#e6f7f1"/>
+        <text x="720" y="126" class="mural-ui" font-size="11" fill="#6ba893">DAY 4 · THU</text>
+        <text x="720" y="143" class="mural-label" font-size="16" fill="#1f6b52">Prototype</text>
+        <rect x="716" y="168" width="160" height="66" rx="4" fill="#fff4c2" filter="url(#mShadow)"/>
+        <text x="726" y="190" class="mural-ui" font-size="11.5" fill="#4a4620">Figma 里拼出</text>
+        <text x="726" y="206" class="mural-ui" font-size="11.5" fill="#4a4620">可点击原型</text>
+        <rect x="716" y="248" width="160" height="66" rx="4" fill="#ffdbe6" filter="url(#mShadow)"/>
+        <text x="726" y="270" class="mural-ui" font-size="11.5" fill="#5c2237">只做真实场景</text>
+        <text x="726" y="286" class="mural-ui" font-size="11.5" fill="#5c2237">那一条路径</text>
+        <rect x="716" y="328" width="160" height="66" rx="4" fill="#d9ecff" filter="url(#mShadow)"/>
+        <text x="726" y="350" class="mural-ui" font-size="11.5" fill="#1d3f5c">预演一遍访谈</text>
+        <text x="726" y="366" class="mural-ui" font-size="11.5" fill="#1d3f5c">脚本</text>
+
+        <!-- Test -->
+        <rect x="916" y="104" width="196" height="316" rx="16" fill="#ffffff" stroke="#e8e8e3" stroke-width="1.5"/>
+        <rect x="916" y="104" width="196" height="46" rx="16" fill="#fff0e0"/>
+        <rect x="916" y="132" width="196" height="18" fill="#fff0e0"/>
+        <text x="938" y="126" class="mural-ui" font-size="11" fill="#b08657">DAY 5 · FRI</text>
+        <text x="938" y="143" class="mural-label" font-size="16" fill="#8a5a12">Test</text>
+        <rect x="934" y="168" width="160" height="66" rx="4" fill="#e2f5d5" filter="url(#mShadow)"/>
+        <text x="944" y="190" class="mural-ui" font-size="11.5" fill="#33541f">5 位用户</text>
+        <text x="944" y="206" class="mural-ui" font-size="11.5" fill="#33541f">一对一测试</text>
+        <rect x="934" y="248" width="160" height="66" rx="4" fill="#ffdbe6" filter="url(#mShadow)"/>
+        <text x="944" y="270" class="mural-ui" font-size="11.5" fill="#5c2237">记录卡点</text>
+        <text x="944" y="286" class="mural-ui" font-size="11.5" fill="#5c2237">与金句</text>
+        <rect x="934" y="328" width="160" height="66" rx="4" fill="#fff4c2" filter="url(#mShadow)"/>
+        <text x="944" y="350" class="mural-ui" font-size="11.5" fill="#4a4620">回看录像</text>
+        <text x="944" y="366" class="mural-ui" font-size="11.5" fill="#4a4620">写结论</text>
+      </g>
+
+      <!-- voting cluster -->
+      <g transform="translate(44 452)">
+        <rect x="0" y="0" width="330" height="112" rx="14" fill="#ffffff" stroke="#e8e8e3" stroke-width="1.5" filter="url(#mShadow)"/>
+        <text x="20" y="26" class="mural-label" font-size="13" fill="#14141a">Voting</text>
+        <text x="82" y="26" class="mural-ui" font-size="11" fill="#9a9aa0">每人 3 票</text>
+
+        <g transform="translate(18 40)">
+          <rect x="0" y="0" width="90" height="48" rx="4" fill="#ffdbe6"/>
+          <text x="10" y="21" class="mural-ui" font-size="11" fill="#5c2237">一键重下单</text>
+          <circle cx="24" cy="35" r="4" fill="#ff0066"/>
+          <circle cx="36" cy="35" r="4" fill="#ff0066"/>
+          <circle cx="48" cy="35" r="4" fill="#ff0066"/>
+          <text x="60" y="39" class="mural-ui" font-size="11" fill="#a01b46">3</text>
+        </g>
+        <g transform="translate(120 40)">
+          <rect x="0" y="0" width="90" height="48" rx="4" fill="#d9ecff"/>
+          <text x="10" y="21" class="mural-ui" font-size="11" fill="#1d3f5c">语音下单</text>
+          <circle cx="24" cy="35" r="4" fill="#ff0066"/>
+          <circle cx="36" cy="35" r="4" fill="#ff0066"/>
+          <circle cx="48" cy="35" r="4" fill="#ff0066"/>
+          <circle cx="60" cy="35" r="4" fill="#ff0066"/>
+          <circle cx="72" cy="35" r="4" fill="#ff0066"/>
+          <text x="80" y="39" class="mural-ui" font-size="11" fill="#a01b46">5</text>
+        </g>
+        <g transform="translate(222 40)">
+          <rect x="0" y="0" width="90" height="48" rx="4" fill="#e2f5d5"/>
+          <text x="10" y="21" class="mural-ui" font-size="11" fill="#33541f">地址簿同步</text>
+          <circle cx="24" cy="35" r="4" fill="#ff0066"/>
+          <circle cx="36" cy="35" r="4" fill="#ff0066"/>
+          <text x="48" y="39" class="mural-ui" font-size="11" fill="#a01b46">2</text>
+        </g>
+      </g>
+
+      <!-- facilitator note -->
+      <g transform="translate(396 452)">
+        <rect x="0" y="0" width="300" height="112" rx="14" fill="#14141a"/>
+        <text x="20" y="30" class="mural-ui" font-size="10.5" letter-spacing="1.4" fill="#ff7aa8">FACILITATOR NOTE</text>
+        <text x="20" y="56" class="mural-ui" font-size="12.5" fill="#ffffff">周四之前不讨论视觉细节，</text>
+        <text x="20" y="76" class="mural-ui" font-size="12.5" fill="#ffffff">先把流程跑通。</text>
+        <text x="20" y="98" class="mural-ui" font-size="11" fill="#8a8a90">— Lin · 引导师</text>
+      </g>
+
+      <!-- timer / session card -->
+      <g transform="translate(718 452)">
+        <rect x="0" y="0" width="358" height="112" rx="14" fill="#ffffff" stroke="#e8e8e3" stroke-width="1.5"/>
+        <text x="20" y="30" class="mural-ui" font-size="10.5" letter-spacing="1.4" fill="#a0a0a6">TIMER · SKETCH</text>
+        <text x="20" y="76" class="mural-label" font-size="38" fill="#14141a">04:12</text>
+        <rect x="150" y="46" width="188" height="8" rx="4" fill="#f0f0ec"/>
+        <rect x="150" y="46" width="126" height="8" rx="4" fill="#ff0066"/>
+        <text x="150" y="76" class="mural-ui" font-size="10.5" fill="#9a9aa0">剩 3 分钟时全组一起停笔</text>
+        <rect x="20" y="88" width="76" height="14" rx="7" fill="#fdeaf2"/>
+        <text x="58" y="99" text-anchor="middle" class="mural-ui" font-size="9.5" fill="#a01b46">5 人同步</text>
+        <rect x="104" y="88" width="70" height="14" rx="7" fill="#eaf2ff"/>
+        <text x="139" y="99" text-anchor="middle" class="mural-ui" font-size="9.5" fill="#1f4d8f">私密模式</text>
+        <rect x="182" y="88" width="66" height="14" rx="7" fill="#e6f7f1"/>
+        <text x="215" y="99" text-anchor="middle" class="mural-ui" font-size="9.5" fill="#1f6b52">已锁定</text>
+      </g>
+    </svg>
+  </div>
+  <p class="stage-note">Mural 的视觉语言：先把画布切成带标题的分区，再往里放便签；阶段带、投票点、引导师备注都像模板的一部分 —— 它卖的是“会怎么开”，不只是“画布多大”。</p>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">02</span><h2>官网原样</h2></div>
+  <figure class="shot">
+    <img src="../assets/shots/mural.png" alt="Mural 官网首页截图">
+    <figcaption>mural.co 用黑色背景配一张彩色分区白板：Marketing / Finance 用不同颜色的圆圈圈住，箭头标着 Decision Bottleneck —— 强调“把跨部门对齐画出来”。</figcaption>
+  </figure>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">03</span><h2>定位与差异</h2></div>
+  <div class="grid2">
+    <div class="card">
+      <h3>它是什么</h3>
+      <p>一个面向团队的<strong>可视化工作区</strong>，围绕“把一群人带到一个结论”设计：分区、计时器、投票、私人模式、引导师工具都是内置的。</p>
+      <p>官方定位强调 AI 驱动的工作流，面向研究、市场与咨询场景。</p>
+    </div>
+    <div class="card">
+      <h3>和近邻的差别</h3>
+      <ul class="vs">
+        <li><b>vs Miro</b>　Miro 更像一张什么都能放的通用画布；Mural 更“流程化”，引导师带会的工具链更完整。</li>
+        <li><b>vs FigJam</b>　FigJam 与 Figma 文件互通、偏产品设计；Mural 偏咨询与研究团队的会议流程。</li>
+        <li><b>vs Whimsical</b>　Whimsical 强在快速出图与文档；Mural 强在多人实时开会的过程管理。</li>
+      </ul>
+    </div>
+  </div>
+  <div class="verdict">什么时候选它：<b>你要主持一场有议程、要出结论的会</b>时。如果只是需要一块自由画布，Miro 或 FigJam 更轻。</div>
+</div></section>
+
+<footer class="page-foot"><div class="wrap">
+  <span>DesignBookmark 30 图工具调研 · mural · demo 为风格复刻，非官方产品</span>
+  <span>截图采集于 2026-11-18</span>
+</div></footer>
+
+</body>
+</html>

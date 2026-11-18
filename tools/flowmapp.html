@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flowmapp · 30 个图工具调研</title>
+<link rel="stylesheet" href="../assets/kit.css">
+<style>
+  :root {
+    --accent: #2b6cff;
+    --bg: #ffffff;
+    --panel: #f7f9fc;
+    --ink: #101828;
+    --muted: #667085;
+    --line: rgba(16, 24, 40, 0.10);
+  }
+  .topbar { background: color-mix(in srgb, var(--bg) 88%, transparent); }
+  .shot { background: #eef2f8; }
+
+  .fm-stage { background: #f5f7fb; color: #101828; }
+  .fm-bar {
+    display: flex; align-items: center; gap: 18px;
+    padding: 9px 16px; background: #fff; border-bottom: 1px solid #e6ebf3;
+  }
+  .fm-dots { display: flex; gap: 5px; }
+  .fm-dots i { width: 8px; height: 8px; border-radius: 50%; background: #dbe2ec; }
+  .fm-tabs { display: flex; gap: 4px; }
+  .fm-tabs span {
+    font-size: 12px; color: #667085; padding: 4px 11px; border-radius: 7px;
+  }
+  .fm-tabs span.on { color: #2b6cff; background: #eaf1ff; font-weight: 600; }
+  .fm-url {
+    margin-left: auto; font: 11.5px ui-monospace, "SF Mono", Menlo, monospace;
+    color: #8b99ad; background: #f4f7fb; border-radius: 6px; padding: 4px 10px;
+  }
+  .fm-avatars { display: flex; }
+  .fm-avatars i {
+    width: 20px; height: 20px; border-radius: 50%; border: 2px solid #fff;
+    background: #2b6cff; color: #fff; font: 600 9px/16px ui-sans-serif, system-ui;
+    text-align: center; font-style: normal;
+  }
+  .fm-avatars i + i { margin-left: -6px; background: #7c5cff; }
+
+  .fm-body { display: grid; grid-template-columns: 1.24fr 1fr; }
+  .fm-pane { padding: 14px 18px 6px; min-width: 0; }
+  .fm-pane + .fm-pane { border-left: 1px solid #e6ebf3; }
+  .fm-label {
+    display: flex; align-items: baseline; gap: 8px;
+    font: 600 10px/1 ui-monospace, "SF Mono", Menlo, monospace;
+    letter-spacing: 0.12em; color: #93a1b5; text-transform: uppercase;
+    margin: 2px 0 6px;
+  }
+  .fm-label span { font-weight: 400; letter-spacing: 0; text-transform: none; color: #aab6c7; }
+  .fm-svg { display: block; width: 100%; height: auto; }
+  .fm-svg text { font-family: inherit; }
+
+  @media (max-width: 820px) {
+    .fm-body { grid-template-columns: 1fr; }
+    .fm-pane + .fm-pane { border-left: 0; border-top: 1px solid #e6ebf3; }
+    .fm-url { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <a href="../index.html">← 30 个图工具调研</a>
+  <span class="crumb-sep">/</span>
+  <span>网站规划</span>
+  <a class="back" href="../index.html">总览</a>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <div class="kicker">Website planning · 网站规划</div>
+  <h1>Flowmapp</h1>
+  <p class="tagline">把站点地图、用户流、线框和内容放进同一个项目，最后导出成一份能让客户点头的提案。</p>
+  <div class="meta-row">
+    <span>类别 <b>Design Tools / 网站规划</b></span>
+    <span>平台 <b>Web</b></span>
+    <span>价格 <b>Freemium，价格见官网</b></span>
+    <span>用户 <b>建站代理商、UX 规划者</b></span>
+  </div>
+</div></header>
+
+<section class="block"><div class="wrap">
+  <div class="block-head">
+    <span class="num">01</span>
+    <h2>它画出来是什么样</h2>
+    <p>同一份项目里，左边是站点地图，右边是从它派生的用户流</p>
+  </div>
+
+  <div class="stage fm-stage">
+    <div class="fm-bar">
+      <div class="fm-dots"><i></i><i></i><i></i></div>
+      <div class="fm-tabs">
+        <span class="on">Sitemap</span><span>User Flow</span><span>Wireframe</span><span>Content</span>
+      </div>
+      <div class="fm-url">example-shop.com</div>
+      <div class="fm-avatars"><i>L</i><i>M</i></div>
+    </div>
+
+    <div class="fm-body">
+      <div class="fm-pane">
+        <div class="fm-label">Sitemap <span>9 pages · 4 levels</span></div>
+        <svg class="fm-svg" viewBox="0 0 660 560" role="img" aria-label="电商网站站点地图树">
+          <defs>
+            <symbol id="pg" viewBox="0 0 16 16">
+              <path d="M4 1.8h5.2L12 4.6v9.6H4z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+              <path d="M9 1.8v3h3" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+            </symbol>
+          </defs>
+
+          <!-- connectors: 首页 bus -->
+          <g fill="none" stroke="#ccd7e7" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round">
+            <path d="M330 76 V112"/>
+            <path d="M96 112 H558"/>
+            <path d="M96 112 V150"/>
+            <path d="M250 112 V150"/>
+            <path d="M404 112 V150"/>
+            <path d="M558 112 V150"/>
+            <path d="M96 186 V260"/>
+            <path d="M96 296 V370"/>
+            <path d="M404 186 V260"/>
+            <path d="M404 296 V370"/>
+          </g>
+
+          <!-- root -->
+          <g>
+            <rect x="278" y="40" width="104" height="36" rx="8" fill="#ffffff" stroke="#2b6cff" stroke-width="1.6"/>
+            <use href="#pg" x="290" y="52" width="13" height="13" color="#2b6cff"/>
+            <text x="309" y="63" font-size="11.5" font-weight="600" fill="#101828">首页</text>
+            <text x="360" y="63" font-size="9.5" fill="#93a1b5">/</text>
+          </g>
+
+          <!-- level 1 -->
+          <g>
+            <rect x="44" y="150" width="104" height="36" rx="8" fill="#ffffff" stroke="#e3e9f2"/>
+            <use href="#pg" x="56" y="162" width="13" height="13" color="#8593a8"/>
+            <text x="75" y="173" font-size="11.5" fill="#101828">分类</text>
+            <text x="128" y="173" font-size="9.5" fill="#b6c1d1">4</text>
+          </g>
+          <g>
+            <rect x="198" y="150" width="104" height="36" rx="8" fill="#ffffff" stroke="#e3e9f2"/>
+            <use href="#pg" x="210" y="162" width="13" height="13" color="#8593a8"/>
+            <text x="229" y="173" font-size="11.5" fill="#101828">搜索</text>
+          </g>
+          <g>
+            <rect x="352" y="150" width="104" height="36" rx="8" fill="#ffffff" stroke="#e3e9f2"/>
+            <use href="#pg" x="364" y="162" width="13" height="13" color="#8593a8"/>
+            <text x="383" y="173" font-size="11.5" fill="#101828">购物车</text>
+          </g>
+          <g>
+            <rect x="506" y="150" width="104" height="36" rx="8" fill="#ffffff" stroke="#e3e9f2"/>
+            <use href="#pg" x="518" y="162" width="13" height="13" color="#8593a8"/>
+            <text x="537" y="173" font-size="11.5" fill="#101828">关于我们</text>
+          </g>
+
+          <!-- level 2 -->
+          <g>
+            <rect x="44" y="260" width="104" height="36" rx="8" fill="#ffffff" stroke="#e3e9f2"/>
+            <use href="#pg" x="56" y="272" width="13" height="13" color="#8593a8"/>
+            <text x="75" y="283" font-size="11.5" fill="#101828">商品列表</text>
+            <text x="128" y="283" font-size="9.5" fill="#b6c1d1">2</text>
+          </g>
+          <g>
+            <rect x="352" y="260" width="104" height="36" rx="8" fill="#ffffff" stroke="#e3e9f2"/>
+            <use href="#pg" x="364" y="272" width="13" height="13" color="#8593a8"/>
+            <text x="383" y="283" font-size="11.5" fill="#101828">结算</text>
+          </g>
+
+          <!-- level 3 -->
+          <g>
+            <rect x="44" y="370" width="104" height="36" rx="8" fill="#ffffff" stroke="#2b6cff" stroke-width="1.6"/>
+            <rect x="44" y="370" width="104" height="36" rx="8" fill="#2b6cff" opacity=".055"/>
+            <use href="#pg" x="56" y="382" width="13" height="13" color="#2b6cff"/>
+            <text x="75" y="393" font-size="11.5" font-weight="600" fill="#101828">商品详情</text>
+          </g>
+          <g>
+            <rect x="352" y="370" width="104" height="36" rx="8" fill="#ffffff" stroke="#e3e9f2"/>
+            <use href="#pg" x="364" y="382" width="13" height="13" color="#8593a8"/>
+            <text x="383" y="393" font-size="11.5" fill="#101828">支付结果</text>
+          </g>
+
+          <!-- page card detail -->
+          <g>
+            <rect x="44" y="424" width="616" height="82" rx="10" fill="#ffffff" stroke="#e3e9f2"/>
+            <rect x="44" y="424" width="4" height="82" rx="2" fill="#2b6cff"/>
+            <use href="#pg" x="64" y="439" width="14" height="14" color="#2b6cff"/>
+            <text x="86" y="450" font-size="11.5" font-weight="600" fill="#101828">商品详情</text>
+            <text x="146" y="450" font-size="10.5" fill="#93a1b5">/product/:slug</text>
+            <rect x="538" y="438" width="60" height="20" rx="10" fill="#eaf1ff"/>
+            <text x="568" y="452" text-anchor="middle" font-size="9.5" fill="#2b6cff">评审中</text>
+            <line x1="64" y1="462" x2="640" y2="462" stroke="#eef2f7"/>
+            <text x="64" y="478" font-size="10" fill="#8b99ad">备注</text>
+            <text x="96" y="478" font-size="10" fill="#667085">主图 + 规格选择 + 加入购物车，需要展示库存状态</text>
+            <text x="64" y="494" font-size="10" fill="#8b99ad">内容</text>
+            <text x="96" y="494" font-size="10" fill="#667085">商品图 5 张 · 详情文案 · FAQ 3 条</text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="fm-pane">
+        <div class="fm-label">User Flow <span>结算流程</span></div>
+        <svg class="fm-svg" viewBox="0 0 520 560" role="img" aria-label="电商结算用户流程图">
+          <defs>
+            <marker id="fm-ar" viewBox="0 0 10 10" refX="9" refY="5"
+                    markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M0 0 L10 5 L0 10 Z" fill="#9aa9bd"/>
+            </marker>
+          </defs>
+
+          <g fill="none" stroke="#9aa9bd" stroke-width="1.4" marker-end="url(#fm-ar)">
+            <path d="M150 104 H198"/>
+            <path d="M294 104 H342"/>
+            <path d="M250 144 V154"/>
+            <path d="M418 208 V296"/>
+            <path d="M418 492 V506"/>
+            <path d="M380 208 V232 H82 V210" stroke-dasharray="5 4"/>
+          </g>
+
+          <g font-size="9.5" fill="#667085">
+            <text x="174" y="97" text-anchor="middle">加入购物车</text>
+            <text x="318" y="97" text-anchor="middle">是</text>
+            <text x="258" y="150">否</text>
+            <text x="426" y="256">去结算</text>
+            <rect x="150" y="217" width="86" height="15" fill="#f5f7fb"/>
+            <text x="193" y="228" text-anchor="middle" font-size="9" fill="#93a1b5">返回 · 继续挑选</text>
+          </g>
+
+          <!-- flow annotation -->
+          <g>
+            <rect x="14" y="300" width="310" height="150" rx="10" fill="#fffdf5" stroke="#f0e2b8"/>
+            <text x="30" y="324" font-size="10" font-weight="600" fill="#8a6d1f">流程备注</text>
+            <text x="30" y="346" font-size="10" fill="#7d6b3e">缺货分支不阻断购买：保留购物车，</text>
+            <text x="30" y="362" font-size="10" fill="#7d6b3e">提示「订阅到货提醒」，用户可继续浏览。</text>
+            <line x1="30" y1="378" x2="308" y2="378" stroke="#f2e7c6"/>
+            <text x="30" y="396" font-size="10" fill="#7d6b3e">结算页返回 → 购物车保留，不重复加购</text>
+            <text x="30" y="414" font-size="10" fill="#7d6b3e">支付结果页不提供「再来一单」入口</text>
+            <text x="30" y="436" font-size="9.5" fill="#a2926a">负责人 · 规划组　最后修改 · 2 天前</text>
+          </g>
+
+          <!-- diamond -->
+          <g>
+            <path d="M250 64 L294 104 L250 144 L206 104 Z" fill="#fff" stroke="#2b6cff" stroke-width="1.4"/>
+            <text x="250" y="107" text-anchor="middle" font-size="9.5" fill="#2b6cff">有库存?</text>
+          </g>
+
+          <!-- thumbnail A: 商品详情 -->
+          <g>
+            <rect x="14" y="16" width="136" height="192" rx="10" fill="#fff" stroke="#e3e8f0"/>
+            <path d="M14 26 a10 10 0 0 1 10-10 h116 a10 10 0 0 1 10 10 v12 H14 Z" fill="#f7f9fc"/>
+            <circle cx="24" cy="27" r="2.2" fill="#d7dee9"/>
+            <circle cx="31" cy="27" r="2.2" fill="#d7dee9"/>
+            <circle cx="38" cy="27" r="2.2" fill="#d7dee9"/>
+            <text x="140" y="31" text-anchor="end" font-size="9" fill="#667085">商品详情</text>
+            <rect x="24" y="46" width="116" height="56" rx="5" fill="#eef2f7"/>
+            <path d="M30 98 L54 78 L74 92 L90 82 L134 98 Z" fill="#dde5ef"/>
+            <rect x="24" y="110" width="82" height="7" rx="3.5" fill="#dfe6ef"/>
+            <rect x="24" y="123" width="54" height="6" rx="3" fill="#e9eef5"/>
+            <text x="24" y="152" font-size="11" font-weight="600" fill="#101828">¥299</text>
+            <rect x="24" y="162" width="116" height="24" rx="6" fill="#2b6cff"/>
+            <text x="82" y="178" text-anchor="middle" font-size="9" fill="#fff">加入购物车</text>
+          </g>
+
+          <!-- thumbnail B: 购物车 -->
+          <g>
+            <rect x="350" y="16" width="136" height="192" rx="10" fill="#fff" stroke="#e3e8f0"/>
+            <path d="M350 26 a10 10 0 0 1 10-10 h116 a10 10 0 0 1 10 10 v12 H350 Z" fill="#f7f9fc"/>
+            <circle cx="360" cy="27" r="2.2" fill="#d7dee9"/>
+            <circle cx="367" cy="27" r="2.2" fill="#d7dee9"/>
+            <circle cx="374" cy="27" r="2.2" fill="#d7dee9"/>
+            <text x="476" y="31" text-anchor="end" font-size="9" fill="#667085">购物车</text>
+            <rect x="360" y="46" width="30" height="30" rx="4" fill="#eef2f7"/>
+            <rect x="398" y="50" width="56" height="6" rx="3" fill="#dfe6ef"/>
+            <rect x="398" y="62" width="34" height="5" rx="2.5" fill="#e9eef5"/>
+            <rect x="360" y="86" width="30" height="30" rx="4" fill="#eef2f7"/>
+            <rect x="398" y="90" width="48" height="6" rx="3" fill="#dfe6ef"/>
+            <rect x="398" y="102" width="28" height="5" rx="2.5" fill="#e9eef5"/>
+            <line x1="360" y1="128" x2="476" y2="128" stroke="#eef2f7"/>
+            <text x="360" y="148" font-size="9.5" fill="#667085">合计</text>
+            <text x="476" y="148" text-anchor="end" font-size="11" font-weight="600" fill="#101828">¥598</text>
+            <rect x="360" y="162" width="116" height="24" rx="6" fill="#2b6cff"/>
+            <text x="418" y="178" text-anchor="middle" font-size="9" fill="#fff">去结算</text>
+          </g>
+
+          <!-- out-of-stock pill -->
+          <g>
+            <rect x="172" y="156" width="156" height="44" rx="22" fill="#fff6f6" stroke="#f2cccd"/>
+            <text x="250" y="175" text-anchor="middle" font-size="9.5" fill="#b54747">缺货</text>
+            <text x="250" y="189" text-anchor="middle" font-size="9" fill="#c98a8a">订阅到货提醒</text>
+          </g>
+
+          <!-- thumbnail C: 支付结果 -->
+          <g>
+            <rect x="350" y="300" width="136" height="192" rx="10" fill="#fff" stroke="#e3e8f0"/>
+            <path d="M350 310 a10 10 0 0 1 10-10 h116 a10 10 0 0 1 10 10 v12 H350 Z" fill="#f7f9fc"/>
+            <circle cx="360" cy="311" r="2.2" fill="#d7dee9"/>
+            <circle cx="367" cy="311" r="2.2" fill="#d7dee9"/>
+            <circle cx="374" cy="311" r="2.2" fill="#d7dee9"/>
+            <text x="476" y="315" text-anchor="end" font-size="9" fill="#667085">支付结果</text>
+            <circle cx="418" cy="366" r="20" fill="#e8f7ee"/>
+            <path d="M410 366 l5.5 5.5 L427 360" fill="none" stroke="#22a06b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <text x="418" y="404" text-anchor="middle" font-size="11" font-weight="600" fill="#101828">支付成功</text>
+            <text x="418" y="421" text-anchor="middle" font-size="9.5" fill="#8b99ad">¥598.00 · 微信支付</text>
+            <rect x="360" y="438" width="116" height="24" rx="6" fill="#fff" stroke="#d7e2f5"/>
+            <text x="418" y="454" text-anchor="middle" font-size="9" fill="#2b6cff">查看订单</text>
+          </g>
+
+          <!-- terminal -->
+          <g>
+            <rect x="350" y="506" width="136" height="34" rx="17" fill="#eef7f1" stroke="#c9e6d4"/>
+            <text x="418" y="528" text-anchor="middle" font-size="10" fill="#2c7a52">✓ 订单完成</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+  <p class="stage-note">Flowmapp 的视觉语言：白卡片 + 极细灰边框、蓝色只用于「当前选中」和主操作按钮，其余全部压成灰阶。站点地图横向展开，用户流里的每个节点直接是一张低保真页面缩略，结构和界面在同一屏里对应。</p>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">02</span><h2>官网原样</h2></div>
+  <figure class="shot">
+    <img src="../assets/shots/flowmapp.png" alt="Flowmapp 官网首页截图">
+    <figcaption>flowmapp.com —— 首屏没有放 sitemap，放的是一张「页面内容清单」和一条客户批注。它想卖的不是画图，是「规划完能拿去提案」。</figcaption>
+  </figure>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">03</span><h2>定位与差异</h2></div>
+  <div class="grid2">
+    <div class="card">
+      <h3>它是什么</h3>
+      <p>一个面向建站项目的<strong>规划平台</strong>：sitemap、user flow、wireframe、内容清单共享同一份项目数据，再叠加设计与开发工时估算，一键导出提案。</p>
+      <p>它把「图」当成流程中的一环，而不是终点 —— 图之后还有报价、批注、客户确认。</p>
+    </div>
+    <div class="card">
+      <h3>和近邻的差别</h3>
+      <ul class="vs">
+        <li><b>vs Octopus.do</b>　两者都从 sitemap 起步。Octopus 更快更轻，彩色卡片、打开就画；Flowmapp 把 sitemap 当项目起点，后面接着线框、内容和报价。</li>
+        <li><b>vs Moqups</b>　Moqups 的重心是线框稿和可点击原型，图是附属品；Flowmapp 的线框是规划用的低保真，卖点是从结构到提案的一条链。</li>
+      </ul>
+    </div>
+  </div>
+  <div class="verdict">什么时候选它：<b>你要交的不是一张图，而是一份客户要签字的提案</b> —— 结构、页面线框、工作量估算在同一个文件里，改一处不会四处对不上。</div>
+</div></section>
+
+<footer class="page-foot"><div class="wrap">
+  <span>DesignBookmark 30 图工具调研 · flowmapp · demo 为风格复刻，非官方产品</span>
+  <span>截图采集于 2026-11-18</span>
+</div></footer>
+
+</body>
+</html>

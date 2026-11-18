@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Milanote · 30 个图工具调研</title>
+<link rel="stylesheet" href="../assets/kit.css">
+<style>
+  :root {
+    --accent: #f5a623;
+    --bg: #f6f4ef;
+    --panel: #fffdf8;
+    --ink: #2f2c27;
+    --muted: #8a8478;
+    --line: rgba(47, 44, 39, 0.13);
+  }
+
+  .scroller { overflow-x: auto; }
+  .board {
+    position: relative; width: 1100px; height: 640px; margin: 0 auto;
+    background: #f6f4ef;
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(47,44,39,.055) 1px, transparent 0);
+    background-size: 20px 20px;
+  }
+  .board svg { position: absolute; inset: 0; }
+
+  .mcard {
+    position: absolute; background: #fffdf8;
+    border: 1px solid rgba(47,44,39,.1);
+    box-shadow: 0 8px 20px rgba(47,44,39,.1), 0 2px 4px rgba(47,44,39,.06);
+  }
+
+  /* image card */
+  .img-card { width: 250px; padding: 8px 8px 0; }
+  .img-card .ph {
+    height: 176px;
+    background: linear-gradient(140deg, #ffb26b 0%, #ff6b8b 42%, #7b6cf6 100%);
+    position: relative; overflow: hidden;
+  }
+  .img-card .ph::after {
+    content: ""; position: absolute; inset: 0;
+    background:
+      radial-gradient(circle at 74% 26%, rgba(255,255,255,.55) 0 42px, transparent 43px),
+      radial-gradient(circle at 22% 78%, rgba(255,255,255,.24) 0 66px, transparent 67px);
+  }
+  .img-card .cap {
+    padding: 7px 3px 9px; font-size: 11.5px; color: #8a8478;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  }
+
+  /* sticky */
+  .sticky {
+    width: 214px; padding: 20px 18px 24px;
+    background: #ffe9a3;
+    border: 0;
+    box-shadow: 0 10px 22px rgba(120,96,20,.16);
+    font-family: "Bradley Hand", "Xingkai SC", "Kaiti SC", ui-serif, Georgia, serif;
+    font-size: 16px; line-height: 1.55; color: #4a3f1e;
+  }
+  .sticky .pin {
+    position: absolute; top: -7px; left: 50%; margin-left: -7px;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: radial-gradient(circle at 34% 30%, #ff8a7a, #d94b3c);
+    box-shadow: 0 2px 4px rgba(0,0,0,.25);
+  }
+
+  /* palette */
+  .palette { width: 216px; padding: 13px 15px 15px; }
+  .palette h4 {
+    margin: 0 0 9px; font-size: 10.5px; letter-spacing: .13em;
+    text-transform: uppercase; color: #8a8478; font-weight: 600;
+  }
+  .swatches { display: flex; gap: 7px; }
+  .swatches i {
+    flex: 1; height: 42px; border-radius: 3px; display: block;
+  }
+  .palette .codes {
+    display: flex; gap: 7px; margin-top: 6px;
+    font: 9px/1 ui-monospace, "SF Mono", Menlo, monospace; color: #a9a29a;
+  }
+  .palette .codes span { flex: 1; text-align: center; }
+
+  /* text card */
+  .text-card { width: 258px; padding: 16px 18px 18px; }
+  .text-card h3 {
+    margin: 0 0 7px; font-size: 14px; letter-spacing: -.01em;
+    text-transform: none; color: #2f2c27; font-weight: 650;
+  }
+  .text-card p { margin: 0; font-size: 12.5px; line-height: 1.7; color: #6d675c; }
+  .text-card .kw { background: #fdf1d4; padding: 0 2px; }
+
+  /* tiny label card */
+  .label-card {
+    width: 148px; padding: 10px 13px;
+    font-size: 11px; color: #8a8478; letter-spacing: .04em;
+    background: #fffdf8;
+  }
+  .label-card b { display: block; color: #2f2c27; font-size: 12px; letter-spacing: 0; }
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <a href="../index.html">← 30 个图工具调研</a>
+  <span class="crumb-sep">/</span>
+  <span>灵感墙 / 白板</span>
+  <a class="back" href="../index.html">总览</a>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <div class="kicker">Visual board · Freemium</div>
+  <h1>Milanote</h1>
+  <p class="tagline">把灵感、参考图和笔记摊在一块板上，像设计师的实体软木板。</p>
+  <div class="meta-row">
+    <span>类别 <b>视觉项目板 / 白板</b></span>
+    <span>平台 <b>Web（见官网）</b></span>
+    <span>价格 <b>Freemium（见官网）</b></span>
+    <span>用户 <b>设计师、创意团队、品牌与内容策划</b></span>
+  </div>
+</div></header>
+
+<section class="block"><div class="wrap">
+  <div class="block-head">
+    <span class="num">01</span>
+    <h2>它画出来是什么样</h2>
+    <p>复刻一面「品牌项目灵感墙」</p>
+  </div>
+
+  <div class="stage"><div class="scroller">
+    <div class="board">
+      <svg id="wires" width="1100" height="640" viewBox="0 0 1100 640" aria-hidden="true"></svg>
+
+      <div class="mcard label-card" style="left:72px; top:60px; transform:rotate(-1.6deg)">
+        <b>Inzen — 品牌重塑</b>灵感墙 / 第 1 版
+      </div>
+
+      <div class="mcard img-card" style="left:60px; top:150px; transform:rotate(-2.2deg)">
+        <div class="ph"></div>
+        <div class="cap">mood-gradient-01.png</div>
+      </div>
+
+      <div class="mcard sticky" style="left:372px; top:96px; transform:rotate(1.8deg)">
+        <span class="pin"></span>
+        「少即是多」<br>不要装饰，<br>只留材质和光。
+      </div>
+
+      <div class="mcard palette" style="left:376px; top:352px; transform:rotate(-1.2deg)">
+        <h4>Brand palette</h4>
+        <div class="swatches">
+          <i style="background:#ff8a4c"></i>
+          <i style="background:#e8b04b"></i>
+          <i style="background:#f0e6d2"></i>
+          <i style="background:#6b7f6e"></i>
+          <i style="background:#2f3430"></i>
+        </div>
+        <div class="codes">
+          <span>FF8A4C</span><span>E8B04B</span><span>F0E6D2</span><span>6B7F6E</span><span>2F3430</span>
+        </div>
+      </div>
+
+      <div class="mcard text-card" style="left:690px; top:120px; transform:rotate(1.1deg)">
+        <h3>视觉方向</h3>
+        <p>以<span class="kw">哑光材质</span>为主，避免高饱和与金属反光；版式留大量负空间，让产品自己占据视线。字体用无衬线，字重只取 Regular 与 Medium 两档。</p>
+      </div>
+
+      <div class="mcard text-card" style="left:700px; top:352px; transform:rotate(-1.8deg)">
+        <h3>下一步</h3>
+        <p>· 找 3 张室内摄影参考<br>· 定 logo 的两版构图<br>· 周五和客户过第一轮</p>
+      </div>
+
+      <div class="mcard label-card" style="left:876px; top:560px; transform:rotate(2deg)">
+        <b>7 Unsorted</b>拖进来还没归类
+      </div>
+    </div>
+  </div></div>
+
+  <p class="stage-note"><span>Milanote 的视觉语言：<b>不是画图，是摆东西</b>。图片、便签、色板、文字卡各自是一张有厚度的小卡，带轻微旋转和投影；卡片之间用极细的浅灰曲线箭头串成一条「思考流」—— 顺序是读出来的，不是排出来的。</span></p>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">02</span><h2>官网原样</h2></div>
+  <figure class="shot">
+    <img src="../assets/shots/milanote.png" alt="Milanote 官网首页截图">
+    <figcaption>milanote.com —— 深色底上只有一句衬线大标题「Get organized. Stay creative.」，下面直接放出真实的 Project Ideas 板：左侧一列小工具，板面上是 About 卡、图片和文件。它的产品界面就是它的广告。</figcaption>
+  </figure>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">03</span><h2>定位与差异</h2></div>
+  <div class="grid2">
+    <div class="card">
+      <h3>它是什么</h3>
+      <p>一块<strong>视觉项目板</strong>。往板上放的东西有类型：笔记、图片、链接、文件、待办、色板、线、分栏、评论、表格。它们可以自由摆放、分组、连成流程，也可以层层嵌套子板。核心用途是收集灵感、整理调研、把项目资料摊开给客户或团队看。</p>
+      <p>谁在用：设计师、创意团队，以及做品牌、内容和营销策划的人。</p>
+    </div>
+    <div class="card">
+      <h3>和近邻的差别</h3>
+      <ul class="vs">
+        <li><b>vs Miro</b>　Miro 是面向会议与流程的无边白板，模板和协作机制很重；Milanote 更像个人 / 小团队的素材板，卡片有实体感，适合「堆参考」而不是「跑工作坊」。</li>
+        <li><b>vs FigJam</b>　FigJam 贴着 Figma 的设计流程走，强在即时协作和贴纸互动；Milanote 不绑设计工具，能长期沉淀成项目档案。</li>
+      </ul>
+    </div>
+  </div>
+  <div class="verdict">什么时候选它：<b>手上一堆参考图、便签和零散想法，需要摊开来同时看见</b>的时候 —— 尤其是创意项目，你要的是氛围和关联，不是流程图。</div>
+</div></section>
+
+<footer class="page-foot"><div class="wrap">
+  <span>DesignBookmark 30 图工具调研 · milanote · demo 为风格复刻，非官方产品</span>
+  <span>截图采集于 2026-11-18</span>
+</div></footer>
+
+<script>
+(function () {
+  const NS = 'http://www.w3.org/2000/svg';
+  const svg = document.getElementById('wires');
+
+  // thin light-grey curved arrows: [x1,y1, x2,y2, bend]
+  const FLOW = [
+    [318, 250, 366, 205, 0.32],   // image -> sticky
+    [486, 250, 500, 340, 0.30],   // sticky -> palette
+    [590, 200, 684, 200, 0.34],   // sticky -> 视觉方向
+    [596, 402, 692, 402, 0.30],   // palette -> 下一步
+    [830, 300, 852, 348, 0.36],   // 视觉方向 -> 下一步
+    [820, 470, 872, 548, 0.34]    // 下一步 -> unsorted
+  ];
+
+  FLOW.forEach(([x1, y1, x2, y2, bend]) => {
+    const dx = x2 - x1, dy = y2 - y1;
+    const mx = (x1 + x2) / 2 - dy * bend;
+    const my = (y1 + y2) / 2 + dx * bend;
+    const path = document.createElementNS(NS, 'path');
+    path.setAttribute('d', 'M' + x1 + ' ' + y1 + 'Q' + mx + ' ' + my + ' ' + x2 + ' ' + y2);
+    path.setAttribute('fill', 'none');
+    path.setAttribute('stroke', '#c3bdb2');
+    path.setAttribute('stroke-width', '1.1');
+    path.setAttribute('marker-end', 'url(#arrow)');
+    svg.appendChild(path);
+  });
+
+  const defs = document.createElementNS(NS, 'defs');
+  defs.innerHTML = '<marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" ' +
+    'markerWidth="6" markerHeight="6" orient="auto-start-reverse">' +
+    '<path d="M0 0L10 5L0 10z" fill="#c3bdb2"/></marker>';
+  svg.insertBefore(defs, svg.firstChild);
+})();
+</script>
+</body>
+</html>

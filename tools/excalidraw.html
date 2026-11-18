@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Excalidraw · 30 个图工具调研</title>
+<link rel="stylesheet" href="../assets/kit.css">
+<link rel="stylesheet" href="../assets/lib/excalidraw.bundle.css">
+<style>
+  :root {
+    --accent: #6965db;
+    --bg: #f7f5f0;
+    --panel: #fffdf8;
+    --ink: #1d1d22;
+    --muted: #6c6a73;
+    --line: rgba(29, 29, 34, 0.12);
+  }
+
+  /* live canvas stage */
+  /* Excalidraw's UI sizes itself in em, so kit.css's 15px body font would
+     inflate every toolbar/label by 1.5x. Pin the root back to 16px. */
+  .live #root, #root { font-size: 16px; }
+  .live { position: relative; height: 520px; }
+  .live #root { pointer-events: none; }
+  .live.active #root { pointer-events: auto; }
+
+  .veil {
+    position: absolute; inset: 0; z-index: 2;
+    display: flex; align-items: flex-end; justify-content: center;
+    padding: 0 16px 18px; border: 0; background: transparent;
+    cursor: pointer; font-family: inherit;
+  }
+  .veil span {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 9px 16px; border-radius: 999px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(29, 29, 34, 0.14);
+    box-shadow: 0 6px 22px rgba(29, 29, 34, 0.13);
+    font-size: 13px; font-weight: 500; color: #2c2c33;
+  }
+  .veil span::before { content: "▸"; color: var(--accent); }
+  .veil:hover span { border-color: var(--accent); color: var(--accent); }
+  .live.active .veil { display: none; }
+
+  .live-bar {
+    display: flex; align-items: center; gap: 9px;
+    margin-top: 11px; font-size: 13px; color: var(--muted);
+  }
+  .live-bar .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--muted); flex: none;
+  }
+  .live.active + .live-bar .dot { background: #2f9e44; }
+  .live-bar button {
+    margin-left: auto; padding: 5px 12px; border-radius: 8px;
+    border: 1px solid var(--line); background: var(--panel);
+    color: var(--ink); font-family: inherit; font-size: 12.5px;
+    cursor: pointer;
+  }
+  .live-bar button:hover { border-color: var(--accent); color: var(--accent); }
+  .live-bar button[hidden] { display: none; }
+
+  /* visual DNA strip */
+  .dna {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+    margin-top: 22px; border: 1px solid var(--line); border-radius: var(--radius);
+    overflow: hidden; background: var(--line);
+  }
+  @media (max-width: 820px) { .dna { grid-template-columns: 1fr; } }
+  .dna div { background: var(--panel); padding: 16px 18px; }
+  .dna dt {
+    font: 600 11.5px/1 ui-monospace, "SF Mono", Menlo, monospace;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 7px;
+  }
+  .dna dd { margin: 0; font-size: 13.5px; line-height: 1.55; color: var(--ink); }
+  .dna dd b { font-weight: 600; }
+  .dna dd span { color: var(--muted); }
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <a href="../index.html">← 30 个图工具调研</a>
+  <span class="crumb-sep">/</span>
+  <span>真库嵌入</span>
+  <a class="back" href="../index.html">总览</a>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <div class="kicker">Diagrams &amp; Whiteboards · 开源</div>
+  <h1>Excalidraw</h1>
+  <p class="tagline">手绘风协作白板：刻意的粗糙笔触，让还在讨论中的图不至于看起来像已经定稿。</p>
+  <div class="meta-row">
+    <span>类别 <b>Diagrams &amp; Whiteboards</b></span>
+    <span>平台 <b>浏览器 / 可自托管</b></span>
+    <span>价格 <b>免费 · 开源</b></span>
+    <span>用户 <b>画架构草图的工程师、做早期方案的产品</b></span>
+  </div>
+</div></header>
+
+<section class="block"><div class="wrap">
+  <div class="block-head">
+    <span class="num">01</span>
+    <h2>它画出来是什么样</h2>
+    <p>真实运行的 Excalidraw，初始场景是库内置的示例架构图</p>
+  </div>
+
+  <div class="stage live" id="stage">
+    <div id="root" style="height:520px"></div>
+    <button class="veil" id="veil" type="button">
+      <span>点击进入画布 · 可拖动、绘制、缩放</span>
+    </button>
+  </div>
+
+  <div class="live-bar">
+    <span class="dot"></span>
+    <span id="live-state">画布锁定中，页面可正常滚动</span>
+    <button id="live-exit" type="button" hidden>退出交互</button>
+  </div>
+
+  <p class="stage-note">这张图里没有一条直线：每个矩形的四条边都带轻微抖动，箭头略微弯曲，文字是手写的。这不是滤镜，是 rough.js 逐笔画出来的结果。</p>
+
+  <dl class="dna">
+    <div>
+      <dt>线条</dt>
+      <dd><b>rough.js</b> 把同一条边画两遍，端点随机偏移，所以线永远不完全直。</dd>
+    </div>
+    <div>
+      <dt>字体</dt>
+      <dd><b>Virgil / Excalifont</b> 手写体；中文等字符回退到系统字体。</dd>
+    </div>
+    <div>
+      <dt>配色</dt>
+      <dd>粉彩填充 <span>#a5d8ff / #b2f2bb / #ffec99</span>，2px 深色描边，大圆角。</dd>
+    </div>
+  </dl>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">02</span><h2>官网原样</h2></div>
+  <figure class="shot">
+    <img src="../assets/shots/excalidraw.png" alt="Excalidraw 官网首页截图">
+    <figcaption>excalidraw.com —— 打开就是一块白板，没有注册墙。截图里是一张手绘风格的方法调用时序图：六个参与者、竖直生命线、手写的方法名标注。</figcaption>
+  </figure>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">03</span><h2>定位与差异</h2></div>
+  <div class="grid2">
+    <div class="card">
+      <h3>它是什么</h3>
+      <p>一个跑在浏览器里的白板，<strong>不需要账号</strong>，打开就能画，可以把图导出成 SVG 或 PNG；源码开源，也可以自己部署一份。</p>
+      <p>它刻意把「草稿感」做成风格：同一张图在 Excalidraw 里永远看起来像刚画完，而不是刚交付。</p>
+    </div>
+    <div class="card">
+      <h3>和近邻的差别</h3>
+      <ul class="vs">
+        <li><b>vs tldraw</b>　同样是打开就能画的协作白板；Excalidraw 把粗糙手绘当作核心风格，tldraw 的图形更规整，并额外提供可编程的 SDK。</li>
+        <li><b>vs draw.io</b>　draw.io 是规整的图元库加严格对齐，适合画要交付的架构图；Excalidraw 不追求精确，适合还没定稿的想法。</li>
+        <li><b>vs Mermaid</b>　Mermaid 用文本描述结构、图可进 Git；Excalidraw 靠手摆，改一版就是一张新图，没有版本化能力。</li>
+      </ul>
+    </div>
+  </div>
+  <div class="verdict">什么时候选它：<b>图还处在边画边改的阶段</b>时。需要一块不绑定账号、能自托管、画出来像草稿的白板，就选它；要出正式交付图，换规整的图元工具。</div>
+</div></section>
+
+<footer class="page-foot"><div class="wrap">
+  <span>DesignBookmark 30 图工具调研 · excalidraw · demo 嵌入官方开源库，非官方产品</span>
+  <span>截图采集于 2026-11-18</span>
+</div></footer>
+
+<script src="../assets/lib/excalidraw.bundle.js"></script>
+<script>
+(function () {
+  var stage = document.getElementById('stage');
+  var veil = document.getElementById('veil');
+  var exit = document.getElementById('live-exit');
+  var state = document.getElementById('live-state');
+
+  function setActive(on) {
+    stage.classList.toggle('active', on);
+    exit.hidden = !on;
+    state.textContent = on ? '画布交互中，滚轮会缩放画布' : '画布锁定中，页面可正常滚动';
+  }
+
+  veil.addEventListener('click', function () { setActive(true); });
+  exit.addEventListener('click', function () { setActive(false); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') setActive(false);
+  });
+})();
+</script>
+</body>
+</html>

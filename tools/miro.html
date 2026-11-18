@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Miro · 30 个图工具调研</title>
+<link rel="stylesheet" href="../assets/kit.css">
+<style>
+  :root {
+    --accent: #4262ff;
+    --bg: #f7f7f8;
+    --panel: #ffffff;
+    --ink: #1b1b1f;
+    --muted: #63636e;
+    --line: rgba(0, 0, 0, 0.10);
+  }
+  .stage { background: #f7f7f8; }
+  .stage svg { display: block; width: 100%; height: auto; }
+  .shot { background: #fff; }
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <a href="../index.html">← 30 个图工具调研</a>
+  <span class="crumb-sep">/</span>
+  <span>白板 &amp; 协作</span>
+  <a class="back" href="../index.html">总览</a>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <div class="kicker">Diagrams &amp; Whiteboards · Freemium</div>
+  <h1>Miro</h1>
+  <p class="tagline">无限在线白板，工作坊、流程图、路线图都放一张画布。</p>
+  <div class="meta-row">
+    <span>类别 <b>白板 &amp; 协作</b></span>
+    <span>平台 <b>Web / iOS / Android / 桌面</b></span>
+    <span>价格 <b>免费增值，价格见官网</b></span>
+    <span>用户 <b>产品团队、工作坊主持者</b></span>
+  </div>
+</div></header>
+
+<section class="block"><div class="wrap">
+  <div class="block-head">
+    <span class="num">01</span>
+    <h2>它画出来是什么样</h2>
+    <p>一张「产品启动工作坊」白板：便签、手写标题、粗蓝箭头与实时协作光标</p>
+  </div>
+
+  <div class="stage">
+    <svg viewBox="0 0 1120 640" role="img" aria-label="Miro 风格的产品启动工作坊白板复刻">
+      <defs>
+        <pattern id="miroDots" width="22" height="22" patternUnits="userSpaceOnUse">
+          <circle cx="1" cy="1" r="1.05" fill="#d8d8e0"/>
+        </pattern>
+        <filter id="stickyShadow" x="-30%" y="-30%" width="160%" height="170%">
+          <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#26262e" flood-opacity="0.16"/>
+        </filter>
+        <filter id="barShadow" x="-20%" y="-40%" width="140%" height="200%">
+          <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#26262e" flood-opacity="0.16"/>
+        </filter>
+        <marker id="miroArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 Z" fill="#4262ff"/>
+        </marker>
+      </defs>
+
+      <style>
+        .miro-hand { font-family: "Bradley Hand", "Chalkboard SE", "Comic Sans MS", cursive; }
+        .miro-ui { font-family: ui-sans-serif, -apple-system, "PingFang SC", "Hiragino Sans GB", sans-serif; }
+      </style>
+
+      <rect width="1120" height="640" fill="#f7f7f8"/>
+      <rect width="1120" height="640" fill="url(#miroDots)"/>
+
+      <!-- board name chip -->
+      <rect x="24" y="22" width="224" height="30" rx="8" fill="#ffffff" stroke="#e6e7ee"/>
+      <rect x="38" y="33" width="8" height="8" rx="2" fill="#4262ff"/>
+      <text x="54" y="42" class="miro-ui" font-size="12.5" fill="#4a4f5c">产品启动工作坊 · Sprint 0</text>
+
+      <!-- center cluster -->
+      <circle cx="560" cy="330" r="178" fill="#ffffff" stroke="#e2e5ee" stroke-width="1.5"/>
+      <circle cx="560" cy="330" r="154" fill="none" stroke="#ccd5ec" stroke-width="1.2" stroke-dasharray="5 7"/>
+      <text x="560" y="322" text-anchor="middle" class="miro-hand" font-size="40" font-weight="700" fill="#2c2c33">v1.0</text>
+      <text x="560" y="348" text-anchor="middle" class="miro-ui" font-size="10.5" letter-spacing="2.6" fill="#8a90a0">LAUNCH</text>
+      <text x="560" y="368" text-anchor="middle" class="miro-ui" font-size="11" fill="#a3a8b5">10.28 周二</text>
+
+      <!-- mini stickies ringing the center label -->
+      <g transform="rotate(-4 560 196)">
+        <rect x="531" y="171" width="58" height="50" rx="2" fill="#fff9b1" filter="url(#stickyShadow)"/>
+        <text x="560" y="194" text-anchor="middle" class="miro-ui" font-size="10" fill="#4a4a4a">用户访谈</text>
+        <text x="560" y="208" text-anchor="middle" class="miro-ui" font-size="10" fill="#8a8153">6 条</text>
+      </g>
+      <g transform="rotate(3 664 250)">
+        <rect x="635" y="225" width="58" height="50" rx="2" fill="#ffd6e8" filter="url(#stickyShadow)"/>
+        <text x="664" y="248" text-anchor="middle" class="miro-ui" font-size="10" fill="#4a4a4a">定价实验</text>
+        <text x="664" y="262" text-anchor="middle" class="miro-ui" font-size="10" fill="#9a5d78">A/B</text>
+      </g>
+      <g transform="rotate(-2.5 668 396)">
+        <rect x="639" y="371" width="58" height="50" rx="2" fill="#cfe8ff" filter="url(#stickyShadow)"/>
+        <text x="668" y="394" text-anchor="middle" class="miro-ui" font-size="10" fill="#4a4a4a">落地页</text>
+        <text x="668" y="408" text-anchor="middle" class="miro-ui" font-size="10" fill="#5f7f99">改版</text>
+      </g>
+      <g transform="rotate(3.5 548 466)">
+        <rect x="519" y="441" width="58" height="50" rx="2" fill="#d9f2d0" filter="url(#stickyShadow)"/>
+        <text x="548" y="464" text-anchor="middle" class="miro-ui" font-size="10" fill="#4a4a4a">迁移脚本</text>
+        <text x="548" y="478" text-anchor="middle" class="miro-ui" font-size="10" fill="#64805a">待排期</text>
+      </g>
+      <g transform="rotate(-3 440 386)">
+        <rect x="411" y="361" width="58" height="50" rx="2" fill="#e6dcff" filter="url(#stickyShadow)"/>
+        <text x="440" y="384" text-anchor="middle" class="miro-ui" font-size="10" fill="#4a4a4a">审核流程</text>
+        <text x="440" y="398" text-anchor="middle" class="miro-ui" font-size="10" fill="#70619a">2 周</text>
+      </g>
+      <g transform="rotate(2 452 258)">
+        <rect x="423" y="233" width="58" height="50" rx="2" fill="#ffe4c9" filter="url(#stickyShadow)"/>
+        <text x="452" y="256" text-anchor="middle" class="miro-ui" font-size="10" fill="#4a4a4a">发布节奏</text>
+        <text x="452" y="270" text-anchor="middle" class="miro-ui" font-size="10" fill="#97744f">周更</text>
+      </g>
+
+      <!-- title stickies -->
+      <g transform="rotate(-3 168 150)">
+        <rect x="52" y="66" width="232" height="168" rx="3" fill="#fff9b1" filter="url(#stickyShadow)"/>
+        <text x="74" y="112" class="miro-hand" font-size="34" font-weight="700" fill="#3d3a22">Goal</text>
+        <text x="74" y="134" class="miro-ui" font-size="12" fill="#867e4d">这次启动要达到什么</text>
+        <text x="74" y="168" class="miro-ui" font-size="13" fill="#4e4a2c">· 30 天内上线 v1.0</text>
+        <text x="74" y="192" class="miro-ui" font-size="13" fill="#4e4a2c">· 拿到 3 个种子客户</text>
+        <text x="74" y="216" class="miro-ui" font-size="13" fill="#4e4a2c">· 周会不再用邮件同步</text>
+      </g>
+
+      <g transform="rotate(2.5 952 150)">
+        <rect x="836" y="66" width="232" height="168" rx="3" fill="#ffd6e8" filter="url(#stickyShadow)"/>
+        <text x="858" y="112" class="miro-hand" font-size="34" font-weight="700" fill="#5c2c40">Ideas</text>
+        <text x="858" y="134" class="miro-ui" font-size="12" fill="#9a5d78">启动周冒出来的点子</text>
+        <text x="858" y="168" class="miro-ui" font-size="13" fill="#5c2c40">· 一键导入模板</text>
+        <text x="858" y="192" class="miro-ui" font-size="13" fill="#5c2c40">· AI 自动归档便签</text>
+        <text x="858" y="216" class="miro-ui" font-size="13" fill="#5c2c40">· 把回顾做成模板</text>
+      </g>
+
+      <g transform="rotate(-1.5 194 508)">
+        <rect x="76" y="424" width="236" height="168" rx="3" fill="#cfe8ff" filter="url(#stickyShadow)"/>
+        <text x="98" y="470" class="miro-hand" font-size="34" font-weight="700" fill="#1f3b55">Risks</text>
+        <text x="98" y="492" class="miro-ui" font-size="12" fill="#5f7f99">可能卡住的地方</text>
+        <text x="98" y="526" class="miro-ui" font-size="13" fill="#2c4a63">· 数据迁移还没排期</text>
+        <text x="98" y="550" class="miro-ui" font-size="13" fill="#2c4a63">· 安全审核要 2 周</text>
+        <text x="98" y="574" class="miro-ui" font-size="13" fill="#2c4a63">· 只有一个人懂旧系统</text>
+      </g>
+
+      <!-- thick blue arrows into the cluster -->
+      <path d="M 286 172 Q 340 192 378 210" fill="none" stroke="#4262ff" stroke-width="5" stroke-linecap="round" marker-end="url(#miroArrow)"/>
+      <path d="M 832 172 Q 782 196 748 226" fill="none" stroke="#4262ff" stroke-width="5" stroke-linecap="round" marker-end="url(#miroArrow)"/>
+      <path d="M 316 470 Q 352 458 388 446" fill="none" stroke="#4262ff" stroke-width="5" stroke-linecap="round" marker-end="url(#miroArrow)"/>
+
+      <!-- toolbar -->
+      <g filter="url(#barShadow)">
+        <rect x="784" y="560" width="312" height="54" rx="13" fill="#ffffff" stroke="#e7e8ee"/>
+      </g>
+      <circle cx="812" cy="587" r="18" fill="#e8edff"/>
+      <path d="M 804 576 L 820 586 L 813 588 L 816 597 L 812.5 598.5 L 809.5 589.5 L 804 594 Z" fill="#4262ff"/>
+
+      <rect x="846" y="579" width="17" height="17" rx="2.5" fill="none" stroke="#4a4f5c" stroke-width="1.6"/>
+      <path d="M 855 579 L 863 587" stroke="#4a4f5c" stroke-width="1.6" fill="none"/>
+
+      <rect x="896" y="581" width="12" height="12" rx="1.5" fill="none" stroke="#4a4f5c" stroke-width="1.6"/>
+      <circle cx="914" cy="592" r="6.5" fill="none" stroke="#4a4f5c" stroke-width="1.6"/>
+
+      <circle cx="941" cy="581" r="2.7" fill="#4a4f5c"/>
+      <circle cx="958" cy="594" r="2.7" fill="#4a4f5c"/>
+      <path d="M 943 582 C 949 584 952 591 956 593" fill="none" stroke="#4a4f5c" stroke-width="1.6"/>
+
+      <path d="M 978 578 h 17 a 3 3 0 0 1 3 3 v 9 a 3 3 0 0 1 -3 3 h -10 l -5 4.5 v -4.5 h -2 a 3 3 0 0 1 -3 -3 v -9 a 3 3 0 0 1 3 -3 z" fill="none" stroke="#4a4f5c" stroke-width="1.6"/>
+
+      <line x1="1014" y1="572" x2="1014" y2="602" stroke="#e8e8ef" stroke-width="1"/>
+
+      <circle cx="1048" cy="588" r="9.5" fill="none" stroke="#4a4f5c" stroke-width="1.6"/>
+      <path d="M 1048 582.5 v 5.5 l 4.5 2.5" fill="none" stroke="#4a4f5c" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M 1044 575 h 8" stroke="#4a4f5c" stroke-width="1.6" stroke-linecap="round"/>
+
+      <!-- collaborators -->
+      <g transform="translate(742 440)">
+        <path d="M 0 0 L 0 18 L 4.8 13.8 L 7.8 20.6 L 10.8 19.2 L 7.8 12.4 L 14 12.4 Z" fill="#4262ff" stroke="#ffffff" stroke-width="1.3"/>
+        <rect x="11" y="15" width="58" height="23" rx="11.5" fill="#4262ff"/>
+        <text x="40" y="31" text-anchor="middle" class="miro-ui" font-size="11.5" fill="#ffffff">Yuki</text>
+      </g>
+      <g transform="translate(872 336)">
+        <path d="M 0 0 L 0 18 L 4.8 13.8 L 7.8 20.6 L 10.8 19.2 L 7.8 12.4 L 14 12.4 Z" fill="#ff8a3d" stroke="#ffffff" stroke-width="1.3"/>
+        <rect x="11" y="15" width="66" height="23" rx="11.5" fill="#ff8a3d"/>
+        <text x="44" y="31" text-anchor="middle" class="miro-ui" font-size="11.5" fill="#ffffff">Marco</text>
+      </g>
+    </svg>
+  </div>
+  <p class="stage-note">Miro 的视觉语言：点阵画布上贴彩色便签，手写体标题圈出讨论区，粗蓝箭头把话题连起来；协作光标带名字标签，告诉你“还有谁在这张板上”。</p>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">02</span><h2>官网原样</h2></div>
+  <figure class="shot">
+    <img src="../assets/shots/miro.png" alt="Miro 官网首页截图">
+    <figcaption>miro.com 首屏直接用一张 BPMN 流程图演示：绿色节点、菱形判断、协作光标和名字标签 —— 和它想卖的“团队一起想”是同一件事。</figcaption>
+  </figure>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">03</span><h2>定位与差异</h2></div>
+  <div class="grid2">
+    <div class="card">
+      <h3>它是什么</h3>
+      <p>一张<strong>无限大的在线白板</strong>：工作坊、流程图、回顾、路线图都放在同一张画布上，模板覆盖团队反复要开的那些会。</p>
+      <p>核心能力是“一起想”——多人实时协作、评论、演示模式、计时器，再往外接各种模板与集成。</p>
+    </div>
+    <div class="card">
+      <h3>和近邻的差别</h3>
+      <ul class="vs">
+        <li><b>vs Mural</b>　Mural 更强调引导师按议程带会，区域、投票、计时器围绕流程设计；Miro 更自由，模板与集成面更广。</li>
+        <li><b>vs FigJam</b>　FigJam 长在 Figma 的设计流程里；Miro 不依赖设计工具，面向更泛的跨职能团队。</li>
+        <li><b>vs Excalidraw</b>　Excalidraw 追求手绘感和轻量；Miro 追求“什么都能装下”的工作区，模板与企业治理更重。</li>
+      </ul>
+    </div>
+  </div>
+  <div class="verdict">什么时候选它：<b>需要一个通用白板、又不想从空白画布开始</b>时。模板和社区生态是它最大的护城河；如果只是画一张架构图，有更轻的工具。</div>
+</div></section>
+
+<footer class="page-foot"><div class="wrap">
+  <span>DesignBookmark 30 图工具调研 · miro · demo 为风格复刻，非官方产品</span>
+  <span>截图采集于 2026-11-18</span>
+</div></footer>
+
+</body>
+</html>

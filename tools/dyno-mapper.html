@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DYNO Mapper · 30 个图工具调研</title>
+<link rel="stylesheet" href="../assets/kit.css">
+<style>
+  :root {
+    --accent: #0b5ed7;
+    --bg: #f7f9fc;
+    --panel: #ffffff;
+    --ink: #0d1b2e;
+    --muted: #5b6b80;
+    --line: rgba(13, 27, 46, 0.10);
+  }
+  .topbar { background: color-mix(in srgb, var(--bg) 88%, transparent); }
+  .shot { background: #e8eef7; }
+
+  .dy-stage { background: #eef3fa; color: #0d1b2e; }
+  .dy-bar {
+    display: flex; align-items: center; gap: 12px;
+    padding: 9px 16px; background: #10357f; border-bottom: 1px solid #0a2a6b;
+  }
+  .dy-brand {
+    display: flex; align-items: center; gap: 8px; color: #fff;
+    font: 600 11px/1 ui-monospace, "SF Mono", Menlo, monospace;
+    letter-spacing: .12em; text-transform: uppercase;
+  }
+  .dy-brand .logo { display: flex; gap: 2px; }
+  .dy-brand .logo i { width: 7px; height: 13px; background: #fff; border-radius: 1px; }
+  .dy-brand .logo i:nth-child(2) { height: 9px; margin-top: 4px; background: #f5a623; }
+  .dy-brand .logo i:nth-child(3) { height: 13px; background: #6f9dff; }
+  .dy-tabs { display: flex; gap: 2px; margin-left: 8px; }
+  .dy-tabs span {
+    font-size: 11px; color: #b9cdf0; padding: 4px 10px; border-radius: 4px;
+  }
+  .dy-tabs span.on { background: #fff; color: #10357f; font-weight: 600; }
+  .dy-bar .right { margin-left: auto; display: flex; gap: 8px; }
+  .dy-bar .right span {
+    font-size: 10.5px; color: #d6e2f7; border: 1px solid #3a5ea8;
+    border-radius: 4px; padding: 4px 9px;
+  }
+  .dy-bar .right span.on { background: #f5a623; border-color: #f5a623; color: #1a1200; font-weight: 600; }
+
+  .dy-body { display: grid; grid-template-columns: 1fr 330px; }
+  @media (max-width: 900px) { .dy-body { grid-template-columns: 1fr; } }
+  .dy-canvas {
+    padding: 14px 16px; min-width: 0;
+    background:
+      linear-gradient(rgba(16, 53, 127, .045) 1px, transparent 1px) 0 0/28px 28px,
+      linear-gradient(90deg, rgba(16, 53, 127, .045) 1px, transparent 1px) 0 0/28px 28px,
+      #eef3fa;
+  }
+  .dy-svg { display: block; width: 100%; height: auto; }
+
+  .dy-side {
+    background: #fff; border-left: 1px solid #dde6f3; padding: 14px 16px;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .dy-side .kicker {
+    font: 600 9.5px/1 ui-monospace, "SF Mono", Menlo, monospace;
+    letter-spacing: .12em; text-transform: uppercase; color: #92a3ba;
+  }
+  .dy-score { display: flex; align-items: center; gap: 14px; }
+  .dy-ring { position: relative; width: 76px; height: 76px; flex: none; }
+  .dy-ring svg { display: block; transform: rotate(-90deg); }
+  .dy-ring .val {
+    position: absolute; inset: 0; display: grid; place-items: center;
+    font-size: 22px; font-weight: 700; letter-spacing: -.03em; color: #0d1b2e;
+  }
+  .dy-score .txt { font-size: 11px; line-height: 1.55; color: #5b6b80; }
+  .dy-score .txt b { display: block; font-size: 12px; color: #0d1b2e; margin-bottom: 2px; }
+
+  .dy-issues { list-style: none; margin: 0; padding: 0; font-size: 11px; }
+  .dy-issues li {
+    display: grid; grid-template-columns: 3px 1fr auto; gap: 8px;
+    align-items: center; padding: 8px 0; border-bottom: 1px solid #eef2f8;
+  }
+  .dy-issues li:last-child { border-bottom: 0; }
+  .dy-issues .sev { width: 3px; height: 22px; border-radius: 2px; }
+  .dy-issues .sev.hi { background: #e5484d; }
+  .dy-issues .sev.mid { background: #f5a623; }
+  .dy-issues .sev.lo { background: #4c9a67; }
+  .dy-issues .t { color: #33445c; line-height: 1.4; }
+  .dy-issues .n {
+    font: 600 9.5px/1 ui-monospace, Menlo, monospace; color: #92a3ba;
+    background: #f2f6fb; border-radius: 4px; padding: 3px 5px;
+  }
+  .dy-legend { display: flex; gap: 10px; font-size: 10px; color: #7c8da4; flex-wrap: wrap; }
+  .dy-legend i { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 4px; }
+  .dy-crawl {
+    border-top: 1px solid #eef2f8; padding-top: 10px;
+  }
+  .dy-crawl-row {
+    display: grid; grid-template-columns: 56px 1fr; gap: 8px;
+    font-size: 10.5px; padding: 3px 0;
+  }
+  .dy-crawl-row span { color: #92a3ba; }
+  .dy-crawl-row b { font-weight: 500; color: #33445c; }
+  .dy-side-foot {
+    margin-top: auto; font-size: 10px; color: #92a3ba;
+    border-top: 1px dashed #e5ecf6; padding-top: 9px;
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <a href="../index.html">← 30 个图工具调研</a>
+  <span class="crumb-sep">/</span>
+  <span>网站规划</span>
+  <a class="back" href="../index.html">总览</a>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <div class="kicker">Sitemap + audit · 网站规划</div>
+  <h1>DYNO Mapper</h1>
+  <p class="tagline">把站点爬成一张可视化地图，再顺手给每个页面打分 —— 结构、内容、可访问性一起看。</p>
+  <div class="meta-row">
+    <span>类别 <b>Diagrams &amp; Whiteboards / 站点审计</b></span>
+    <span>平台 <b>Web</b></span>
+    <span>价格 <b>Freemium，价格见官网</b></span>
+    <span>用户 <b>改版项目组、内网负责人</b></span>
+  </div>
+</div></header>
+
+<section class="block"><div class="wrap">
+  <div class="block-head">
+    <span class="num">01</span>
+    <h2>它画出来是什么样</h2>
+    <p>树状站点地图，每个节点挂内容与可访问性指标，右侧是站点体检</p>
+  </div>
+
+  <div class="stage dy-stage">
+    <div class="dy-bar">
+      <div class="dy-brand">
+        <span class="logo"><i></i><i></i><i></i></span>
+        <span>Dyno Mapper</span>
+      </div>
+      <div class="dy-tabs"><span class="on">Public site</span><span>Private app</span><span>SharePoint</span></div>
+      <div class="right"><span>Content inventory</span><span class="on">Crawl</span></div>
+    </div>
+
+    <div class="dy-body">
+      <div class="dy-canvas">
+        <svg class="dy-svg" viewBox="0 0 720 520" role="img" aria-label="DYNO Mapper 带指标徽章的站点地图">
+          <defs>
+            <symbol id="dy-page" viewBox="0 0 16 16">
+              <rect x="2.6" y="2" width="10.8" height="12" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.2"/>
+              <path d="M5 5.4h6M5 8h6M5 10.6h3.6" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>
+            </symbol>
+          </defs>
+
+          <!-- connectors -->
+          <g fill="none" stroke="#a9bcd8" stroke-width="1.3" stroke-linejoin="round">
+            <path d="M132 260 H150 V122 H166"/>
+            <path d="M150 122 V398"/>
+            <path d="M150 260 H166"/>
+            <path d="M150 398 H166"/>
+
+            <path d="M300 122 H318 V88 H334"/>
+            <path d="M318 88 V156"/>
+            <path d="M318 156 H334"/>
+
+            <path d="M300 260 H334"/>
+            <path d="M300 398 H334"/>
+
+            <path d="M468 88 H486"/>
+          </g>
+
+          <!-- root -->
+          <g>
+            <rect x="14" y="232" width="118" height="56" rx="5" fill="#fff" stroke="#10357f" stroke-width="1.6"/>
+            <rect x="14" y="232" width="118" height="4" rx="2" fill="#10357f"/>
+            <use href="#dy-page" x="26" y="248" width="14" height="14" color="#10357f"/>
+            <text x="46" y="254" font-size="11" font-weight="650" fill="#0d1b2e">首页</text>
+            <text x="46" y="270" font-size="9" fill="#8496ae">/</text>
+            <text x="122" y="277" text-anchor="end" font-size="8.5" fill="#5b6b80">42 页</text>
+          </g>
+
+          <!-- level 1 -->
+          <g>
+            <rect x="166" y="94" width="134" height="56" rx="5" fill="#fff" stroke="#d3deee"/>
+            <use href="#dy-page" x="178" y="110" width="14" height="14" color="#5b6b80"/>
+            <text x="198" y="116" font-size="10.5" font-weight="600" fill="#0d1b2e">产品</text>
+            <text x="198" y="131" font-size="8.5" fill="#8496ae">/product</text>
+            <g font-size="8" font-family="ui-monospace, Menlo, monospace">
+              <rect x="178" y="136" width="34" height="11" rx="2.5" fill="#f1f5fb"/>
+              <text x="195" y="144" text-anchor="middle" fill="#5b6b80">1.8k 字</text>
+              <rect x="216" y="136" width="28" height="11" rx="2.5" fill="#f1f5fb"/>
+              <text x="230" y="144" text-anchor="middle" fill="#5b6b80">12 图</text>
+            </g>
+            <circle cx="288" cy="102" r="5" fill="#4c9a67"/>
+            <text x="288" y="105" text-anchor="middle" font-size="6.5" font-weight="700" fill="#fff">A</text>
+          </g>
+          <g>
+            <rect x="166" y="232" width="134" height="56" rx="5" fill="#fff" stroke="#d3deee"/>
+            <use href="#dy-page" x="178" y="248" width="14" height="14" color="#5b6b80"/>
+            <text x="198" y="254" font-size="10.5" font-weight="600" fill="#0d1b2e">定价</text>
+            <text x="198" y="269" font-size="8.5" fill="#8496ae">/pricing</text>
+            <g font-size="8" font-family="ui-monospace, Menlo, monospace">
+              <rect x="178" y="274" width="34" height="11" rx="2.5" fill="#f1f5fb"/>
+              <text x="195" y="282" text-anchor="middle" fill="#5b6b80">820 字</text>
+              <rect x="216" y="274" width="28" height="11" rx="2.5" fill="#f1f5fb"/>
+              <text x="230" y="282" text-anchor="middle" fill="#5b6b80">3 图</text>
+            </g>
+            <circle cx="288" cy="240" r="5" fill="#f5a623"/>
+            <text x="288" y="243" text-anchor="middle" font-size="6.5" font-weight="700" fill="#fff">B</text>
+          </g>
+          <g>
+            <rect x="166" y="370" width="134" height="56" rx="5" fill="#fff" stroke="#d3deee"/>
+            <use href="#dy-page" x="178" y="386" width="14" height="14" color="#5b6b80"/>
+            <text x="198" y="392" font-size="10.5" font-weight="600" fill="#0d1b2e">博客</text>
+            <text x="198" y="407" font-size="8.5" fill="#8496ae">/blog</text>
+            <g font-size="8" font-family="ui-monospace, Menlo, monospace">
+              <rect x="178" y="412" width="34" height="11" rx="2.5" fill="#f1f5fb"/>
+              <text x="195" y="420" text-anchor="middle" fill="#5b6b80">6.2k 字</text>
+              <rect x="216" y="412" width="28" height="11" rx="2.5" fill="#f1f5fb"/>
+              <text x="230" y="420" text-anchor="middle" fill="#5b6b80">38 图</text>
+            </g>
+            <circle cx="288" cy="378" r="5" fill="#e5484d"/>
+            <text x="288" y="381" text-anchor="middle" font-size="6.5" font-weight="700" fill="#fff">C</text>
+          </g>
+
+          <!-- level 2 -->
+          <g>
+            <rect x="334" y="60" width="134" height="56" rx="5" fill="#fff" stroke="#d3deee"/>
+            <use href="#dy-page" x="346" y="76" width="14" height="14" color="#5b6b80"/>
+            <text x="366" y="82" font-size="10.5" font-weight="600" fill="#0d1b2e">功能</text>
+            <text x="366" y="97" font-size="8.5" fill="#8496ae">/product/features</text>
+            <g font-size="8" font-family="ui-monospace, Menlo, monospace">
+              <rect x="346" y="102" width="34" height="11" rx="2.5" fill="#f1f5fb"/>
+              <text x="363" y="110" text-anchor="middle" fill="#5b6b80">2.4k 字</text>
+              <rect x="384" y="102" width="28" height="11" rx="2.5" fill="#f1f5fb"/>
+              <text x="398" y="110" text-anchor="middle" fill="#5b6b80">9 图</text>
+            </g>
+            <circle cx="456" cy="68" r="5" fill="#4c9a67"/>
+            <text x="456" y="71" text-anchor="middle" font-size="6.5" font-weight="700" fill="#fff">A</text>
+          </g>
+          <g>
+            <rect x="334" y="128" width="134" height="56" rx="5" fill="#fff" stroke="#d3deee"/>
+            <use href="#dy-page" x="346" y="144" width="14" height="14" color="#5b6b80"/>
+            <text x="366" y="150" font-size="10.5" font-weight="600" fill="#0d1b2e">集成</text>
+            <text x="366" y="165" font-size="8.5" fill="#8496ae">/product/integrations</text>
+            <g font-size="8" font-family="ui-monospace, Menlo, monospace">
+              <rect x="346" y="170" width="34" height="11" rx="2.5" fill="#f1f5fb"/>
+              <text x="363" y="178" text-anchor="middle" fill="#5b6b80">640 字</text>
+              <rect x="384" y="170" width="28" height="11" rx="2.5" fill="#f1f5fb"/>
+              <text x="398" y="178" text-anchor="middle" fill="#5b6b80">2 图</text>
+            </g>
+            <circle cx="456" cy="136" r="5" fill="#f5a623"/>
+            <text x="456" y="139" text-anchor="middle" font-size="6.5" font-weight="700" fill="#fff">B</text>
+          </g>
+          <g>
+            <rect x="334" y="232" width="134" height="56" rx="5" fill="#fff" stroke="#d3deee"/>
+            <use href="#dy-page" x="346" y="248" width="14" height="14" color="#5b6b80"/>
+            <text x="366" y="254" font-size="10.5" font-weight="600" fill="#0d1b2e">团队版</text>
+            <text x="366" y="269" font-size="8.5" fill="#8496ae">/pricing/team</text>
+            <g font-size="8" font-family="ui-monospace, Menlo, monospace">
+              <rect x="346" y="274" width="34" height="11" rx="2.5" fill="#f1f5fb"/>
+              <text x="363" y="282" text-anchor="middle" fill="#5b6b80">510 字</text>
+            </g>
+            <circle cx="456" cy="240" r="5" fill="#f5a623"/>
+            <text x="456" y="243" text-anchor="middle" font-size="6.5" font-weight="700" fill="#fff">B</text>
+          </g>
+          <g>
+            <rect x="334" y="370" width="134" height="56" rx="5" fill="#fff" stroke="#d3deee"/>
+            <use href="#dy-page" x="346" y="386" width="14" height="14" color="#5b6b80"/>
+            <text x="366" y="392" font-size="10.5" font-weight="600" fill="#0d1b2e">2025 年归档</text>
+            <text x="366" y="407" font-size="8.5" fill="#8496ae">/blog/2025</text>
+            <g font-size="8" font-family="ui-monospace, Menlo, monospace">
+              <rect x="346" y="412" width="40" height="11" rx="2.5" fill="#fdeaea"/>
+              <text x="366" y="420" text-anchor="middle" fill="#a03a3d">缺 H1</text>
+            </g>
+            <circle cx="456" cy="378" r="5" fill="#e5484d"/>
+            <text x="456" y="381" text-anchor="middle" font-size="6.5" font-weight="700" fill="#fff">C</text>
+          </g>
+
+          <!-- level 3 -->
+          <g>
+            <rect x="486" y="60" width="126" height="56" rx="5" fill="#fff" stroke="#d3deee"/>
+            <use href="#dy-page" x="498" y="76" width="14" height="14" color="#5b6b80"/>
+            <text x="518" y="82" font-size="10.5" font-weight="600" fill="#0d1b2e">自动化</text>
+            <text x="518" y="97" font-size="8.5" fill="#8496ae">/features/auto</text>
+            <g font-size="8" font-family="ui-monospace, Menlo, monospace">
+              <rect x="498" y="102" width="34" height="11" rx="2.5" fill="#f1f5fb"/>
+              <text x="515" y="110" text-anchor="middle" fill="#5b6b80">1.1k 字</text>
+            </g>
+            <circle cx="602" cy="68" r="5" fill="#4c9a67"/>
+            <text x="602" y="71" text-anchor="middle" font-size="6.5" font-weight="700" fill="#fff">A</text>
+          </g>
+          <g>
+            <rect x="486" y="232" width="126" height="56" rx="5" fill="#fff" stroke="#d3deee"/>
+            <use href="#dy-page" x="498" y="248" width="14" height="14" color="#5b6b80"/>
+            <text x="518" y="254" font-size="10.5" font-weight="600" fill="#0d1b2e">企业询价</text>
+            <text x="518" y="269" font-size="8.5" fill="#8496ae">/pricing/enterprise</text>
+            <g font-size="8" font-family="ui-monospace, Menlo, monospace">
+              <rect x="498" y="274" width="40" height="11" rx="2.5" fill="#fdeaea"/>
+              <text x="518" y="282" text-anchor="middle" fill="#a03a3d">对比度</text>
+            </g>
+            <circle cx="602" cy="240" r="5" fill="#e5484d"/>
+            <text x="602" y="243" text-anchor="middle" font-size="6.5" font-weight="700" fill="#fff">C</text>
+          </g>
+
+          <!-- content inventory summary -->
+          <g>
+            <rect x="14" y="452" width="598" height="52" rx="6" fill="#fff" stroke="#dde6f3"/>
+            <text x="28" y="470" font-size="8.5" letter-spacing=".1em" fill="#92a3ba">内容盘点</text>
+            <text x="28" y="492" font-size="10.5" fill="#33445c">42 个页面 · 平均 1.4k 字 · 缺标题 2 页 · 缺 alt 文本 5 页</text>
+            <g>
+              <rect x="330" y="480" width="120" height="7" rx="3.5" fill="#eaf0f8"/>
+              <rect x="330" y="480" width="72" height="7" rx="3.5" fill="#4c9a67"/>
+              <rect x="404" y="480" width="48" height="7" rx="3.5" fill="#f5a623"/>
+              <rect x="454" y="480" width="24" height="7" rx="3.5" fill="#e5484d"/>
+              <text x="462" y="473" font-size="8.5" fill="#7c8da4">A 21 · B 14 · C 7</text>
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="dy-side">
+        <div class="kicker">Site health</div>
+        <div class="dy-score">
+          <div class="dy-ring">
+            <svg width="76" height="76" viewBox="0 0 76 76">
+              <circle cx="38" cy="38" r="32" fill="none" stroke="#eaf0f8" stroke-width="7"/>
+              <circle cx="38" cy="38" r="32" fill="none" stroke="#0b5ed7" stroke-width="7"
+                      stroke-linecap="round" stroke-dasharray="164.9 201.1"/>
+            </svg>
+            <div class="val">82</div>
+          </div>
+          <div class="txt">
+            <b>共爬取 42 页</b>
+            加权自可访问性、内容质量与可发现性，低于 70 的页面建议优先处理。
+          </div>
+        </div>
+
+        <div>
+          <div class="kicker" style="margin-bottom:6px">待处理 · 3 条</div>
+          <ul class="dy-issues">
+            <li><i class="sev hi"></i><span class="t">/pricing/enterprise 文字对比度不足 4.5:1</span><span class="n">WCAG</span></li>
+            <li><i class="sev mid"></i><span class="t">/blog 缺面包屑，层级深度 4</span><span class="n">IA</span></li>
+            <li><i class="sev lo"></i><span class="t">/product/features 图片缺 alt 文本 2 处</span><span class="n">A11Y</span></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="kicker" style="margin-bottom:6px">评级分布</div>
+          <div class="dy-legend">
+            <span><i style="background:#4c9a67"></i>A · 21 页</span>
+            <span><i style="background:#f5a623"></i>B · 14 页</span>
+            <span><i style="background:#e5484d"></i>C · 7 页</span>
+          </div>
+        </div>
+
+        <div class="dy-crawl">
+          <div class="kicker" style="margin-bottom:6px">本次爬取</div>
+          <div class="dy-crawl-row"><span>入口</span><b>https://example.com</b></div>
+          <div class="dy-crawl-row"><span>登录态</span><b>已保存 · 私有应用</b></div>
+          <div class="dy-crawl-row"><span>深度</span><b>4 层 · 42 页</b></div>
+          <div class="dy-crawl-row"><span>耗时</span><b>2 分 14 秒</b></div>
+        </div>
+
+        <div class="dy-side-foot">导出 CSV / 分享只读链接 / 推送 Jira</div>
+      </aside>
+    </div>
+  </div>
+  <p class="stage-note">DYNO Mapper 的视觉语言：深蓝顶栏 + 浅蓝网格画布，节点是白底细边的小卡片，右上角一枚 A/B/C 彩色评级圆点，卡片里塞着字数、图片数这类内容盘点数字。它不是画图工具，是「把图当仪表盘」—— 每个节点都带着可被排序的指标。</p>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">02</span><h2>官网原样</h2></div>
+  <figure class="shot">
+    <img src="../assets/shots/dyno-mapper.png" alt="DYNO Mapper 官网首页截图">
+    <figcaption>dynomapper.com —— 首屏直接把「LIVE MAP · SAMPLE PROJECT」的实时爬取窗口放出来，右侧浮着 Page Map 导航。核心承诺写在标题里：连需要登录的站点也能爬。</figcaption>
+  </figure>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">03</span><h2>定位与差异</h2></div>
+  <div class="grid2">
+    <div class="card">
+      <h3>它是什么</h3>
+      <p>一个<strong>可视化 sitemap 生成器 + 站点审计工具</strong>：爬公开网站、登录后的应用和 SharePoint Online，把结构画成可交互地图，再叠加内容盘点、内容规划和按确定性排序的可访问性检测，最后汇总成一个站点健康分。</p>
+      <p>有 API，支持 SAML / OIDC 单点登录 —— 说明它的用户里有企业 IT 和内网负责人。</p>
+    </div>
+    <div class="card">
+      <h3>和近邻的差别</h3>
+      <ul class="vs">
+        <li><b>vs Octopus.do</b>　Octopus 是你自己把结构画出来，空白的、理想的；DYNO Mapper 是爬取已有站点，还原现实中的结构，再告诉你哪里出了问题。</li>
+        <li><b>vs WriteMaps</b>　WriteMaps 面向建站前的规划，收集待写的内容；DYNO Mapper 面向已上线站点的改版与治理，盘点的是已有内容的质量。</li>
+      </ul>
+    </div>
+  </div>
+  <div class="verdict">什么时候选它：<b>站点已经存在，你要在改版前先弄清楚它现在长什么样</b> —— 尤其是站点在内网、在 SharePoint、或者页面数已经多到没人说得清的时候。</div>
+</div></section>
+
+<footer class="page-foot"><div class="wrap">
+  <span>DesignBookmark 30 图工具调研 · dyno-mapper · demo 为风格复刻，非官方产品</span>
+  <span>截图采集于 2026-11-18</span>
+</div></footer>
+
+</body>
+</html>

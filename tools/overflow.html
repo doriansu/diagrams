@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Overflow · 30 个图工具调研</title>
+<link rel="stylesheet" href="../assets/kit.css">
+<style>
+  :root {
+    --accent: #4f46e5;
+    --bg: #0f0f14;
+    --panel: #17171f;
+    --ink: #ececf2;
+    --muted: #9a9aae;
+    --line: rgba(255, 255, 255, 0.10);
+  }
+  .shot { background: #101018; }
+
+  .of-stage {
+    background:
+      radial-gradient(circle at 1px 1px, rgba(255,255,255,.055) 1px, transparent 0) 0 0/20px 20px,
+      #0c0c11;
+  }
+  .of-bar {
+    display: flex; align-items: center; gap: 12px;
+    padding: 9px 16px; background: #14141b; border-bottom: 1px solid rgba(255,255,255,.07);
+  }
+  .of-bar .title { font-size: 11.5px; color: #b9b9c9; display: flex; align-items: center; gap: 7px; }
+  .of-bar .title i {
+    width: 12px; height: 12px; border-radius: 50%; display: block;
+    background: conic-gradient(#4f46e5 0 50%, #f2f2f7 50% 100%);
+  }
+  .of-bar .tools { display: flex; gap: 4px; margin-left: 8px; }
+  .of-bar .tools span {
+    font-size: 10.5px; color: #8a8a9e; padding: 3px 9px; border-radius: 5px;
+    border: 1px solid rgba(255,255,255,.08);
+  }
+  .of-bar .tools span.on { background: #4f46e5; border-color: #4f46e5; color: #fff; }
+  .of-bar .right { margin-left: auto; display: flex; align-items: center; gap: 10px; font-size: 10.5px; color: #7c7c90; }
+  .of-bar .right b { color: #c9c9d8; font-weight: 500; }
+  .of-canvas { position: relative; }
+  .of-svg { display: block; width: 100%; height: auto; }
+  .of-legend {
+    display: flex; gap: 14px; font-size: 10.5px; color: #6f6f84;
+    margin-left: 10px; padding-left: 12px;
+    border-left: 1px solid rgba(255,255,255,.08);
+  }
+  .of-legend span { display: flex; align-items: center; gap: 6px; }
+  .of-legend i { width: 14px; height: 2px; border-radius: 1px; background: #8e8ca8; display: block; }
+  .of-legend i.dash { background: repeating-linear-gradient(90deg, #8e8ca8 0 3px, transparent 3px 6px); }
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <a href="../index.html">← 30 个图工具调研</a>
+  <span class="crumb-sep">/</span>
+  <span>用户流</span>
+  <a class="back" href="../index.html">总览</a>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <div class="kicker">User flow · 设计交付</div>
+  <h1>Overflow</h1>
+  <p class="tagline">把设计稿变成能讲的流程图：画布上是真屏幕，连线上写着用户做了什么。</p>
+  <div class="meta-row">
+    <span>类别 <b>Design Tools / 用户流程图</b></span>
+    <span>平台 <b>桌面应用（Win / macOS）</b></span>
+    <span>价格 <b>Freemium，价格见官网</b></span>
+    <span>用户 <b>设计团队、做设计评审的人</b></span>
+  </div>
+</div></header>
+
+<section class="block"><div class="wrap">
+  <div class="block-head">
+    <span class="num">01</span>
+    <h2>它画出来是什么样</h2>
+    <p>设计稿缩略当节点，连线上标注动作，分支与合并在同一张画布</p>
+  </div>
+
+  <div class="stage of-stage">
+    <div class="of-bar">
+      <span class="title"><i></i> Bookgeek 用户流 · 购买路径</span>
+      <div class="tools"><span class="on">Connect</span><span>Screen</span><span>Text</span></div>
+      <div class="of-legend"><span><i></i>主动作</span><span><i class="dash"></i>返回 / 回退</span></div>
+      <div class="right"><b>100%</b><span>·</span><span>Story view</span><span>·</span><span>Prototype view</span></div>
+    </div>
+
+    <div class="of-canvas">
+      <svg class="of-svg" viewBox="0 0 1160 790" role="img" aria-label="Overflow 用户流程图，节点为设计稿缩略">
+        <defs>
+          <marker id="of-ar" viewBox="0 0 10 10" refX="8.6" refY="5"
+                  markerWidth="7" markerHeight="7" orient="auto">
+            <path d="M0 1 L9 5 L0 9 Z" fill="#8e8ca8"/>
+          </marker>
+          <marker id="of-ar-dash" viewBox="0 0 10 10" refX="8.6" refY="5"
+                  markerWidth="7" markerHeight="7" orient="auto">
+            <path d="M0 1 L9 5 L0 9 Z" fill="#5d5c72"/>
+          </marker>
+          <filter id="of-shadow" x="-30%" y="-30%" width="160%" height="160%">
+            <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000" flood-opacity=".5"/>
+          </filter>
+
+          <symbol id="of-home" viewBox="0 0 150 300">
+            <rect width="150" height="300" fill="#ffffff"/>
+            <rect x="0" y="0" width="150" height="30" fill="#f6f6f8"/>
+            <rect x="9" y="13" width="30" height="4" rx="2" fill="#dcdce4"/>
+            <circle cx="132" cy="15" r="5" fill="#dcdce4"/>
+            <rect x="12" y="42" width="74" height="9" rx="4.5" fill="#2c2c38"/>
+            <rect x="12" y="58" width="46" height="6" rx="3" fill="#e4e4ea"/>
+            <rect x="12" y="76" width="126" height="58" rx="6" fill="#ececf1"/>
+            <rect x="20" y="86" width="52" height="6" rx="3" fill="#d8d8e0"/>
+            <rect x="20" y="98" width="34" height="5" rx="2.5" fill="#e2e2e8"/>
+            <rect x="12" y="144" width="60" height="56" rx="6" fill="#ececf1"/>
+            <rect x="78" y="144" width="60" height="56" rx="6" fill="#ececf1"/>
+            <rect x="12" y="212" width="126" height="26" rx="6" fill="#4f46e5"/>
+            <rect x="52" y="221" width="46" height="8" rx="4" fill="#fff" opacity=".9"/>
+            <rect x="12" y="248" width="126" height="6" rx="3" fill="#ececf1"/>
+            <rect x="12" y="260" width="96" height="6" rx="3" fill="#f1f1f5"/>
+          </symbol>
+          <symbol id="of-detail" viewBox="0 0 150 300">
+            <rect width="150" height="300" fill="#ffffff"/>
+            <rect x="0" y="0" width="150" height="30" fill="#f6f6f8"/>
+            <rect x="9" y="13" width="22" height="4" rx="2" fill="#dcdce4"/>
+            <rect x="12" y="40" width="126" height="104" rx="6" fill="#e8e8ee"/>
+            <rect x="40" y="78" width="70" height="34" rx="4" fill="#d6d6e0"/>
+            <rect x="12" y="154" width="90" height="8" rx="4" fill="#2c2c38"/>
+            <rect x="12" y="170" width="56" height="6" rx="3" fill="#e4e4ea"/>
+            <rect x="12" y="186" width="40" height="10" rx="3" fill="#2c2c38"/>
+            <rect x="12" y="208" width="34" height="20" rx="4" fill="#ececf1"/>
+            <rect x="50" y="208" width="34" height="20" rx="4" fill="#ececf1"/>
+            <rect x="88" y="208" width="34" height="20" rx="4" fill="#ececf1"/>
+            <rect x="12" y="242" width="126" height="28" rx="6" fill="#4f46e5"/>
+            <rect x="52" y="252" width="46" height="8" rx="4" fill="#fff" opacity=".9"/>
+          </symbol>
+          <symbol id="of-cart" viewBox="0 0 150 300">
+            <rect width="150" height="300" fill="#ffffff"/>
+            <rect x="0" y="0" width="150" height="30" fill="#f6f6f8"/>
+            <rect x="9" y="13" width="26" height="4" rx="2" fill="#dcdce4"/>
+            <rect x="12" y="44" width="60" height="8" rx="4" fill="#2c2c38"/>
+            <rect x="12" y="64" width="30" height="30" rx="4" fill="#ececf1"/>
+            <rect x="48" y="68" width="56" height="6" rx="3" fill="#e4e4ea"/>
+            <rect x="48" y="80" width="30" height="5" rx="2.5" fill="#eeeef3"/>
+            <rect x="12" y="102" width="30" height="30" rx="4" fill="#ececf1"/>
+            <rect x="48" y="106" width="46" height="6" rx="3" fill="#e4e4ea"/>
+            <rect x="48" y="118" width="24" height="5" rx="2.5" fill="#eeeef3"/>
+            <rect x="12" y="146" width="126" height="1" fill="#ececf1"/>
+            <rect x="12" y="158" width="34" height="6" rx="3" fill="#e4e4ea"/>
+            <rect x="104" y="158" width="34" height="6" rx="3" fill="#2c2c38"/>
+            <rect x="12" y="176" width="126" height="1" fill="#ececf1"/>
+            <rect x="12" y="188" width="126" height="6" rx="3" fill="#eeeef3"/>
+            <rect x="12" y="200" width="96" height="6" rx="3" fill="#f2f2f6"/>
+            <rect x="12" y="222" width="126" height="28" rx="6" fill="#4f46e5"/>
+            <rect x="52" y="232" width="46" height="8" rx="4" fill="#fff" opacity=".9"/>
+            <rect x="12" y="258" width="126" height="26" rx="6" fill="none" stroke="#dcdce4"/>
+            <rect x="52" y="267" width="46" height="7" rx="3.5" fill="#dcdce4"/>
+          </symbol>
+          <symbol id="of-paid" viewBox="0 0 150 300">
+            <rect width="150" height="300" fill="#ffffff"/>
+            <rect x="0" y="0" width="150" height="30" fill="#f6f6f8"/>
+            <rect x="9" y="13" width="22" height="4" rx="2" fill="#dcdce4"/>
+            <circle cx="75" cy="104" r="26" fill="#eaf7ef"/>
+            <path d="M64 104 l8 8 L88 95" fill="none" stroke="#34a853" stroke-width="3"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+            <rect x="39" y="146" width="72" height="9" rx="4.5" fill="#2c2c38"/>
+            <rect x="45" y="164" width="60" height="6" rx="3" fill="#e4e4ea"/>
+            <rect x="30" y="186" width="90" height="1" fill="#ececf1"/>
+            <rect x="30" y="196" width="42" height="6" rx="3" fill="#e4e4ea"/>
+            <rect x="96" y="196" width="24" height="6" rx="3" fill="#2c2c38"/>
+            <rect x="12" y="222" width="126" height="28" rx="6" fill="#4f46e5"/>
+            <rect x="52" y="232" width="46" height="8" rx="4" fill="#fff" opacity=".9"/>
+            <rect x="12" y="258" width="126" height="26" rx="6" fill="none" stroke="#dcdce4"/>
+          </symbol>
+          <symbol id="of-error" viewBox="0 0 150 300">
+            <rect width="150" height="300" fill="#ffffff"/>
+            <rect x="0" y="0" width="150" height="30" fill="#f6f6f8"/>
+            <rect x="9" y="13" width="22" height="4" rx="2" fill="#dcdce4"/>
+            <circle cx="75" cy="104" r="26" fill="#fdeeee"/>
+            <circle cx="75" cy="104" r="11" fill="none" stroke="#d64545" stroke-width="2.4"/>
+            <path d="M75 98v7" stroke="#d64545" stroke-width="2.4" stroke-linecap="round"/>
+            <circle cx="75" cy="111" r="1.6" fill="#d64545"/>
+            <rect x="33" y="146" width="84" height="9" rx="4.5" fill="#2c2c38"/>
+            <rect x="43" y="164" width="64" height="6" rx="3" fill="#e4e4ea"/>
+            <rect x="30" y="186" width="90" height="1" fill="#ececf1"/>
+            <rect x="30" y="196" width="40" height="6" rx="3" fill="#e4e4ea"/>
+            <rect x="98" y="196" width="22" height="6" rx="3" fill="#2c2c38"/>
+            <rect x="12" y="222" width="126" height="28" rx="6" fill="#4f46e5"/>
+            <rect x="52" y="232" width="46" height="8" rx="4" fill="#fff" opacity=".9"/>
+            <rect x="12" y="258" width="126" height="26" rx="6" fill="none" stroke="#dcdce4"/>
+            <rect x="52" y="267" width="46" height="7" rx="3.5" fill="#dcdce4"/>
+          </symbol>
+        </defs>
+
+        <!-- edges -->
+        <g fill="none" stroke="#8e8ca8" stroke-width="1.5" marker-end="url(#of-ar)">
+          <path d="M180 190 H254"/>
+          <path d="M410 190 H484"/>
+          <path d="M640 190 H714"/>
+          <path d="M565 340 V400 H795 V456"/>
+          <path d="M870 520 H930 V190 H872"/>
+        </g>
+        <g fill="none" stroke="#5d5c72" stroke-width="1.4" stroke-dasharray="5 5"
+           marker-end="url(#of-ar-dash)">
+          <path d="M720 736 H18 V190 H26"/>
+        </g>
+
+        <!-- edge labels -->
+        <g font-size="10">
+          <g>
+            <rect x="195" y="172" width="44" height="18" rx="4" fill="#1c1c25"/>
+            <text x="217" y="185" text-anchor="middle" fill="#a8a8bd">点击</text>
+          </g>
+          <g>
+            <rect x="419" y="172" width="56" height="18" rx="4" fill="#1c1c25"/>
+            <text x="447" y="185" text-anchor="middle" fill="#a8a8bd">加入购物车</text>
+          </g>
+          <g>
+            <rect x="649" y="172" width="56" height="18" rx="4" fill="#1c1c25"/>
+            <text x="677" y="185" text-anchor="middle" fill="#a8a8bd">去结算</text>
+          </g>
+          <g>
+            <rect x="668" y="380" width="56" height="18" rx="4" fill="#1c1c25"/>
+            <text x="696" y="393" text-anchor="middle" fill="#a8a8bd">支付失败</text>
+          </g>
+          <g>
+            <rect x="884" y="382" width="44" height="18" rx="4" fill="#1c1c25"/>
+            <text x="906" y="395" text-anchor="middle" fill="#a8a8bd">重试</text>
+          </g>
+          <g>
+            <rect x="420" y="727" width="52" height="18" rx="4" fill="#1c1c25"/>
+            <text x="446" y="740" text-anchor="middle" fill="#77778c">返回首页</text>
+          </g>
+        </g>
+
+        <!-- screen name pills -->
+        <g font-size="10">
+          <rect x="30" y="10" width="150" height="22" rx="5" fill="#1c1c25"/>
+          <text x="105" y="25" text-anchor="middle" fill="#c2c2d4">首页 · Home</text>
+          <rect x="260" y="10" width="150" height="22" rx="5" fill="#1c1c25"/>
+          <text x="335" y="25" text-anchor="middle" fill="#c2c2d4">商品详情 · Detail</text>
+          <rect x="490" y="10" width="150" height="22" rx="5" fill="#1c1c25"/>
+          <text x="565" y="25" text-anchor="middle" fill="#c2c2d4">购物车 · Cart</text>
+          <rect x="720" y="10" width="150" height="22" rx="5" fill="#1c1c25"/>
+          <text x="795" y="25" text-anchor="middle" fill="#c2c2d4">支付成功 · Paid</text>
+          <rect x="720" y="430" width="150" height="22" rx="5" fill="#1c1c25"/>
+          <text x="795" y="445" text-anchor="middle" fill="#c2c2d4">支付失败 · Error</text>
+        </g>
+
+        <!-- screens -->
+        <g filter="url(#of-shadow)">
+          <rect x="30" y="40" width="150" height="300" rx="12" fill="#fff"/>
+          <use href="#of-home" x="30" y="40" width="150" height="300"/>
+          <rect x="260" y="40" width="150" height="300" rx="12" fill="#fff"/>
+          <use href="#of-detail" x="260" y="40" width="150" height="300"/>
+          <rect x="490" y="40" width="150" height="300" rx="12" fill="#fff"/>
+          <use href="#of-cart" x="490" y="40" width="150" height="300"/>
+          <rect x="720" y="40" width="150" height="300" rx="12" fill="#fff"/>
+          <use href="#of-paid" x="720" y="40" width="150" height="300"/>
+          <rect x="720" y="460" width="150" height="300" rx="12" fill="#fff"/>
+          <use href="#of-error" x="720" y="460" width="150" height="300"/>
+        </g>
+
+        <g fill="none" stroke="rgba(255,255,255,.16)" stroke-width="1">
+          <rect x="30" y="40" width="150" height="300" rx="12"/>
+          <rect x="260" y="40" width="150" height="300" rx="12"/>
+          <rect x="490" y="40" width="150" height="300" rx="12"/>
+          <rect x="720" y="40" width="150" height="300" rx="12"/>
+          <rect x="720" y="460" width="150" height="300" rx="12"/>
+        </g>
+
+        <!-- branch note -->
+        <g>
+          <rect x="30" y="440" width="290" height="168" rx="8" fill="#17171f" stroke="rgba(255,255,255,.09)"/>
+          <text x="46" y="464" font-size="9.5" letter-spacing=".1em" fill="#4f46e5">分支说明</text>
+          <text x="46" y="486" font-size="10.5" fill="#b3b3c6">支付失败不进成功页，</text>
+          <text x="46" y="502" font-size="10.5" fill="#b3b3c6">直接回到购物车；订单与</text>
+          <text x="46" y="518" font-size="10.5" fill="#b3b3c6">金额保留，可换支付方式</text>
+          <text x="46" y="534" font-size="10.5" fill="#b3b3c6">重试，成功后合并回主路径。</text>
+          <line x1="46" y1="548" x2="304" y2="548" stroke="rgba(255,255,255,.08)"/>
+          <text x="46" y="566" font-size="9.5" fill="#77778c">从 Figma 同步，随设计稿更新</text>
+          <text x="46" y="584" font-size="9.5" fill="#77778c">Story view 里展开成 4 页叙述</text>
+        </g>
+
+        <!-- merge note -->
+        <g>
+          <rect x="30" y="626" width="290" height="70" rx="8" fill="none" stroke="rgba(255,255,255,.07)" stroke-dasharray="4 4"/>
+          <text x="46" y="648" font-size="9.5" letter-spacing=".1em" fill="#5d5c72">合并点</text>
+          <text x="46" y="668" font-size="10.5" fill="#8c8ca2">重试与首次支付落到同一屏，</text>
+          <text x="46" y="684" font-size="10.5" fill="#8c8ca2">下游无需为失败路径做第二套设计。</text>
+        </g>
+      </svg>
+
+    </div>
+  </div>
+  <p class="stage-note">Overflow 的视觉语言：节点不是矩形框，而是一张张真实的设计稿缩略；连线极细、箭头很小，标签做成深色小胶囊压在线上，不抢画面。深色画布让白色屏幕浮起来，观众的第一眼落在界面上，而不是线上。</p>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">02</span><h2>官网原样</h2></div>
+  <figure class="shot">
+    <img src="../assets/shots/overflow.png" alt="Overflow 官网首页截图">
+    <figcaption>overflow.io —— 首屏是一整片从紫到蓝的渐变，中间压着「User flows done right」，下方才露出画布的一角。它先卖情绪，再卖工具。</figcaption>
+  </figure>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">03</span><h2>定位与差异</h2></div>
+  <div class="grid2">
+    <div class="card">
+      <h3>它是什么</h3>
+      <p>面向设计团队的<strong>用户流程图工具</strong>：把设计稿变成可交互的用户流和演示稿，用于同步或异步的设计评审。画布、原型和故事三种视图，从设计工具同步而来。</p>
+      <p>它解决的是「评审会上讲不清交互」这件事 —— 屏幕本身就是图，观众不需要脑补。</p>
+    </div>
+    <div class="card">
+      <h3>和近邻的差别</h3>
+      <ul class="vs">
+        <li><b>vs FigJam</b>　FigJam 是白板，流程图和便签、投票混在一起，适合发散讨论；Overflow 的画布只放屏幕和连线，适合定稿后的评审陈述。</li>
+        <li><b>vs Flowmapp</b>　Flowmapp 的用户流用的是低保真线框，发生在设计之前；Overflow 接的是已经做好的设计稿，发生在设计之后。</li>
+      </ul>
+    </div>
+  </div>
+  <div class="verdict">什么时候选它：<b>设计稿已经有了，你要向不熟悉交互的人讲清楚它怎么走</b> —— 尤其是分支多、需要异步评审的流程。还在讨论方案阶段，用白板更合适。</div>
+</div></section>
+
+<footer class="page-foot"><div class="wrap">
+  <span>DesignBookmark 30 图工具调研 · overflow · demo 为风格复刻，非官方产品</span>
+  <span>截图采集于 2026-11-18</span>
+</div></footer>
+
+</body>
+</html>

@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eraser · 30 个图工具调研</title>
+<link rel="stylesheet" href="../assets/kit.css">
+<style>
+  /* Palette sampled from eraser.io on 2026-11-18:
+     bg #fcfbf9, ink #242424, muted #878787, primary blue #2866df,
+     logo red #ec2c40 + cyan #00a9e5, success green #1a8a5b */
+  :root {
+    --accent: #2866df;
+    --bg: #fcfbf9;
+    --panel: #ffffff;
+    --ink: #242424;
+    --muted: #878787;
+    --line: rgba(36, 36, 36, 0.12);
+    --radius: 12px;
+  }
+  body { background: var(--bg); color: var(--ink); }
+  .topbar { background: color-mix(in srgb, var(--bg) 88%, transparent); }
+  .mono { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
+  .card { background: #fff; }
+  .shot { background: #fff; }
+
+  .workbench {
+    display: grid; grid-template-columns: 0.66fr 1.72fr; align-items: stretch;
+    background: #fff;
+  }
+  @media (max-width: 940px) { .workbench { grid-template-columns: 1fr; } }
+
+  .doc-pane {
+    border-right: 1px solid var(--line);
+    padding: 24px 26px 28px;
+    background: #fdfdfb;
+    display: flex; flex-direction: column;
+  }
+  @media (max-width: 940px) { .doc-pane { border-right: 0; border-bottom: 1px solid var(--line); } }
+
+  .doc-crumb {
+    font: 11px/1 ui-monospace, "SF Mono", Menlo, monospace;
+    color: #a5a5a5; letter-spacing: 0.04em; margin-bottom: 18px;
+  }
+  .doc-crumb span { color: var(--accent); }
+
+  .doc-pane h3 {
+    margin: 0 0 8px; font-size: 20px; font-weight: 650; letter-spacing: -0.01em; color: #242424;
+  }
+  .doc-meta {
+    font: 10.5px/1 ui-monospace, "SF Mono", Menlo, monospace;
+    color: #a5a5a5; margin-bottom: 20px; padding-bottom: 16px;
+    border-bottom: 1px solid #ececec;
+  }
+  .doc-pane p {
+    margin: 0 0 14px; font-size: 13.2px; line-height: 1.72; color: #3a3a3a;
+  }
+  .doc-pane p b { color: #242424; font-weight: 650; }
+  .doc-code {
+    margin: 4px 0 14px; padding: 11px 13px; border-radius: 7px;
+    background: #f6f6f6; border: 1px solid #ececec;
+    font: 10.8px/1.78 ui-monospace, "SF Mono", Menlo, monospace; color: #666;
+  }
+  .doc-code em { color: var(--accent); font-style: normal; font-weight: 600; }
+  .doc-note {
+    margin-top: auto; padding-top: 14px; font-size: 11.8px; color: #878787;
+    border-top: 1px dashed #e2e2e2;
+  }
+  .doc-note b { color: var(--accent); font-weight: 600; }
+
+  .canvas-pane { display: flex; flex-direction: column; min-width: 0; background: #fff; }
+  .canvas-bar {
+    display: flex; align-items: center; gap: 9px; padding: 10px 16px;
+    border-bottom: 1px solid var(--line);
+    font: 10.8px/1 ui-monospace, "SF Mono", Menlo, monospace; color: #a5a5a5;
+  }
+  .canvas-bar .dot { width: 6px; height: 6px; border-radius: 50%; background: #1a8a5b; }
+  .canvas-bar .zoom {
+    margin-left: auto; border: 1px solid #ececec; border-radius: 5px;
+    padding: 3px 7px; color: #878787;
+  }
+  /* the doc column is usually taller than the diagram; centre the canvas in
+     whatever height is left so it doesn't hang off the top edge. */
+  .canvas-body { flex: 1; display: flex; align-items: center; padding: 10px 0; }
+  .canvas-pane svg { display: block; width: 100%; height: auto; }
+
+  .legend-row {
+    display: flex; flex-wrap: wrap; gap: 18px; margin-top: 14px;
+    font-size: 12px; color: var(--muted);
+  }
+  .legend-row span { display: inline-flex; align-items: center; gap: 7px; }
+  .swatch { width: 22px; height: 0; border-top: 2px solid #8a8a8a; }
+  .swatch.dash { border-top-style: dashed; border-top-color: #1a8a5b; }
+  .swatch.region { border-top: 2px dashed #1a8a5b; opacity: .55; }
+
+  .card .vs li { font-size: 13.6px; }
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <a href="../index.html">← 30 个图工具调研</a>
+  <span class="crumb-sep">/</span>
+  <span>代码即图</span>
+  <a class="back" href="../index.html">总览</a>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <div class="kicker">Diagram as text · AI 技术设计</div>
+  <h1>Eraser</h1>
+  <p class="tagline">把系统设计文档和架构图写在同一份文本里 —— 改一段描述，图跟着重排。图不是附件，是文档的一部分。</p>
+  <div class="meta-row">
+    <span>类别 <b>APIs &amp; Dev Tools / 架构图</b></span>
+    <span>平台 <b>Web</b></span>
+    <span>价格 <b>Freemium（价格见官网）</b></span>
+    <span>用户 <b>写设计文档的后端与平台工程师</b></span>
+  </div>
+</div></header>
+
+<section class="block"><div class="wrap">
+  <div class="block-head">
+    <span class="num">01</span>
+    <h2>它画出来是什么样</h2>
+    <p>左：设计文档原文　右：由它生成的架构图</p>
+  </div>
+
+  <div class="stage">
+    <div class="workbench">
+      <div class="doc-pane">
+        <div class="doc-crumb">docs / <span>architecture</span> / payments.md</div>
+        <h3>支付服务设计</h3>
+        <div class="doc-meta">v7 · 2 小时前更新 · 4 人评审</div>
+
+        <p><b>目标</b>　把 checkout 的支付授权从 Order 服务里拆出来，独立扩缩容。</p>
+        <p><b>约束</b>　授权 P99 &lt; 300ms；账本只追加不修改；支付事件经 SQS 扇出给下游。</p>
+        <p><b>决策</b>　Payments 独占 Postgres 写路径，Redis 只存会话与幂等键。</p>
+
+        <div class="doc-code">
+service <em>payments</em> {<br>
+&nbsp;&nbsp;replicas: 3<br>
+&nbsp;&nbsp;db: postgres.orders<br>
+&nbsp;&nbsp;cache: redis.sessions<br>
+&nbsp;&nbsp;emit: sqs.payment.events<br>
+}
+        </div>
+
+        <div class="doc-note">↳ 右侧的图由这段文本生成，<b>改文字即改图</b>，不需要回到画布上拖框。</div>
+      </div>
+
+      <div class="canvas-pane">
+        <div class="canvas-bar">
+          <span class="dot"></span>canvas · auto-layout
+          <span class="zoom">100%</span>
+        </div>
+<div class="canvas-body">
+<svg viewBox="0 0 900 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Eraser 风格系统架构图复刻：支付服务">
+<defs>
+  <marker id="ea" viewBox="0 0 10 10" refX="8.4" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+    <path d="M0,1.6 L8.4,5 L0,8.4 z" fill="#8a8a8a"/></marker>
+  <marker id="eag" viewBox="0 0 10 10" refX="8.4" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+    <path d="M0,1.6 L8.4,5 L0,8.4 z" fill="#1a8a5b"/></marker>
+  <pattern id="edots" width="18" height="18" patternUnits="userSpaceOnUse">
+    <circle cx="1" cy="1" r="0.85" fill="#e6e6e2"/></pattern>
+  <style>
+    .nd { font-family: ui-sans-serif, -apple-system, "Inter", "Segoe UI", "PingFang SC", sans-serif; }
+    .lb { font-family: ui-sans-serif, -apple-system, "Inter", "Segoe UI", "PingFang SC", sans-serif;
+          font-size: 9.5px; fill: #8a8a8a; }
+    .rt { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 9.6px; fill: #1a8a5b; letter-spacing: .04em; }
+  </style>
+</defs>
+
+<rect width="900" height="380" fill="#ffffff"/>
+<rect width="900" height="380" fill="url(#edots)"/>
+
+<!-- ── boundaries: VPC sits inside the AWS region ── -->
+<rect x="625" y="34" width="260" height="316" rx="8" fill="#2866df" fill-opacity="0.022" stroke="#2866df" stroke-opacity="0.42" stroke-width="1.1" stroke-dasharray="5 4"/>
+<text x="637" y="52" class="rt" style="fill:#2866df">AWS · us-east-1</text>
+
+<rect x="350" y="50" width="205" height="284" rx="8" fill="#1a8a5b" fill-opacity="0.028" stroke="#1a8a5b" stroke-opacity="0.55" stroke-width="1.1" stroke-dasharray="5 4"/>
+<text x="362" y="68" class="rt">payments-core · vpc</text>
+
+<!-- ── nodes ── -->
+<!-- Client -->
+<rect x="20" y="160" width="108" height="60" rx="6" fill="#ffffff" stroke="#d0d0d0" stroke-width="1"/>
+<g transform="translate(32 174)">
+  <rect width="16" height="16" rx="3" fill="#f1f1f1"/>
+  <rect x="3" y="4" width="10" height="7" rx="1" fill="none" stroke="#878787" stroke-width="1"/>
+  <line x1="5.5" y1="13" x2="10.5" y2="13" stroke="#878787" stroke-width="1"/>
+</g>
+<text x="56" y="187" class="nd" font-size="12.5" font-weight="600" fill="#242424">Client</text>
+<text x="56" y="203" class="nd" font-size="10" fill="#878787">web · ios</text>
+
+<!-- API Gateway -->
+<rect x="160" y="160" width="140" height="60" rx="6" fill="#ffffff" stroke="#d0d0d0" stroke-width="1"/>
+<g transform="translate(172 174)">
+  <rect width="16" height="16" rx="3" fill="#f1f1f1"/>
+  <path d="M3 6 L6 8 L3 10 M8 6 L11 8 L8 10" fill="none" stroke="#878787" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<text x="196" y="187" class="nd" font-size="12.5" font-weight="600" fill="#242424">API Gateway</text>
+<text x="196" y="203" class="nd" font-size="10" fill="#878787">kong · 10.0.0.4</text>
+
+<!-- Payments (green = compute) -->
+<rect x="368" y="86" width="168" height="58" rx="6" fill="#f0fdf4" stroke="#1a8a5b" stroke-opacity="0.55" stroke-width="1"/>
+<g transform="translate(380 98)">
+  <rect width="16" height="16" rx="3" fill="#1a8a5b" fill-opacity="0.16"/>
+  <rect x="3" y="5" width="10" height="7" rx="1.2" fill="none" stroke="#1a8a5b" stroke-width="1"/>
+  <line x1="3" y1="7.6" x2="13" y2="7.6" stroke="#1a8a5b" stroke-width="1"/>
+</g>
+<text x="404" y="110" class="nd" font-size="12.5" font-weight="600" fill="#242424">Payments</text>
+<text x="404" y="126" class="nd" font-size="10" fill="#878787">go · 3 replicas</text>
+
+<!-- Ledger (blue = data) -->
+<rect x="368" y="214" width="168" height="58" rx="6" fill="#eff6ff" stroke="#2866df" stroke-opacity="0.5" stroke-width="1"/>
+<g transform="translate(380 226)">
+  <rect width="16" height="16" rx="3" fill="#2866df" fill-opacity="0.14"/>
+  <line x1="4" y1="5" x2="12" y2="5" stroke="#2866df" stroke-width="1" stroke-linecap="round"/>
+  <line x1="4" y1="8" x2="12" y2="8" stroke="#2866df" stroke-width="1" stroke-linecap="round"/>
+  <line x1="4" y1="11" x2="9" y2="11" stroke="#2866df" stroke-width="1" stroke-linecap="round"/>
+</g>
+<text x="404" y="238" class="nd" font-size="12.5" font-weight="600" fill="#242424">Ledger</text>
+<text x="404" y="254" class="nd" font-size="10" fill="#878787">go · 2 replicas</text>
+
+<!-- Postgres (cylinder) -->
+<g>
+  <path d="M709,74 a46,8 0 0 0 92,0 v44 a46,8 0 0 1 -92,0 z" fill="#fafafa" stroke="#c9c9c9" stroke-width="1"/>
+  <ellipse cx="755" cy="74" rx="46" ry="8" fill="#f1f1f1" stroke="#c9c9c9" stroke-width="1"/>
+  <text x="755" y="102" text-anchor="middle" class="nd" font-size="12.5" font-weight="600" fill="#242424">Postgres</text>
+  <text x="755" y="116" text-anchor="middle" class="nd" font-size="10" fill="#878787">orders · primary</text>
+</g>
+
+<!-- Redis (cylinder) -->
+<g>
+  <path d="M709,164 a46,8 0 0 0 92,0 v44 a46,8 0 0 1 -92,0 z" fill="#fafafa" stroke="#c9c9c9" stroke-width="1"/>
+  <ellipse cx="755" cy="164" rx="46" ry="8" fill="#f1f1f1" stroke="#c9c9c9" stroke-width="1"/>
+  <text x="755" y="192" text-anchor="middle" class="nd" font-size="12.5" font-weight="600" fill="#242424">Redis</text>
+  <text x="755" y="206" text-anchor="middle" class="nd" font-size="10" fill="#878787">sessions · cache</text>
+</g>
+
+<!-- SQS -->
+<rect x="705" y="240" width="170" height="56" rx="6" fill="#ffffff" stroke="#d0d0d0" stroke-width="1"/>
+<g transform="translate(717 252)">
+  <rect width="16" height="16" rx="3" fill="#f1f1f1"/>
+  <line x1="3.5" y1="5" x2="12.5" y2="5" stroke="#878787" stroke-width="1" stroke-linecap="round"/>
+  <line x1="3.5" y1="8" x2="12.5" y2="8" stroke="#878787" stroke-width="1" stroke-linecap="round"/>
+  <line x1="3.5" y1="11" x2="9" y2="11" stroke="#878787" stroke-width="1" stroke-linecap="round"/>
+</g>
+<text x="741" y="264" class="nd" font-size="12.5" font-weight="600" fill="#242424">SQS</text>
+<text x="741" y="280" class="nd" font-size="10" fill="#878787">payment.events</text>
+
+<!-- ── edges ── -->
+<!-- Client → Gateway -->
+<path d="M128,190 H160" fill="none" stroke="#8a8a8a" stroke-width="1.1" marker-end="url(#ea)"/>
+<rect x="132" y="183" width="24" height="11" rx="2.5" fill="#ffffff"/>
+<text x="144" y="191.5" text-anchor="middle" class="lb" font-size="9">POST</text>
+
+<!-- Gateway → Payments -->
+<path d="M300,175 H325 V115 H368" fill="none" stroke="#8a8a8a" stroke-width="1.1" marker-end="url(#ea)"/>
+<rect x="311" y="144" width="28" height="12" rx="2.5" fill="#ffffff"/>
+<text x="325" y="153" text-anchor="middle" class="lb">route</text>
+
+<!-- Gateway → Ledger -->
+<path d="M300,205 H325 V243 H368" fill="none" stroke="#8a8a8a" stroke-width="1.1" marker-end="url(#ea)"/>
+<rect x="311" y="219" width="26" height="12" rx="2.5" fill="#ffffff"/>
+<text x="324" y="228" text-anchor="middle" class="lb">read</text>
+
+<!-- Payments → Postgres -->
+<path d="M536,105 H580 V92 H709" fill="none" stroke="#8a8a8a" stroke-width="1.1" marker-end="url(#ea)"/>
+<rect x="581" y="86" width="36" height="12" rx="2.5" fill="#ffffff"/>
+<text x="599" y="95" text-anchor="middle" class="lb">INSERT</text>
+
+<!-- Payments → Redis -->
+<path d="M536,125 H592 V176 H709" fill="none" stroke="#8a8a8a" stroke-width="1.1" marker-end="url(#ea)"/>
+<rect x="580" y="145" width="26" height="12" rx="2.5" fill="#ffffff"/>
+<text x="593" y="154" text-anchor="middle" class="lb">SET</text>
+
+<!-- Payments → SQS (async) -->
+<path d="M536,140 H606 V268 H705" fill="none" stroke="#1a8a5b" stroke-width="1.1" stroke-dasharray="4 3" marker-end="url(#eag)"/>
+<rect x="592" y="199" width="28" height="12" rx="2.5" fill="#ffffff"/>
+<text x="606" y="208" text-anchor="middle" class="lb">emit</text>
+
+<!-- legend -->
+<line x1="20" y1="358" x2="38" y2="358" stroke="#8a8a8a" stroke-width="1.1"/>
+<text x="44" y="361.5" class="lb" font-size="9.5">sync call</text>
+<line x1="100" y1="358" x2="118" y2="358" stroke="#1a8a5b" stroke-width="1.1" stroke-dasharray="4 3"/>
+<text x="124" y="361.5" class="lb" font-size="9.5">event / async</text>
+<rect x="202" y="352" width="12" height="12" rx="2" fill="#1a8a5b" fill-opacity="0.028" stroke="#1a8a5b" stroke-opacity="0.55" stroke-dasharray="3 2.4"/>
+<text x="220" y="361.5" class="lb" font-size="9.5">VPC / cloud boundary</text>
+</svg>
+</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="legend-row">
+    <span><i class="swatch"></i>同步调用</span>
+    <span><i class="swatch dash"></i>事件 / 异步</span>
+    <span class="dim">虚线大框 = 云与 VPC 边界，Eraser 用它表达“部署在哪里”</span>
+  </div>
+
+  <p class="stage-note">Eraser 的视觉语言是<strong>浅色、精确、无装饰</strong>：白底配极淡点阵，节点是白卡或淡彩卡（浅绿 = 计算、浅蓝 = 数据）配 1px 同色描边和一枚小图标，云与 VPC 边界用青绿虚线框圈出来，连线 1.1px 灰色带小箭头，文字走无衬线体。它刻意长得像“一份能点开的架构文档”，而不是 PPT 里长出来的图。</p>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">02</span><h2>官网原样</h2></div>
+  <figure class="shot">
+    <img src="../assets/shots/eraser.png" alt="Eraser 官网首页截图">
+    <figcaption>eraser.io —— 官网首页把一句 tagline 直接压在一张真实的云架构图上方。那张图里有 <span class="mono">us-east-1 primary</span> / <span class="mono">us-west-2 standby</span> 两个虚线区域和跨区箭头，正是它想卖的东西：能在评审会上讲清楚的系统图。</figcaption>
+  </figure>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">03</span><h2>定位与差异</h2></div>
+  <div class="grid2">
+    <div class="card">
+      <h3>它是什么</h3>
+      <p>面向<strong>技术设计</strong>的文档 + 图平台。你在文档里写结构描述（或让 AI 起草），Eraser 把它渲染成架构图、时序图、流程图，并提供版本历史 —— 设计文档改到 v7，图也跟着到 v7。</p>
+      <p>类别上它被归在 <strong>APIs &amp; Dev Tools</strong>，不是白板工具。它的对手是 Confluence 里的设计文档 + 一张贴上去的 draw.io 图。</p>
+    </div>
+    <div class="card">
+      <h3>和近邻的差别</h3>
+      <ul class="vs">
+        <li><b>vs Mermaid</b>　都从文本生成图。Mermaid 是纯开源渲染库，图进 Git、没有文档层；Eraser 是 SaaS，文档、图、版本历史、AI 起草是一体的。</li>
+        <li><b>vs Excalidraw</b>　Excalidraw 要的是“还在想”的手绘草图感；Eraser 要的是“已经想清楚、可以拿去评审”的定稿图。</li>
+        <li><b>vs draw.io</b>　draw.io 拖拽所见即所得，适合非工程师；Eraser 逼你先用文字把系统讲清楚，图只是文字的副产品。</li>
+      </ul>
+    </div>
+  </div>
+  <div class="verdict">什么时候选它：<b>你要交的是设计文档，而不是一张图</b>。当图的读者是评审会上的同事、图需要跟着方案迭代到 v7，并且团队接受把设计稿放在 SaaS 上时，Eraser 比“文档 + 截图”少一次同步。</div>
+</div></section>
+
+<footer class="page-foot"><div class="wrap">
+  <span>DesignBookmark 30 图工具调研 · eraser · demo 为风格复刻，非官方产品</span>
+  <span>截图采集于 2026-11-18</span>
+</div></footer>
+
+</body>
+</html>

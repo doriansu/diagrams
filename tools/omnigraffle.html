@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OmniGraffle · 30 个图工具调研</title>
+<link rel="stylesheet" href="../assets/kit.css">
+<style>
+  :root {
+    --accent: #2c2c2e;
+    --bg: #ffffff;
+    --panel: #ffffff;
+    --ink: #1d1d1f;
+    --muted: #6e6e73;
+    --line: rgba(0, 0, 0, 0.12);
+  }
+  body { background: var(--bg); }
+  header.hero .kicker { color: #6e6e73; }
+  header.hero .kicker::before { background: #2c2c2e; }
+  .block-head .num { background: #f2f2f4; color: #2c2c2e; }
+
+  .stage { background: #fff; }
+
+  /* ---------- mac window chrome ---------- */
+  .og-titlebar {
+    display: flex; align-items: center; gap: 10px;
+    height: 34px; padding: 0 12px; background: linear-gradient(#f6f6f7, #ececee);
+    border-bottom: 1px solid #d8d8dc; font-size: 11.5px; color: #4a4a4f;
+  }
+  .og-lights { display: flex; gap: 7px; margin-right: 6px; }
+  .og-lights i { width: 11px; height: 11px; border-radius: 50%; display: block; }
+  .og-lights i:nth-child(1) { background: #ff5f57; }
+  .og-lights i:nth-child(2) { background: #febc2e; }
+  .og-lights i:nth-child(3) { background: #28c840; }
+  .og-titlebar .doc { font-weight: 600; color: #3a3a3d; letter-spacing: -0.01em; }
+  .og-titlebar .sp { flex: 1; }
+  .og-titlebar .seg {
+    display: flex; border: 1px solid #cfcfd4; border-radius: 4px; overflow: hidden;
+    font-size: 10px; color: #55555a;
+  }
+  .og-titlebar .seg span { padding: 2px 7px; border-left: 1px solid #dcdce0; }
+  .og-titlebar .seg span:first-child { border-left: 0; background: #fff; }
+
+  .og-toolbar {
+    display: flex; align-items: center; gap: 3px;
+    height: 40px; padding: 0 12px; background: #f7f7f8;
+    border-bottom: 1px solid #dededf;
+  }
+  .og-tb {
+    width: 26px; height: 24px; display: grid; place-items: center;
+    border-radius: 4px; color: #57575c;
+  }
+  .og-tb svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.1; stroke-linecap: round; }
+  .og-tb.on { background: #dcdce1; color: #1d1d1f; }
+  .og-tb.sep { width: 1px; height: 18px; background: #dcdce0; margin: 0 6px; }
+  .og-tb.zoom {
+    font-size: 10.5px; width: auto; padding: 0 8px; border: 1px solid #d2d2d6;
+    background: #fff; height: 22px; color: #3a3a3d;
+  }
+
+  .og-canvas {
+    position: relative;
+    background:
+      linear-gradient(to right, rgba(0,0,0,.045) 1px, transparent 1px) 0 0/100% 26px,
+      #fff;
+  }
+  .og-svg { display: block; width: 100%; height: auto; }
+  .og-svg text { font-family: "SF Pro Text", -apple-system, "Helvetica Neue", "PingFang SC", system-ui, sans-serif; }
+
+  .og-node { fill: #f0f0f2; stroke: #3a3a3d; stroke-width: 1; }
+  .og-node.solid { fill: #e4e4e8; }
+  .og-t { font-size: 11.5px; fill: #1d1d1f; letter-spacing: 0.005em; }
+  .og-ts { font-size: 9.5px; fill: #6e6e73; }
+  .og-edge { fill: none; stroke: #3a3a3d; stroke-width: 1; }
+  .og-elabel { font-size: 9px; fill: #6e6e73; letter-spacing: .02em; }
+  .og-group { fill: none; stroke: #b9b9bf; stroke-width: 0.8; stroke-dasharray: 3 3; }
+  .og-glabel { font-size: 9px; fill: #8a8a90; letter-spacing: .09em; text-transform: uppercase; }
+
+  /* stencil panel */
+  .og-stencil {
+    position: absolute; right: 14px; top: 14px; width: 152px;
+    background: #f7f7f8; border: 1px solid #d3d3d8; border-radius: 6px;
+    box-shadow: 0 6px 18px rgba(0,0,0,.10); font-size: 10px;
+    overflow: hidden;
+  }
+  .og-stencil-h {
+    padding: 6px 9px; font-weight: 600; color: #3a3a3d; font-size: 10.5px;
+    border-bottom: 1px solid #dededf; background: linear-gradient(#fbfbfc, #f2f2f4);
+    display: flex; align-items: center;
+  }
+  .og-stencil-h span { margin-left: auto; color: #9a9aa0; font-weight: 400; }
+  .og-stencil-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: #e6e6e9; }
+  .og-cell {
+    background: #fff; height: 52px; display: grid; place-items: center;
+  }
+  .og-cell svg { width: 40px; height: 30px; }
+  .og-stencil-foot {
+    padding: 5px 9px; color: #86868b; font-size: 9px; border-top: 1px solid #dededf;
+    background: #f7f7f8;
+  }
+
+  .og-status {
+    display: flex; gap: 14px; align-items: center;
+    height: 26px; padding: 0 12px; background: #f2f2f4;
+    border-top: 1px solid #dededf; font-size: 10px; color: #7a7a80;
+    font-variant-numeric: tabular-nums;
+  }
+  .og-status .sp { flex: 1; }
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <a href="../index.html">← 30 个图工具调研</a>
+  <span class="crumb-sep">/</span>
+  <span>Mac 桌面</span>
+  <a class="back" href="../index.html">总览</a>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <div class="kicker">Diagramming · macOS 原生</div>
+  <h1>OmniGraffle</h1>
+  <p class="tagline">Mac 上的“印刷级”图表工具：精确到 0.1pt 的定位，和一套值得信任的图形样式。</p>
+  <div class="meta-row">
+    <span>类别 <b>Diagrams &amp; Whiteboards</b></span>
+    <span>平台 <b>macOS / iPadOS / iOS</b></span>
+    <span>价格 <b>Freemium（价格见官网）</b></span>
+    <span>用户 <b>设计师、技术写作者、Mac 重度用户</b></span>
+  </div>
+</div></header>
+
+<section class="block"><div class="wrap">
+  <div class="block-head">
+    <span class="num">01</span>
+    <h2>它画出来是什么样</h2>
+    <p>复刻一张「iOS 应用导航结构」，右侧带 stencil 面板</p>
+  </div>
+
+  <div class="stage">
+    <div class="og-titlebar">
+      <div class="og-lights"><i></i><i></i><i></i></div>
+      <span class="doc">App Navigation.graffle</span>
+      <span class="sp"></span>
+      <div class="seg"><span>Canvas</span><span>Outline</span><span>Notes</span></div>
+    </div>
+
+    <div class="og-toolbar">
+      <span class="og-tb on"><svg viewBox="0 0 16 16"><path d="M3.4 2.4 12 8.2l-3.9 1 1.9 3.9-1.5.7-1.9-4-3.2 2.4z" fill="currentColor" stroke="none"/></svg></span>
+      <span class="og-tb"><svg viewBox="0 0 16 16"><rect x="3" y="4" width="10" height="8" rx="1"/></svg></span>
+      <span class="og-tb"><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="4.6"/></svg></span>
+      <span class="og-tb"><svg viewBox="0 0 16 16"><path d="M8 3.2 12.8 8 8 12.8 3.2 8z"/></svg></span>
+      <span class="og-tb sep"></span>
+      <span class="og-tb"><svg viewBox="0 0 16 16"><path d="M4 12.5V5h8M4 12.5h8"/></svg></span>
+      <span class="og-tb"><svg viewBox="0 0 16 16"><path d="M8 3v10M3 8h10"/></svg></span>
+      <span class="og-tb sep"></span>
+      <span class="og-tb"><svg viewBox="0 0 16 16"><path d="M3.5 4.5h9M3.5 8h9M3.5 11.5h5.5"/></svg></span>
+      <span class="sp" style="flex:1"></span>
+      <span class="og-tb zoom">100%</span>
+    </div>
+
+    <div class="og-canvas">
+      <div class="og-stencil">
+        <div class="og-stencil-h">Stencils<span>⌄</span></div>
+        <div class="og-stencil-grid">
+          <div class="og-cell"><svg viewBox="0 0 40 30"><rect x="6" y="7" width="28" height="16" fill="#f0f0f2" stroke="#3a3a3d" stroke-width="1"/></svg></div>
+          <div class="og-cell"><svg viewBox="0 0 40 30"><circle cx="20" cy="15" r="8.5" fill="#f0f0f2" stroke="#3a3a3d" stroke-width="1"/></svg></div>
+          <div class="og-cell"><svg viewBox="0 0 40 30"><path d="M20 6 30 15 20 24 10 15z" fill="#f0f0f2" stroke="#3a3a3d" stroke-width="1"/></svg></div>
+          <div class="og-cell"><svg viewBox="0 0 40 30"><rect x="6" y="7" width="28" height="16" rx="5" fill="#f0f0f2" stroke="#3a3a3d" stroke-width="1"/></svg></div>
+        </div>
+        <div class="og-stencil-foot">Basic · 4 shapes</div>
+      </div>
+
+      <svg class="og-svg" viewBox="0 0 1080 540" role="img" aria-label="OmniGraffle 风格 iOS 应用导航结构图">
+        <defs>
+          <marker id="og-arrow" viewBox="0 0 10 10" refX="9.6" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto">
+            <path d="M0.8 2.4 9.2 5 0.8 7.6z" fill="#3a3a3d"/>
+          </marker>
+          <marker id="og-arrow-s" viewBox="0 0 10 10" refX="9.6" refY="5" markerWidth="6.5" markerHeight="6.5" markerUnits="userSpaceOnUse" orient="auto">
+            <path d="M0.8 2.6 9.2 5 0.8 7.4z" fill="#7a7a80"/>
+          </marker>
+        </defs>
+
+        <!-- column headers -->
+        <text x="60" y="34" class="og-glabel">Root · Tab Bar</text>
+        <text x="438" y="34" class="og-glabel">Primary Flows</text>
+        <text x="668" y="34" class="og-glabel">Detail</text>
+
+        <!-- root -->
+        <rect x="60" y="216" width="176" height="92" rx="3" class="og-node solid"/>
+        <text x="148" y="246" text-anchor="middle" class="og-t">App Launch</text>
+        <text x="148" y="263" text-anchor="middle" class="og-ts">Splash → Tab Bar</text>
+        <text x="148" y="278" text-anchor="middle" class="og-ts">3 tabs · 1 次登录</text>
+
+        <!-- tab bar -->
+        <rect x="278" y="216" width="112" height="92" rx="3" class="og-node"/>
+        <text x="334" y="250" text-anchor="middle" class="og-t">Tab Bar</text>
+        <text x="334" y="267" text-anchor="middle" class="og-ts">Home · Search</text>
+        <text x="334" y="281" text-anchor="middle" class="og-ts">Profile</text>
+
+        <!-- three screens -->
+        <rect x="438" y="72" width="152" height="78" rx="3" class="og-node"/>
+        <text x="514" y="102" text-anchor="middle" class="og-t">Home Feed</text>
+        <text x="514" y="119" text-anchor="middle" class="og-ts">Card list · pull-to-refresh</text>
+
+        <rect x="438" y="224" width="152" height="78" rx="3" class="og-node"/>
+        <text x="514" y="254" text-anchor="middle" class="og-t">Search</text>
+        <text x="514" y="271" text-anchor="middle" class="og-ts">Query · recent</text>
+
+        <rect x="438" y="376" width="152" height="78" rx="3" class="og-node"/>
+        <text x="514" y="406" text-anchor="middle" class="og-t">Profile</text>
+        <text x="514" y="423" text-anchor="middle" class="og-ts">Settings · sign out</text>
+
+        <!-- detail screens -->
+        <rect x="668" y="72" width="152" height="78" rx="3" class="og-node"/>
+        <text x="744" y="102" text-anchor="middle" class="og-t">Item Detail</text>
+        <text x="744" y="119" text-anchor="middle" class="og-ts">push · 收藏 / 分享</text>
+
+        <rect x="668" y="224" width="152" height="78" rx="3" class="og-node"/>
+        <text x="744" y="254" text-anchor="middle" class="og-t">Search Results</text>
+        <text x="744" y="271" text-anchor="middle" class="og-ts">push · 分页加载</text>
+
+        <rect x="668" y="376" width="152" height="78" rx="3" class="og-node"/>
+        <text x="744" y="406" text-anchor="middle" class="og-t">Settings</text>
+        <text x="744" y="423" text-anchor="middle" class="og-ts">push · 通知开关</text>
+
+        <!-- modals -->
+        <rect x="858" y="240" width="152" height="72" rx="3" class="og-node"/>
+        <text x="934" y="268" text-anchor="middle" class="og-t">Share Sheet</text>
+        <text x="934" y="285" text-anchor="middle" class="og-ts">modal · UIActivity</text>
+
+        <rect x="858" y="392" width="152" height="72" rx="3" class="og-node"/>
+        <text x="934" y="420" text-anchor="middle" class="og-t">Login Modal</text>
+        <text x="934" y="437" text-anchor="middle" class="og-ts">modal · OAuth</text>
+
+        <!-- edges -->
+        <path class="og-edge" d="M236 262 H278" marker-end="url(#og-arrow)"/>
+        <path class="og-edge" d="M390 240 H414 V111 H438" marker-end="url(#og-arrow)"/>
+        <path class="og-edge" d="M390 262 H438" marker-end="url(#og-arrow)"/>
+        <path class="og-edge" d="M390 284 H414 V415 H438" marker-end="url(#og-arrow)"/>
+
+        <path class="og-edge" d="M590 111 H668" marker-end="url(#og-arrow)"/>
+        <text x="629" y="103" class="og-elabel" text-anchor="middle">tap item</text>
+        <path class="og-edge" d="M590 263 H668" marker-end="url(#og-arrow)"/>
+        <text x="629" y="255" class="og-elabel" text-anchor="middle">submit</text>
+        <path class="og-edge" d="M590 415 H668" marker-end="url(#og-arrow)"/>
+        <text x="629" y="407" class="og-elabel" text-anchor="middle">tap gear</text>
+
+        <path class="og-edge" d="M820 111 H839 V276 H858" marker-end="url(#og-arrow-s)" stroke-dasharray="4 3"/>
+        <text x="846" y="160" class="og-elabel">share</text>
+        <path class="og-edge" d="M820 415 H839 V428 H858" marker-end="url(#og-arrow-s)" stroke-dasharray="4 3"/>
+        <text x="839" y="409" class="og-elabel" text-anchor="middle">登出</text>
+
+        <!-- ruler feel -->
+        <path d="M40 500 H1040" stroke="#e2e2e6" stroke-width="1"/>
+        <g stroke="#cfcfd4" stroke-width="0.8">
+          <path d="M60 500 v8"/><path d="M140 500 v4"/><path d="M220 500 v4"/>
+          <path d="M300 500 v8"/><path d="M380 500 v4"/><path d="M460 500 v4"/>
+          <path d="M540 500 v8"/><path d="M620 500 v4"/><path d="M700 500 v4"/>
+          <path d="M780 500 v8"/><path d="M860 500 v4"/><path d="M940 500 v4"/>
+          <path d="M1020 500 v8"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="og-status">
+      <span>1 of 9 objects selected</span>
+      <span class="sp"></span>
+      <span>X 668 · Y 92</span>
+      <span>W 152 · H 78</span>
+      <span>pt</span>
+    </div>
+  </div>
+  <p class="stage-note">OmniGraffle 的视觉语言：1px 细线、浅灰填充 + 深灰描边、字号偏小、间距克制，箭头是细长的实心三角。它最像的不是画图软件，而是一张排版好的印刷品 —— 每个对象都有精确坐标，状态栏直接报 X/Y/W/H。</p>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">02</span><h2>官网原样</h2></div>
+  <figure class="shot">
+    <img src="../assets/shots/omnigraffle.png" alt="OmniGraffle 官网首页截图">
+    <figcaption>omnigroup.com/omnigraffle —— 黑底、一句话 “You've got some explaining to do”，中间直接放一张 macOS 窗口截图：工具条、标尺、stencil 面板、密密麻麻的对象，这就是它想传达的“专业感”。</figcaption>
+  </figure>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">03</span><h2>定位与差异</h2></div>
+  <div class="grid2">
+    <div class="card">
+      <h3>它是什么</h3>
+      <p>Omni Group 出品的 macOS / iOS 原生图表工具，在 Mac 用户里几乎是“专业图表”的代名词。强项是精确控制：对齐、尺寸、层级、贝塞尔曲线、自定义 stencil、AppleScript / 快捷键自动化，以及和 Keynote / Pages 的导出配合。</p>
+      <p>常见用途：iOS 应用结构图、快速线框、组织架构、网络拓扑、学术示意图。</p>
+    </div>
+    <div class="card">
+      <h3>和近邻的差别</h3>
+      <ul class="vs">
+        <li><b>vs draw.io</b>　draw.io 跨平台、免费、在浏览器里；OmniGraffle 只在 Apple 生态，卖的是原生手感、排版精度和一次性买断/订阅的桌面体验。</li>
+        <li><b>vs Figma</b>　Figma 是协作设计工具，图和 UI 混在一起；OmniGraffle 不做多人实时协作，它把“画一张静态的好图”做到极致。</li>
+        <li><b>vs Lucidchart</b>　Lucidchart 面向团队流程与数据联动；OmniGraffle 面向个人产出可直接交付的印刷级图形。</li>
+      </ul>
+    </div>
+  </div>
+  <div class="verdict">什么时候选它：<b>你在 Mac 上，且这张图要交付给别人看</b>时。要精确对齐、要导出 PDF/SVG 放进文档、要一套能复用的 stencil，OmniGraffle 的顺手程度很难被 Web 工具替代。</div>
+</div></section>
+
+<footer class="page-foot"><div class="wrap">
+  <span>DesignBookmark 30 图工具调研 · omnigraffle · demo 为风格复刻，非官方产品</span>
+  <span>截图采集于 2026-11-18</span>
+</div></footer>
+
+</body>
+</html>

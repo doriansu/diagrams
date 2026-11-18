@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lucidchart · 30 个图工具调研</title>
+<link rel="stylesheet" href="../assets/kit.css">
+<style>
+  :root {
+    --accent: #f24726;
+    --bg: #ffffff;
+    --panel: #ffffff;
+    --ink: #1b2433;
+    --muted: #65718a;
+    --line: rgba(20, 32, 52, 0.11);
+  }
+  body { background: var(--bg); }
+
+  .stage { background: #fff; }
+
+  /* ---------- editor chrome ---------- */
+  .lc-bar {
+    display: flex; align-items: center; gap: 14px;
+    height: 46px; padding: 0 14px;
+    border-bottom: 1px solid #e5eaf1; background: #fff;
+  }
+  .lc-tools { display: flex; gap: 2px; }
+  .lc-tool {
+    width: 28px; height: 28px; display: grid; place-items: center;
+    border-radius: 6px; color: #53627a;
+  }
+  .lc-tool svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+  .lc-tool.on { background: #edf2fa; color: #1f4e8c; }
+  .lc-tool.sep { width: 1px; background: #e5eaf1; margin: 0 6px; }
+  .lc-doc { font-size: 12.5px; font-weight: 600; color: #3d4c63; }
+  .lc-doc span { font-weight: 400; color: #8a97a9; }
+  .lc-bar .sp { flex: 1; }
+  .lc-avatars { display: flex; }
+  .lc-avatars i {
+    width: 22px; height: 22px; border-radius: 50%; background: #d5e3f6;
+    border: 2px solid #fff; margin-left: -6px; display: grid; place-items: center;
+    font-style: normal; font-size: 10px; font-weight: 600; color: #2c4a72;
+  }
+  .lc-avatars i:first-child { margin-left: 0; }
+  .lc-share {
+    background: #1f4e8c; color: #fff; font-size: 12px; font-weight: 500;
+    padding: 5px 13px; border-radius: 6px;
+  }
+  .lc-canvas { position: relative; background: #fff; }
+
+  /* ---------- floating AI panel ---------- */
+  .lc-ai {
+    position: absolute; left: 18px; bottom: 18px; width: 296px;
+    background: #fff; border: 1px solid #dfe5ee; border-radius: 12px;
+    box-shadow: 0 12px 34px rgba(18, 38, 68, 0.16);
+    padding: 12px 14px 14px; font-size: 12px;
+  }
+  .lc-ai-head {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 12.5px; font-weight: 600; color: #2b3a51; margin-bottom: 10px;
+  }
+  .lc-ai-head .spark { color: #7c5cff; }
+  .lc-ai-head .x { margin-left: auto; color: #9aa6b8; font-weight: 400; }
+  .lc-ai-input {
+    border: 1px solid #d7dee9; border-radius: 8px; padding: 9px 10px 26px;
+    color: #8d99ab; font-size: 12px; position: relative; line-height: 1.5;
+    background: #fcfdff;
+  }
+  .lc-ai-input .send {
+    position: absolute; right: 7px; bottom: 6px;
+    width: 18px; height: 18px; border-radius: 5px; background: #edf1f7;
+    display: grid; place-items: center; color: #8794a8; font-size: 11px;
+  }
+  .lc-ai-try { margin-top: 10px; color: #8d99ab; font-size: 10.5px; letter-spacing: .02em; }
+  .lc-ai-row {
+    display: flex; align-items: center; gap: 7px;
+    padding: 6px 2px; border-bottom: 1px solid #f0f3f8;
+    color: #43536b; font-size: 11.5px;
+  }
+  .lc-ai-row:last-child { border-bottom: 0; }
+  .lc-ai-row i { color: #8b7cf6; font-style: normal; }
+
+  /* ---------- svg ---------- */
+  .lc-svg { display: block; width: 100%; height: auto; }
+  .lc-svg text { font-family: ui-sans-serif, -apple-system, "SF Pro Text", "PingFang SC", system-ui, sans-serif; }
+  .n-title { font-size: 13px; font-weight: 600; fill: #1e3352; }
+  .n-sub { font-size: 10.5px; fill: #64788f; }
+  .vpc-label { font-size: 12px; font-weight: 600; fill: #5d7290; letter-spacing: .03em; }
+  .vpc-sub { font-size: 10px; fill: #8a9cb3; }
+  .edge { fill: none; stroke: #6b86ad; stroke-width: 1.5; stroke-linejoin: round; }
+  .edge.dash { stroke: #9aa9bf; stroke-dasharray: 6 5; }
+  .elabel { font-size: 10px; fill: #7b8ba3; }
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <a href="../index.html">← 30 个图工具调研</a>
+  <span class="crumb-sep">/</span>
+  <span>企业图表</span>
+  <a class="back" href="../index.html">总览</a>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <div class="kicker">Diagramming · 企业协作</div>
+  <h1>Lucidchart</h1>
+  <p class="tagline">把系统架构和业务流程画成可多人协作、可绑定数据的企业图表。</p>
+  <div class="meta-row">
+    <span>类别 <b>Diagrams &amp; Whiteboards</b></span>
+    <span>平台 <b>Web / iOS / Android / 桌面端</b></span>
+    <span>价格 <b>Freemium（价格见官网）</b></span>
+    <span>用户 <b>产品、研发、IT 团队</b></span>
+  </div>
+</div></header>
+
+<section class="block"><div class="wrap">
+  <div class="block-head">
+    <span class="num">01</span>
+    <h2>它画出来是什么样</h2>
+    <p>复刻一张典型的「订单系统架构图」，含 Lucid AI 浮层</p>
+  </div>
+
+  <div class="stage">
+    <div class="lc-bar">
+      <div class="lc-tools">
+        <span class="lc-tool on"><svg viewBox="0 0 16 16"><path d="M3.2 2.4 12.6 8l-4.2 1.1 2 4.1-1.6.8-2-4.2-3.6 2.6z" fill="currentColor" stroke="none"/></svg></span>
+        <span class="lc-tool"><svg viewBox="0 0 16 16"><rect x="2.5" y="3.5" width="11" height="9" rx="1"/></svg></span>
+        <span class="lc-tool"><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="5.2"/></svg></span>
+        <span class="lc-tool"><svg viewBox="0 0 16 16"><path d="M8 2.6 13.4 8 8 13.4 2.6 8z"/></svg></span>
+        <span class="lc-tool sep"></span>
+        <span class="lc-tool"><svg viewBox="0 0 16 16"><path d="M3 12.5h3.5V5H13"/></svg></span>
+        <span class="lc-tool"><svg viewBox="0 0 16 16"><path d="M4 4.5h8M8 4.5v8"/></svg></span>
+      </div>
+      <div class="lc-doc">订单系统架构 <span>· 已保存</span></div>
+      <div class="sp"></div>
+      <div class="lc-avatars"><i>W</i><i>L</i><i>+3</i></div>
+      <span class="lc-share">Share</span>
+    </div>
+
+    <div class="lc-canvas">
+      <svg class="lc-svg" viewBox="0 0 1080 640" role="img" aria-label="Lucidchart 风格订单系统架构图">
+        <defs>
+          <pattern id="lc-dots" width="20" height="20" patternUnits="userSpaceOnUse">
+            <circle cx="1" cy="1" r="1" fill="#e2e8f0"/>
+          </pattern>
+          <marker id="lc-arrow" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+            <path d="M0.6 1.2 9.4 5 0.6 8.8z" fill="#6b86ad"/>
+          </marker>
+          <marker id="lc-arrow-d" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+            <path d="M0.6 1.2 9.4 5 0.6 8.8z" fill="#9aa9bf"/>
+          </marker>
+        </defs>
+
+        <rect width="1080" height="640" fill="#fff"/>
+        <rect width="1080" height="640" fill="url(#lc-dots)"/>
+
+        <!-- VPC container -->
+        <rect x="186" y="52" width="760" height="500" rx="8" fill="rgba(232,238,247,0.30)" stroke="#8fa3bf" stroke-width="1.5" stroke-dasharray="7 5"/>
+        <text x="204" y="79" class="vpc-label">AWS VPC</text>
+        <text x="204" y="95" class="vpc-sub">us-east-1 · prod</text>
+
+        <!-- edges -->
+        <path class="edge" d="M154 302 H232" marker-end="url(#lc-arrow)"/>
+        <path class="edge" d="M374 286 H412 V146 H470" marker-end="url(#lc-arrow)"/>
+        <path class="edge" d="M374 302 H470" marker-end="url(#lc-arrow)"/>
+        <path class="edge" d="M374 318 H412 V458 H470" marker-end="url(#lc-arrow)"/>
+        <path class="edge" d="M646 146 H760" marker-end="url(#lc-arrow)"/>
+        <path class="edge" d="M646 302 H760" marker-end="url(#lc-arrow)"/>
+        <path class="edge" d="M646 458 H760" marker-end="url(#lc-arrow)"/>
+        <path class="edge dash" d="M840 268 V214 H558 V180" marker-end="url(#lc-arrow-d)"/>
+        <text x="700" y="206" class="elabel" text-anchor="middle">order.created · 回写订单状态</text>
+
+        <!-- client -->
+        <rect x="28" y="270" width="126" height="64" rx="4" fill="#e8eef7" stroke="#6b86ad" stroke-width="1.5"/>
+        <text x="91" y="298" text-anchor="middle" class="n-title">Client</text>
+        <text x="91" y="315" text-anchor="middle" class="n-sub">Web / iOS / Android</text>
+
+        <!-- gateway -->
+        <rect x="232" y="268" width="142" height="68" rx="4" fill="#dbe7f5" stroke="#4f74a6" stroke-width="1.5"/>
+        <text x="303" y="297" text-anchor="middle" class="n-title">API Gateway</text>
+        <text x="303" y="315" text-anchor="middle" class="n-sub">ALB · 限流 · 鉴权</text>
+
+        <!-- services -->
+        <rect x="470" y="112" width="176" height="68" rx="4" fill="#e8eef7" stroke="#6b86ad" stroke-width="1.5"/>
+        <text x="558" y="141" text-anchor="middle" class="n-title">Order Service</text>
+        <text x="558" y="159" text-anchor="middle" class="n-sub">下单 · 订单状态机</text>
+
+        <rect x="470" y="268" width="176" height="68" rx="4" fill="#e8eef7" stroke="#6b86ad" stroke-width="1.5"/>
+        <text x="558" y="297" text-anchor="middle" class="n-title">Payment Service</text>
+        <text x="558" y="315" text-anchor="middle" class="n-sub">支付 · 退款</text>
+
+        <rect x="470" y="424" width="176" height="68" rx="4" fill="#e8eef7" stroke="#6b86ad" stroke-width="1.5"/>
+        <text x="558" y="453" text-anchor="middle" class="n-title">Inventory Service</text>
+        <text x="558" y="471" text-anchor="middle" class="n-sub">库存锁定 · 扣减</text>
+
+        <!-- selection on Order Service -->
+        <rect x="470" y="112" width="176" height="68" rx="4" fill="none" stroke="#2f6fed" stroke-width="1.5"/>
+        <g fill="#fff" stroke="#2f6fed" stroke-width="1.2">
+          <rect x="466" y="108" width="8" height="8"/>
+          <rect x="642" y="108" width="8" height="8"/>
+          <rect x="466" y="176" width="8" height="8"/>
+          <rect x="642" y="176" width="8" height="8"/>
+        </g>
+
+        <!-- db -->
+        <path d="M760 124 v44 c0 6.6 35.8 12 80 12 s80-5.4 80-12 v-44" fill="#dbe7f5" stroke="#6b86ad" stroke-width="1.5"/>
+        <ellipse cx="840" cy="124" rx="80" ry="11" fill="#e8eef7" stroke="#6b86ad" stroke-width="1.5"/>
+        <text x="840" y="153" text-anchor="middle" class="n-title">PostgreSQL</text>
+        <text x="840" y="169" text-anchor="middle" class="n-sub">orders · inventory</text>
+
+        <!-- mq -->
+        <rect x="760" y="268" width="160" height="68" rx="4" fill="#e8eef7" stroke="#6b86ad" stroke-width="1.5"/>
+        <g stroke="#6b86ad" stroke-width="1.3" stroke-linecap="round">
+          <path d="M776 291h16M776 299h16M776 307h11"/>
+        </g>
+        <text x="856" y="297" text-anchor="middle" class="n-title">Kafka</text>
+        <text x="856" y="315" text-anchor="middle" class="n-sub">order-events</text>
+
+        <!-- cache -->
+        <rect x="760" y="424" width="160" height="68" rx="4" fill="#dbe7f5" stroke="#6b86ad" stroke-width="1.5"/>
+        <text x="840" y="453" text-anchor="middle" class="n-title">Redis</text>
+        <text x="840" y="471" text-anchor="middle" class="n-sub">session · cart</text>
+      </svg>
+
+      <div class="lc-ai">
+        <div class="lc-ai-head"><span class="spark">✦</span>Lucid AI<span class="x">✕</span></div>
+        <div class="lc-ai-input">Describe your diagram…<span class="send">↑</span></div>
+        <div class="lc-ai-try">TRY THESE FIRST</div>
+        <div class="lc-ai-row"><i>◇</i>Build a diagram</div>
+        <div class="lc-ai-row"><i>◷</i>Design a process</div>
+        <div class="lc-ai-row"><i>?</i>Ask questions</div>
+      </div>
+    </div>
+  </div>
+  <p class="stage-note">Lucidchart 的视觉语言：蓝灰色填充 + 深蓝描边的直角矩形，1.5px 描边，正交折线配小实心箭头，容器用虚线大框标注 VPC。它不追求手绘感，追求的是“像工程文档”。</p>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">02</span><h2>官网原样</h2></div>
+  <figure class="shot">
+    <img src="../assets/shots/lucidchart.png" alt="Lucidchart 官网首页截图">
+    <figcaption>lucidchart.com —— 首屏的叙事已经从“形状库”换成了 Lucid AI：右侧是真实编辑器，AI 输入框直接打开，下面一排 “Try these first”。</figcaption>
+  </figure>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">03</span><h2>定位与差异</h2></div>
+  <div class="grid2">
+    <div class="card">
+      <h3>它是什么</h3>
+      <p>云端协作图表工具，定位接近“企业版 Visio”。覆盖流程图、系统架构、UML、ER、组织架构等，卖点是把图形和数据、自动化绑在一起：数据驱动的图形、Cloud Accelerator、Process Accelerator，以及 Lucid AI 生成。</p>
+      <p>协作是核心：多人实时编辑、评论、版本历史、团队模板库，都属于付费层的价值。</p>
+    </div>
+    <div class="card">
+      <h3>和近邻的差别</h3>
+      <ul class="vs">
+        <li><b>vs draw.io</b>　draw.io 免费、开源、数据可完全留在本地；Lucidchart 卖的是企业协作、AI 生成和模板/数据能力，按人头订阅。</li>
+        <li><b>vs Gliffy</b>　同样面向企业，Gliffy 更轻、更贴 Confluence/Jira 内嵌；Lucidchart 图型和数据联动更全，也更重。</li>
+        <li><b>vs Miro</b>　Miro 是白板优先，画图只是白板上的一种元素；Lucidchart 是图表优先，白板是后来补的。</li>
+      </ul>
+    </div>
+  </div>
+  <div class="verdict">什么时候选它：<b>团队要长期维护系统架构图和业务流程图</b>，需要多人评审、模板统一、甚至和表格数据联动时。只画一张图，或者数据不能出内网，draw.io 更划算。</div>
+</div></section>
+
+<footer class="page-foot"><div class="wrap">
+  <span>DesignBookmark 30 图工具调研 · lucidchart · demo 为风格复刻，非官方产品</span>
+  <span>截图采集于 2026-11-18</span>
+</div></footer>
+
+</body>
+</html>

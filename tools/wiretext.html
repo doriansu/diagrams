@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wiretext · 30 个图工具调研</title>
+<link rel="stylesheet" href="../assets/kit.css">
+<style>
+  :root {
+    --accent: #111111;
+    --bg: #fafaf7;
+    --panel: #ffffff;
+    --ink: #17181a;
+    --muted: #77787c;
+    --line: rgba(17, 17, 17, 0.10);
+    --radius: 10px;
+  }
+  body { background: var(--bg); color: var(--ink); }
+  .topbar { background: color-mix(in srgb, var(--bg) 88%, transparent); }
+  .hero h1 { font-family: ui-monospace, "SF Mono", Menlo, monospace; letter-spacing: -0.03em; }
+  .mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+
+  /* ---- the wiretext app shell ---- */
+  .wt-app {
+    display: grid; grid-template-columns: 172px 1fr 152px;
+    min-height: 520px; background: #fff;
+    font: 12px/1.5 ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  @media (max-width: 1000px) { .wt-app { grid-template-columns: 1fr; } }
+
+  .wt-rail {
+    border-right: 1px solid #ebebe6; padding: 10px 0 16px;
+    background: #fcfcfa; font-size: 11.5px; color: #4a4b4e;
+  }
+  .wt-rail .grp {
+    padding: 9px 12px 4px; font-size: 9.5px; letter-spacing: 0.13em;
+    color: #a2a3a6; text-transform: uppercase;
+  }
+  .wt-rail .grp::before { content: "· "; }
+  .wt-rail .item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 4px 12px; color: #3b3c40;
+  }
+  .wt-rail .item i {
+    font-style: normal; width: 26px; color: #6f7074; text-align: left;
+    white-space: pre;
+  }
+  .wt-rail .item.sel {
+    background: #2f5bea; color: #fff; border-radius: 0;
+  }
+  .wt-rail .item.sel i { color: #d8e1ff; }
+  .wt-rail .layers { padding: 2px 12px 8px; color: #8b8c90; font-size: 11px; }
+
+  .wt-canvas {
+    position: relative; overflow: auto; padding: 22px 20px 26px;
+    background:
+      radial-gradient(circle at 1px 1px, rgba(17,17,17,.10) 1px, transparent 0) 0 0/16px 16px,
+      #fff;
+  }
+  .wt-toolbar {
+    display: flex; gap: 6px; justify-content: flex-end;
+    margin: -6px 0 14px; font-size: 11px;
+  }
+  .wt-toolbar span {
+    border: 1px solid #e3e3dd; border-radius: 5px; padding: 3px 9px;
+    color: #5a5b5f; background: #fff;
+  }
+  .wt-toolbar span.on { background: #17181a; color: #fff; border-color: #17181a; }
+
+  .wt-panels {
+    display: flex; gap: 26px; align-items: flex-start; flex-wrap: wrap;
+  }
+  .wt-panel { flex: 0 0 auto; }
+  .wt-panel .cap {
+    font: 10px/1 ui-monospace, Menlo, monospace; color: #a0a1a5;
+    letter-spacing: 0.08em; margin: 0 0 8px 2px; text-transform: uppercase;
+  }
+  .wt-art {
+    margin: 0; white-space: pre; tab-size: 2;
+    /* box-drawing glyphs only connect when line-height is exactly the glyph box */
+    font: 12.5px/1 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    color: #17181a; letter-spacing: 0;
+  }
+  .wt-art .cjk, .wt-src .cjk { display: inline-block; text-align: center; }
+
+  .wt-src {
+    display: none; margin: 0; white-space: pre; overflow-x: auto;
+    font: 11.5px/1.62 ui-monospace, "SF Mono", Menlo, monospace; color: #33343a;
+  }
+  .wt-src .ln { color: #c3c4c8; user-select: none; padding-right: 14px; }
+  .wt-src .box { color: #17181a; }
+  .wt-src .cm { color: #a8a9ad; }
+  .wt-app[data-view="src"] .wt-panels { display: none; }
+  .wt-app[data-view="src"] .wt-srcwrap { display: block; }
+  .wt-srcwrap {
+    display: none; background: #fff; border: 1px solid #ececE6; border-radius: 6px;
+    padding: 12px 0 14px 14px;
+  }
+  .wt-app[data-view="src"] .wt-src { display: block; }
+  .wt-app[data-view="src"] .wt-srcwrap { display: block; }
+  .wt-app[data-view="src"] .wt-toolbar .v-src { background: #17181a; color: #fff; border-color: #17181a; }
+  .wt-app[data-view="src"] .wt-toolbar .v-out { background: #fff; color: #5a5b5f; border-color: #e3e3dd; }
+
+  .wt-insp {
+    border-left: 1px solid #ebebe6; padding: 12px 14px;
+    background: #fcfcfa; font-size: 11px; color: #8b8c90;
+  }
+  .wt-insp h4 {
+    margin: 0 0 10px; font-size: 9.5px; letter-spacing: 0.13em;
+    text-transform: uppercase; color: #a2a3a6; font-weight: 500;
+  }
+  .wt-insp .kv { display: flex; justify-content: space-between; padding: 3px 0; color: #5a5b5f; }
+  .wt-insp .kv b { font-weight: 400; color: #17181a; }
+
+  .wt-status {
+    display: flex; gap: 18px; padding: 7px 14px; border-top: 1px solid #ebebe6;
+    font-size: 10.5px; color: #8b8c90; background: #fcfcfa;
+  }
+  .wt-status b { color: #2f5bea; font-weight: 500; }
+
+  .legend-row {
+    display: flex; flex-wrap: wrap; gap: 18px; margin-top: 14px;
+    font-size: 12px; color: var(--muted);
+  }
+  .card { background: #fff; }
+  .verdict { background: color-mix(in srgb, #111 5%, #fff); border-left-color: #111; }
+  .verdict b { color: #111; }
+  .card .vs b { color: #111; }
+  .shot { background: #fff; }
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <a href="../index.html">← 30 个图工具调研</a>
+  <span class="crumb-sep">/</span>
+  <span>代码即图</span>
+  <a class="back" href="../index.html">总览</a>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <div class="kicker">Diagram as text · Unicode 线框</div>
+  <h1>Wiretext</h1>
+  <p class="tagline">用制表符画线框 —— 每个框、每条线都是一个可复制、可粘贴、可进 Git 的字符。</p>
+  <div class="meta-row">
+    <span>类别 <b>Diagrams &amp; Whiteboards / 线框稿</b></span>
+    <span>平台 <b>Web</b></span>
+    <span>价格 <b>Freemium（价格见官网）</b></span>
+    <span>用户 <b>写文档、写 PRD、要给 AI 喂结构的工程师</b></span>
+  </div>
+</div></header>
+
+<section class="block"><div class="wrap">
+  <div class="block-head">
+    <span class="num">01</span>
+    <h2>它画出来是什么样</h2>
+    <p>下面不是图片，是一段 Unicode 字符；点「源码 / 渲染」看它是同一串字符</p>
+  </div>
+
+  <div class="stage">
+    <div class="wt-app" id="wtapp" data-view="out">
+      <div class="wt-rail">
+        <div class="layers">▸ Layers<br><span style="color:#b0b1b5">Layer 1 · 12 objects</span></div>
+        <div class="grp">Draw</div>
+        <div class="item"><i>┌┐</i>Box</div>
+        <div class="item"><i>Aa</i>Text</div>
+        <div class="item"><i>──</i>Line</div>
+        <div class="item"><i>→</i>Arrow</div>
+        <div class="grp">Input</div>
+        <div class="item sel"><i>[ OK ]</i>Button</div>
+        <div class="item"><i>[____]</i>Input</div>
+        <div class="item"><i>[v]</i>Checkbox</div>
+        <div class="item"><i>(•)</i>Radio</div>
+        <div class="grp">Layout</div>
+        <div class="item"><i>┬┴</i>Table</div>
+        <div class="item"><i>╭─╮</i>Browser</div>
+        <div class="item"><i>├┤</i>Card</div>
+      </div>
+
+      <div class="wt-canvas">
+        <div class="wt-toolbar">
+          <span>Examples</span><span>MCP</span><span>Export</span><span>Share</span>
+          <span class="on v-out">渲染</span><span class="v-src" id="tabSrc">源码</span>
+        </div>
+
+        <div class="wt-panels">
+          <div class="wt-panel">
+            <div class="cap">login.txt · 51 cols</div>
+            <pre class="wt-art" id="artA">┌─────────────────────────────────────────────────┐
+│  ACME 控制台                                    │
+├─────────────────────────────────────────────────┤
+│                                                 │
+│  ┌───────────────────────────────────────────┐  │
+│  │                 登录 ACME                 │  │
+│  ├───────────────────────────────────────────┤  │
+│  │                                           │  │
+│  │邮箱                                       │  │
+│  │[ 邮箱        ]                            │  │
+│  │                                           │  │
+│  │密码                                       │  │
+│  │[ 密码        ]                            │  │
+│  │                                           │  │
+│  │[ ] 记住我      忘记密码?                  │  │
+│  │                                           │  │
+│  │               [   登录   ]                │  │
+│  │                                           │  │
+│  └───────────────────────────────────────────┘  │
+│                                                 │
+└─────────────────────────────────────────────────┘</pre>
+          </div>
+          <div class="wt-panel">
+            <div class="cap">browser.txt · 49 cols</div>
+            <pre class="wt-art" id="artB">╭─ 标题栏 ──────────────────────────────────────╮
+│  ● ● ●   acme.dev/login                       │
+├───────────────────────────────────────────────┤
+│                                               │
+│  ┌─────────────────────────────────────────┐  │
+│  │ACME                                     │  │
+│  │───────────────────────────────────      │  │
+│  │                                         │  │
+│  │邮箱                                     │  │
+│  │[ 邮箱        ]                          │  │
+│  │                                         │  │
+│  │密码                                     │  │
+│  │[ 密码        ]                          │  │
+│  │                                         │  │
+│  │[   登录   ]                             │  │
+│  └─────────────────────────────────────────┘  │
+│                                               │
+╰───────────────────────────────────────────────╯</pre>
+          </div>
+        </div>
+
+        <div class="wt-srcwrap">
+          <pre class="wt-src" id="srcbox"></pre>
+        </div>
+      </div>
+
+      <div class="wt-insp">
+        <h4>Inspector</h4>
+        <div class="kv"><span>objects</span><b>12</b></div>
+        <div class="kv"><span>cols</span><b>51</b></div>
+        <div class="kv"><span>chars</span><b>1 037</b></div>
+        <div class="kv"><span>font</span><b>mono</b></div>
+        <div style="margin-top:14px;color:#b0b1b5;line-height:1.7">选中任意字符<br>改它，框就跟着变。</div>
+      </div>
+    </div>
+    <div class="wt-status">
+      <span><b>SELECT</b></span><span>100%</span><span>SNAP</span>
+      <span style="margin-left:auto">v0.0.0 · MCP</span>
+    </div>
+  </div>
+
+  <div class="legend-row">
+    <span class="mono">┌ ─ ┐ │ └ ┘ ├ ┤ ┬ ┴ ┼</span>
+    <span class="dim">这些是 U+2500 段的制表符，不是画出来的边框 —— 它们就是文档里的字符本身。</span>
+  </div>
+
+  <p class="stage-note">Wiretext 的视觉语言就是<strong>没有视觉语言</strong>：纯等宽字体、单色、零装饰，所有形状由 <span class="mono">┌─┐│└┘</span> 这类制表符拼出来，圆角窗口用 <span class="mono">╭╮╰╯</span>。好处是它粘贴到哪里都不会变形 —— 终端、代码注释、issue、AI 的上下文窗口。</p>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">02</span><h2>官网原样</h2></div>
+  <figure class="shot">
+    <img src="../assets/shots/wiretext.png" alt="Wiretext 官网编辑器截图">
+    <figcaption>wiretext.app —— 打开就是一块点阵画布，左边是 LAYERS / DRAW / INPUT / LAYOUT 面板，每个工具项本身就用 Unicode 预览（<span class="mono">[ OK ]</span>、<span class="mono">[____]</span>、<span class="mono">(•)</span>）。画布中央那句提示也很有意思：<span class="mono">Press B to draw a box</span> —— 画框就是打字。</figcaption>
+  </figure>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">03</span><h2>定位与差异</h2></div>
+  <div class="grid2">
+    <div class="card">
+      <h3>它是什么</h3>
+      <p>一个把线框稿<strong>表达为纯文本</strong>的编辑器。你画的每个框、每条线、每个输入框，底层都是一串 box-drawing 字符，导出就是 .txt。它提供快捷键、组件库和 MCP server —— 后者意味着 AI agent 可以直接读写这份线框稿。</p>
+      <p>产物可以是线框图，也可以是组件清单、状态图、简单的系统框图。约束只有一条：只用字符能表达的东西。</p>
+    </div>
+    <div class="card">
+      <h3>和近邻的差别</h3>
+      <ul class="vs">
+        <li><b>vs Moqups</b>　Moqups 画的是像素级灰阶线框，好看、能导出图片；Wiretext 画的是字符，丑一点，但能直接贴进 README 和工单。</li>
+        <li><b>vs Mermaid</b>　Mermaid 有语义（这是节点、这是边），布局自动；Wiretext 没有语义，位置由你打出来的空格决定，所以更自由也更笨。</li>
+        <li><b>vs ASCII 手绘</b>　自己用等宽字体敲也能画，但列宽对齐全靠手工数格子；Wiretext 把这个过程做成了有吸附和组件的编辑器。</li>
+      </ul>
+    </div>
+  </div>
+  <div class="verdict">什么时候选它：<b>这张线框稿的读者是终端、代码库或 AI</b>。放进 PR 描述、塞进 prompt、写在设计文档的注释里 —— 它到哪都还是同一个形状。要交付给客户或做用户测试，别用它。</div>
+</div></section>
+
+<footer class="page-foot"><div class="wrap">
+  <span>DesignBookmark 30 图工具调研 · wiretext · demo 为风格复刻，非官方产品</span>
+  <span>截图采集于 2026-11-18</span>
+</div></footer>
+
+<script>
+const app = document.getElementById('wtapp');
+const srcbox = document.getElementById('srcbox');
+const artA = document.getElementById('artA');
+const raw = artA.textContent;
+
+/* CJK glyphs are ~1.66ch wide in every common mono font, which would push
+   box-drawing borders out of column. Pin each wide-character run to an exact
+   Nch inline-block so the grid stays aligned while the source stays plain text. */
+const wide = c => /[ᄀ-ᅟ⺀-꓏가-힣豈-﫿︰-﹏＀-｠￠-￦]/.test(c);
+
+function align(el) {
+  const src = el.textContent;
+  el.textContent = '';
+  for (const line of src.split('\n')) {
+    let i = 0;
+    while (i < line.length) {
+      let j = i, isWide = wide(line[i]);
+      while (j < line.length && wide(line[j]) === isWide) j++;
+      const run = line.slice(i, j);
+      if (isWide) {
+        const span = document.createElement('span');
+        span.className = 'cjk';
+        span.style.width = (run.length * 2) + 'ch';
+        span.textContent = run;
+        el.appendChild(span);
+      } else {
+        el.appendChild(document.createTextNode(run));
+      }
+      i = j;
+    }
+    el.appendChild(document.createTextNode('\n'));
+  }
+}
+align(artA);
+align(document.getElementById('artB'));
+
+/* source view = exactly the same characters, line-numbered.
+   Same CJK width-pinning as the rendered view, otherwise the raw 1.66ch glyphs
+   pull every box-drawing column out of alignment. */
+const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+function pin(line) {
+  let out = '', i = 0;
+  while (i < line.length) {
+    let j = i, isWide = wide(line[i]);
+    while (j < line.length && wide(line[j]) === isWide) j++;
+    const run = line.slice(i, j);
+    out += isWide
+      ? '<span class="cjk" style="width:' + (run.length * 2) + 'ch">' + esc(run) + '</span>'
+      : esc(run);
+    i = j;
+  }
+  return out;
+}
+srcbox.innerHTML = raw.split('\n').map((line, i) =>
+  '<span class="ln">' + String(i + 1).padStart(3, ' ') + '</span>' + pin(line)
+).join('\n');
+
+document.getElementById('tabSrc').addEventListener('click', () => {
+  app.dataset.view = app.dataset.view === 'src' ? 'out' : 'src';
+});
+</script>
+</body>
+</html>

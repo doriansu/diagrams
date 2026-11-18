@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Napkin · 30 个图工具调研</title>
+<link rel="stylesheet" href="../assets/kit.css">
+<style>
+  :root {
+    --accent: #38bdf8;
+    --bg: #ffffff;
+    --panel: #f8fbfd;
+    --ink: #1f2937;
+    --muted: #6b7280;
+    --line: rgba(15, 23, 42, 0.10);
+  }
+  body { font-family: ui-rounded, "SF Pro Rounded", ui-sans-serif, -apple-system, "PingFang SC", system-ui, sans-serif; }
+  .topbar { background: rgba(255,255,255,.86); }
+  .topbar .back { color: var(--muted); }
+
+  /* ---------- stage ---------- */
+  .napkin-stage {
+    position: relative;
+    background-color: #fff;
+    background-image: radial-gradient(circle at 1px 1px, rgba(148,163,184,.34) 1px, transparent 0);
+    background-size: 20px 20px;
+    padding: 34px 34px 30px;
+    display: grid;
+    grid-template-columns: 0.86fr 1.3fr;
+    gap: 34px;
+    align-items: center;
+  }
+  @media (max-width: 900px) { .napkin-stage { grid-template-columns: 1fr; } }
+
+  .doc-card {
+    background: #fff;
+    border: 1px solid rgba(56,189,248,.28);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px -18px rgba(15,23,42,.35);
+    padding: 20px 20px 18px;
+  }
+  .doc-bar {
+    display: flex; align-items: center; gap: 7px;
+    font-size: 11.5px; color: #94a3b8; letter-spacing: .04em;
+    padding-bottom: 12px; border-bottom: 1px dashed rgba(148,163,184,.4); margin-bottom: 14px;
+  }
+  .doc-bar .d { width: 7px; height: 7px; border-radius: 50%; background: #e2e8f0; }
+  .doc-bar .d.on { background: var(--accent); }
+  .doc-card h3 { margin: 0 0 10px; font-size: 14px; letter-spacing: .01em; color: #0f172a; }
+  .doc-card p {
+    margin: 0 0 9px; font-size: 13.5px; line-height: 1.9; color: #475569;
+  }
+  .doc-card p:last-of-type { margin-bottom: 0; }
+  mark {
+    background: #e0f2fe; color: #0f172a; padding: 1px 2px;
+    border-radius: 2px; box-decoration-break: clone;
+  }
+  mark b { font-weight: 700; }
+  .doc-card .caret {
+    display: inline-block; width: 1.5px; height: 15px; background: var(--accent);
+    vertical-align: -2px; margin-left: 1px;
+  }
+  .spark-btn {
+    margin-top: 16px; display: inline-flex; align-items: center; gap: 7px;
+    background: var(--accent); color: #fff; border: 0; border-radius: 999px;
+    padding: 8px 15px; font: 600 12.5px/1 inherit; font-family: inherit;
+    box-shadow: 0 6px 14px -6px rgba(56,189,248,.9);
+  }
+  .spark-btn .bolt { font-size: 13px; }
+
+  .flow-wrap { padding-top: 2px; }
+  .flow-wrap svg { display: block; width: 100%; height: auto; }
+  .flow-cap {
+    margin: 10px 0 0; font-size: 12px; color: #94a3b8; text-align: right;
+    letter-spacing: .02em;
+  }
+  .flow-cap b { color: #64748b; font-weight: 600; }
+
+  /* ---------- analysis tweaks ---------- */
+  .card { background: #fbfdfe; }
+  .verdict { background: rgba(56,189,248,.07); }
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <a href="../index.html">← 30 个图工具调研</a>
+  <span class="crumb-sep">/</span>
+  <span>文字变视觉</span>
+  <a class="back" href="../index.html">总览</a>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <div class="kicker">Text → Visual · 免费增值</div>
+  <h1>Napkin</h1>
+  <p class="tagline">粘一段文字，点一下，得到一张能直接放上幻灯片的图。</p>
+  <div class="meta-row">
+    <span>类别 <b>Diagrams &amp; Whiteboards / AI 可视化</b></span>
+    <span>平台 <b>Web</b></span>
+    <span>价格 <b>免费增值，价格见官网</b></span>
+    <span>用户 <b>做演示、写社媒内容的人</b></span>
+  </div>
+</div></header>
+
+<section class="block"><div class="wrap">
+  <div class="block-head">
+    <span class="num">01</span>
+    <h2>它画出来是什么样</h2>
+    <p>左边是被选中的原文，右边是它生成的流程图 —— 这是 Napkin 的整个工作流</p>
+  </div>
+
+  <div class="stage">
+    <div class="napkin-stage">
+      <div class="doc-card">
+        <div class="doc-bar"><span class="d on"></span><span class="d"></span><span class="d"></span> 内容草稿.md</div>
+        <h3>如何把一篇笔记变成一张图</h3>
+        <p><mark>如果你<b>已经写好了文稿</b>，直接把段落<b>粘贴</b>进来就行。</mark></p>
+        <p><mark>如果只有零散的想法，先<b>打几行字</b>，让 AI 帮你补成句子。</mark><span class="caret"></span></p>
+        <p>两种入口，最后都汇到同一个地方：<b>点闪电生成视觉</b>，再从右侧的样式里挑一个。</p>
+        <button class="spark-btn" type="button"><span class="bolt">⚡</span> 生成视觉</button>
+      </div>
+
+      <div class="flow-wrap">
+        <svg viewBox="0 0 660 412" role="img" aria-label="Napkin 从文本生成的柔和风格流程图">
+          <defs>
+            <marker id="nk-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#94a3b8"/>
+            </marker>
+            <style>
+              .nk-line { fill: none; stroke: #94a3b8; stroke-width: 1.6; stroke-dasharray: 5 5; }
+              .nk-txt { font-family: ui-rounded, "SF Pro Rounded", ui-sans-serif, "PingFang SC", system-ui, sans-serif; }
+              .nk-label { font-size: 14px; fill: #64748b; }
+            </style>
+          </defs>
+
+          <!-- start -->
+          <rect x="250" y="18" width="150" height="48" rx="24" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1.4"/>
+          <text class="nk-txt" x="325" y="48" text-anchor="middle" font-size="15" fill="#334155">✏️　开始</text>
+
+          <path class="nk-line" d="M325 66 L325 104" marker-end="url(#nk-arrow)"/>
+
+          <!-- decision -->
+          <path d="M325 108 L462 178 L325 248 L188 178 Z" fill="#fde9e7" stroke="#f0b4ae" stroke-width="1.5"/>
+          <text class="nk-txt" x="325" y="184" text-anchor="middle" font-size="15.5" fill="#b4544c">有现成文稿吗？</text>
+
+          <!-- right branch -->
+          <text class="nk-txt nk-label" x="486" y="152" text-anchor="middle">没有</text>
+          <path class="nk-line" d="M462 178 L500 178" marker-end="url(#nk-arrow)"/>
+          <rect x="504" y="152" width="146" height="52" rx="12" fill="#dbeafe" stroke="#7cc0f0" stroke-width="1.5"/>
+          <text class="nk-txt" x="577" y="184" text-anchor="middle" font-size="14.5" fill="#2563a8">✏️　打字输入</text>
+
+          <!-- down branch -->
+          <text class="nk-txt nk-label" x="345" y="278" text-anchor="start">有</text>
+          <path class="nk-line" d="M325 248 L325 292" marker-end="url(#nk-arrow)"/>
+          <rect x="252" y="296" width="146" height="52" rx="12" fill="#dbeafe" stroke="#7cc0f0" stroke-width="1.5"/>
+          <text class="nk-txt" x="325" y="328" text-anchor="middle" font-size="14.5" fill="#2563a8">📄　粘贴文本</text>
+
+          <!-- converge -->
+          <path class="nk-line" d="M577 204 L577 296" marker-end="url(#nk-arrow)"/>
+          <path class="nk-line" d="M398 322 L448 322" marker-end="url(#nk-arrow)"/>
+          <rect x="452" y="296" width="150" height="52" rx="12" fill="#dcfce7" stroke="#86d6a4" stroke-width="1.5"/>
+          <text class="nk-txt" x="527" y="328" text-anchor="middle" font-size="14.5" fill="#2f7d4f">⚡　生成视觉</text>
+
+          <text class="nk-txt" x="325" y="392" text-anchor="middle" font-size="12.5" fill="#a8b3c2">柔和填充 · 虚线连接 · 每个节点一个线条小图标</text>
+        </svg>
+        <p class="flow-cap">由左侧高亮段落生成 · <b>流程图 / 思维导图 / 信息图</b> 三种样式可换</p>
+      </div>
+    </div>
+  </div>
+  <p class="stage-note">Napkin 的视觉语言刻意“非工程”：极淡的点阵背景、圆角胶囊节点、粉彩填充（浅蓝 / 浅绿 / 浅粉）、虚线箭头，节点里塞一个线条小图标。它画的是给读者看的解释图，不是给工程师看的系统图。</p>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">02</span><h2>官网原样</h2></div>
+  <figure class="shot">
+    <img src="../assets/shots/napkin.png" alt="Napkin 官网首页截图">
+    <figcaption>napkin.ai —— 首屏就是一句话被荧光笔选中，旁边直接摆着它生成的流程图。左侧竖排的样式缩略图说明：同一个内容可以换成十几种画法。</figcaption>
+  </figure>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">03</span><h2>定位与差异</h2></div>
+  <div class="grid2">
+    <div class="card">
+      <h3>它是什么</h3>
+      <p>一个<strong>把文本转成视觉</strong>的 Web 工具。你把笔记、文章段落粘进去，它识别其中的结构（并列、流程、因果、数据），生成可编辑的图，再导出到演示或社媒。也提供 API 批量生成。</p>
+      <p>支持流程图、思维导图、信息图、数据图表和可直接演示的幻灯片。</p>
+    </div>
+    <div class="card">
+      <h3>和近邻的差别</h3>
+      <ul class="vs">
+        <li><b>vs Whimsical</b>　Whimsical 是一块完整的画布，AI 只是其中一个按钮；Napkin 没有画布，只有“文字进、图出”，产物是为演示和社媒排版好的单张图。</li>
+        <li><b>vs Mermaid</b>　Mermaid 要你写语法、追求结构准确；Napkin 不让你碰语法，追求的是“这段话看起来像一张图”，代价是结构细节不可精确控制。</li>
+        <li><b>vs Canva</b>　Canva 是设计工具，图是素材之一；Napkin 不提供排版自由，只保证“一段文字对应一张像样的解释图”。</li>
+      </ul>
+    </div>
+  </div>
+  <div class="verdict">什么时候选它：<b>手上已经有一段写得不错的文字</b>，需要一张配图放幻灯片或社媒，又不想在画布里摆半小时节点时。要精确的系统架构图、要多人实时协作，别选它。</div>
+</div></section>
+
+<footer class="page-foot"><div class="wrap">
+  <span>DesignBookmark 30 图工具调研 · napkin · demo 为风格复刻，非官方产品</span>
+  <span>截图采集于 2026-11-18</span>
+</div></footer>
+
+</body>
+</html>

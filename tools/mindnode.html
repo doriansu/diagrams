@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MindNode · 30 个图工具调研</title>
+<link rel="stylesheet" href="../assets/kit.css">
+<style>
+  :root {
+    --accent: #ff5a5f;
+    --bg: #fbfbfa;
+    --panel: #ffffff;
+    --ink: #1d1d1f;
+    --muted: #8e8e93;
+    --line: rgba(0, 0, 0, 0.1);
+  }
+
+  .scroller { overflow-x: auto; }
+  .board {
+    position: relative; width: 1100px; height: 620px; margin: 0 auto;
+    background: #fff;
+  }
+  .board svg { position: absolute; inset: 0; }
+  .board .node { position: absolute; white-space: nowrap; }
+
+  .root {
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+  .root .t {
+    font: 400 28px/1.25 "Bradley Hand", "Xingkai SC", "Kaiti SC", ui-serif, Georgia, serif;
+    letter-spacing: .01em; color: #1d1d1f;
+  }
+  .root .sub {
+    margin-top: 8px; font-size: 14px; color: #a3a3a8; letter-spacing: .02em;
+  }
+
+  .l1 {
+    transform: translate(-50%, -50%);
+    font-size: 18px; font-weight: 600; color: #1d1d1f;
+    letter-spacing: -0.005em;
+  }
+
+  .l2 {
+    transform: translateY(-50%);
+    font-size: 14px; color: #9a9a9f; font-weight: 400;
+  }
+  .l2.l { transform: translate(-100%, -50%); }
+
+  .board-tag {
+    position: absolute; left: 42px; bottom: 30px;
+    font-size: 12px; color: #c4c4c8; letter-spacing: .1em;
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <a href="../index.html">← 30 个图工具调研</a>
+  <span class="crumb-sep">/</span>
+  <span>思维导图 / 大纲</span>
+  <a class="back" href="../index.html">总览</a>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <div class="kicker">Mind map · Freemium</div>
+  <h1>MindNode</h1>
+  <p class="tagline">一张纸、一支笔的思维导图，画布上只有想法本身。</p>
+  <div class="meta-row">
+    <span>类别 <b>思维导图 / 大纲</b></span>
+    <span>平台 <b>Mac / iPad / iPhone</b></span>
+    <span>价格 <b>Freemium（见官网）</b></span>
+    <span>用户 <b>Apple 生态里的写作者、学生、设计师</b></span>
+  </div>
+</div></header>
+
+<section class="block"><div class="wrap">
+  <div class="block-head">
+    <span class="num">01</span>
+    <h2>它画出来是什么样</h2>
+    <p>复刻一页「读书笔记」</p>
+  </div>
+
+  <div class="stage"><div class="scroller">
+    <div class="board">
+      <svg id="wires" width="1100" height="620" viewBox="0 0 1100 620" aria-hidden="true"></svg>
+      <div class="node root" style="left:550px; top:310px"><div class="t">思考，快与慢</div><div class="sub">读书笔记 · 第 3 章</div></div>
+      <div id="nodes"></div>
+      <div class="board-tag">READING NOTES</div>
+    </div>
+  </div></div>
+
+  <p class="stage-note"><span>MindNode 的视觉语言：<b>一种颜色、一种字体、没有填充</b>。分支是同一支笔画的细线，只靠粗细分出层级 —— 一级略实，二级更细更淡；节点只有文字，没有边框没有底色；剩下全是留白。层级全靠字号和灰度拉开（28 → 18 → 14px）。</span></p>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">02</span><h2>官网原样</h2></div>
+  <figure class="shot">
+    <img src="../assets/shots/mindnode.png" alt="MindNode 官网首页截图">
+    <figcaption>mindnode.com —— 首页是一整幅插画：山丘、云、躺在坡上的人，右边几条细线牵出几个小色块。它想说的不是功能，是「你的大脑不按直线思考」。</figcaption>
+  </figure>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">03</span><h2>定位与差异</h2></div>
+  <div class="grid2">
+    <div class="card">
+      <h3>它是什么</h3>
+      <p>一款 <strong>Apple 平台独占的思维导图与大纲应用</strong>。同一个想法可以在「导图视图」和「大纲视图」之间来回切：先发散画图，再收成一条条可执行的列表。强调快速捕捉（Capture freely），交互贴合 Mac / iPad / iPhone 的手势与快捷键。</p>
+      <p>谁在用：习惯 Apple 生态、想找一款不打扰思路的工具的写作者、学生和设计师。</p>
+    </div>
+    <div class="card">
+      <h3>和近邻的差别</h3>
+      <ul class="vs">
+        <li><b>vs Xmind</b>　Xmind 是功能平台：模板、AI 生成、甘特与时间线视图、跨平台；MindNode 刻意把功能压到最低，只留下导图与大纲两种形态。</li>
+        <li><b>vs MindManager</b>　MindManager 面向项目执行，节点挂任务字段、对接企业工具链；MindNode 面向个人思考，图就是笔记，不承担项目管理职责。</li>
+      </ul>
+    </div>
+  </div>
+  <div class="verdict">什么时候选它：<b>你只想安静地把想法画出来</b>，而且用的是 Mac / iPad / iPhone —— 不要模板、不要面板、不要配置，打开就能写。</div>
+</div></section>
+
+<footer class="page-foot"><div class="wrap">
+  <span>DesignBookmark 30 图工具调研 · mindnode · demo 为风格复刻，非官方产品</span>
+  <span>截图采集于 2026-11-18</span>
+</div></footer>
+
+<script>
+(function () {
+  const NS = 'http://www.w3.org/2000/svg';
+  const svg = document.getElementById('wires');
+  const nodes = document.getElementById('nodes');
+  const CX = 550, CY = 310;
+  const COLOR = '#ff5a5f';
+
+  const BRANCHES = [
+    { side: 'r', x: 810, y: 158, label: '系统 1：快', kids: [
+      { dy: -34, text: '自动、直觉、不费力' },
+      { dy:  34, text: '例：一眼读懂表情' }
+    ]},
+    { side: 'r', x: 810, y: 462, label: '系统 2：慢', kids: [
+      { dy: -34, text: '专注、推理、易疲劳' },
+      { dy:  34, text: '例：心算 17 × 24' }
+    ]},
+    { side: 'l', x: 290, y: 158, label: '认知偏误', kids: [
+      { dy: -34, text: '锚定效应' },
+      { dy:  34, text: '损失厌恶' }
+    ]},
+    { side: 'l', x: 290, y: 462, label: '一句记住', kids: [
+      { dy: -34, text: '多数「思考」只是认出' },
+      { dy:  34, text: '慢下来才看得见假设' }
+    ]}
+  ];
+
+  function el(cls, text, left, top) {
+    const d = document.createElement('div');
+    d.className = 'node ' + cls;
+    d.textContent = text;
+    d.style.left = left + 'px';
+    d.style.top = top + 'px';
+    nodes.appendChild(d);
+    return d;
+  }
+
+  function curve(p0, p1, width, opacity) {
+    const dx = p1.x - p0.x;
+    const c1 = { x: p0.x + dx * 0.5, y: p0.y };
+    const c2 = { x: p0.x + dx * 0.5, y: p1.y };
+    const path = document.createElementNS(NS, 'path');
+    path.setAttribute('d', 'M' + p0.x + ' ' + p0.y +
+      'C' + c1.x + ' ' + c1.y + ',' + c2.x + ' ' + c2.y + ',' + p1.x + ' ' + p1.y);
+    path.setAttribute('fill', 'none');
+    path.setAttribute('stroke', COLOR);
+    path.setAttribute('stroke-width', width);
+    path.setAttribute('stroke-linecap', 'round');
+    path.setAttribute('opacity', opacity);
+    svg.appendChild(path);
+  }
+
+  requestAnimationFrame(() => {
+    const rootEl = document.querySelector('.root');
+    const rw = rootEl.offsetWidth, rh = rootEl.offsetHeight;
+
+    BRANCHES.forEach(b => {
+      const r = b.side === 'r';
+      const l1 = el('l1', b.label, b.x, b.y);
+      const lw = l1.offsetWidth, lh = l1.offsetHeight;
+
+      const start = { x: CX + (r ? rw / 2 + 2 : -rw / 2 - 2), y: CY };
+      const end = { x: b.x + (r ? -lw / 2 - 4 : lw / 2 + 4), y: b.y };
+      curve(start, end, 1.5, 0.85);
+
+      b.kids.forEach(k => {
+        const leafX = r ? 900 : 200;
+        el('l2' + (r ? '' : ' l'), k.text, leafX, b.y + k.dy);
+        const s2 = { x: b.x + (r ? lw / 2 + 4 : -lw / 2 - 4), y: b.y };
+        const e2 = { x: r ? leafX - 8 : leafX + 8, y: b.y + k.dy };
+        curve(s2, e2, 0.9, 0.42);
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

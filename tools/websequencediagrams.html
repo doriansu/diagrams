@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WebSequenceDiagrams · 30 个图工具调研</title>
+<link rel="stylesheet" href="../assets/kit.css">
+<style>
+  :root {
+    --accent: #1f4e79;
+    --bg: #ffffff;
+    --panel: #f7f9fb;
+    --ink: #14212e;
+    --muted: #6f7d8a;
+    --line: rgba(20, 33, 46, 0.12);
+    --radius: 10px;
+  }
+  body { background: #fff; color: var(--ink); }
+  .topbar { background: rgba(255,255,255,.9); }
+  .hero h1 { letter-spacing: -0.03em; }
+  .mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+
+  .wsd {
+    display: grid; grid-template-columns: 0.56fr 1.85fr; align-items: start;
+    background: #fff;
+  }
+  @media (max-width: 1000px) { .wsd { grid-template-columns: 1fr; } }
+
+  .wsd-src {
+    border-right: 1px solid var(--line); background: #f8fafc;
+    display: flex; flex-direction: column; min-width: 0;
+  }
+  @media (max-width: 1000px) { .wsd-src { border-right: 0; border-bottom: 1px solid var(--line); } }
+  .wsd-src .bar {
+    display: flex; align-items: center; gap: 8px; padding: 9px 14px;
+    border-bottom: 1px solid var(--line);
+    font: 10.5px/1 ui-monospace, Menlo, monospace; color: #8494a3;
+  }
+  .wsd-src .bar .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  .wsd-src .bar .run {
+    margin-left: auto; color: #fff; background: var(--accent);
+    padding: 3px 9px; border-radius: 4px; font-size: 10px;
+  }
+  .wsd-src pre {
+    margin: 0; padding: 14px 16px; overflow-x: auto;
+    font: 11.2px/1.85 ui-monospace, "SF Mono", Menlo, monospace; color: #33475a;
+  }
+  .wsd-src pre .k { color: #1f4e79; font-weight: 600; }
+  .wsd-src pre .c { color: #9aa9b6; }
+  .wsd-src pre .n { color: #b0572c; }
+  .wsd-src .foot {
+    margin-top: auto; padding: 9px 14px; border-top: 1px solid var(--line);
+    font: 10.5px/1.5 ui-monospace, Menlo, monospace; color: #93a3b1;
+  }
+
+  .wsd-out { display: flex; flex-direction: column; min-width: 0; background: #fff; }
+  .wsd-out .bar {
+    display: flex; align-items: center; gap: 10px; padding: 9px 15px;
+    border-bottom: 1px solid var(--line);
+    font: 10.5px/1 ui-monospace, Menlo, monospace; color: #8494a3;
+  }
+  .wsd-out .bar .zoom {
+    margin-left: auto; border: 1px solid var(--line); border-radius: 4px;
+    padding: 3px 7px;
+  }
+  .wsd-out .frame { padding: 8px; background: #fff; }
+  .wsd-out svg { display: block; width: 100%; height: auto; }
+
+  .stat-row {
+    display: flex; flex-wrap: wrap; gap: 26px; margin-top: 14px;
+    font-size: 12.5px; color: var(--muted);
+  }
+  .stat-row b { color: var(--ink); font-weight: 600; font-family: ui-monospace, Menlo, monospace; }
+
+  .card { background: #f8fafc; }
+  .verdict { background: color-mix(in srgb, #1f4e79 7%, #fff); }
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <a href="../index.html">← 30 个图工具调研</a>
+  <span class="crumb-sep">/</span>
+  <span>代码即图</span>
+  <a class="back" href="../index.html">总览</a>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <div class="kicker">Diagram as text · 大规模时序图</div>
+  <h1>WebSequenceDiagrams</h1>
+  <p class="tagline">专门只做时序图的老牌文本渲染器 —— 卖点不是图型多，是几十条生命线也不交叉。</p>
+  <div class="meta-row">
+    <span>类别 <b>Diagrams &amp; Whiteboards / 时序图</b></span>
+    <span>平台 <b>Web / VS Code 扩展</b></span>
+    <span>价格 <b>Freemium（价格见官网）</b></span>
+    <span>用户 <b>记录系统调用链的软件架构师</b></span>
+  </div>
+</div></header>
+
+<section class="block"><div class="wrap">
+  <div class="block-head">
+    <span class="num">01</span>
+    <h2>它画出来是什么样</h2>
+    <p>左边是它的输入语法，右边是渲染结果 —— 六个参与者、两个嵌套块</p>
+  </div>
+
+  <div class="stage">
+    <div class="wsd">
+      <div class="wsd-src">
+        <div class="bar"><span class="dot"></span>checkout.wsd<span class="run">Render</span></div>
+<pre><span class="c">title</span> Checkout — create order
+<span class="k">participant</span> Client
+<span class="k">participant</span> LB
+<span class="k">participant</span> Auth
+<span class="k">participant</span> Order
+<span class="k">participant</span> Payment
+<span class="k">participant</span> DB
+
+Client-&gt;LB: <span class="n">POST</span> /checkout
+<span class="k">loop</span> [retry &lt; 3]
+  LB-&gt;Auth: verify(session)
+  Auth--&gt;LB: <span class="n">200</span> · user, scope
+  LB-&gt;Order: createOrder(cart)
+  Order-&gt;Payment: authorize(amount)
+  Payment-&gt;DB: INSERT txn(pending)
+  DB--&gt;Payment: txn_id
+<span class="k">end</span>
+
+<span class="k">alt</span> [paid]
+  Order--&gt;LB: <span class="n">201</span> { orderId }
+  LB--&gt;Client: <span class="n">201</span> Created
+<span class="k">else</span> [timeout]
+  Order-&gt;DB: UPDATE status=EXPIRED
+  LB--&gt;Client: <span class="n">409</span> payment_timeout
+<span class="k">end</span></pre>
+        <div class="foot">6 participants · 11 messages · 2 blocks</div>
+      </div>
+
+      <div class="wsd-out">
+        <div class="bar">rendered<span class="zoom">fit</span></div>
+        <div class="frame">
+<svg viewBox="0 0 980 700" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="WebSequenceDiagrams 风格时序图复刻：checkout 流程">
+<defs>
+<marker id="s-ah" viewBox="0 0 10 10" refX="8.6" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M0,1.4 L8.6,5 L0,8.6 z" fill="#16232f"/></marker>
+<marker id="s-ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M1.2,1.2 L8.8,5 L1.2,8.8" fill="none" stroke="#16232f" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<rect width="980" height="700" fill="#ffffff"/>
+<text x="22" y="17" font-family="ui-monospace,Menlo,monospace" font-size="12.8" fill="#8d9aa7" letter-spacing="0.04em">checkout.wsd · 6 participants · rendered by layout engine</text>
+<rect x="46" y="218" width="898" height="178" fill="none" stroke="#93a3b1" stroke-width="1"/>
+<path d="M46,218 h74 l9,11 l-9,11 h-74 z" fill="#f4f7fa" stroke="#93a3b1" stroke-width="1"/>
+<text x="83" y="233" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="12.8" font-weight="700" fill="#1f4e79" letter-spacing="0.04em">loop</text>
+<text x="138" y="233" font-family="ui-monospace,Menlo,monospace" font-size="12.8" fill="#44586a">[retry &lt; 3]</text>
+<rect x="46" y="418" width="898" height="216" fill="none" stroke="#93a3b1" stroke-width="1"/>
+<path d="M46,418 h74 l9,11 l-9,11 h-74 z" fill="#f4f7fa" stroke="#93a3b1" stroke-width="1"/>
+<text x="83" y="433" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="12.8" font-weight="700" fill="#1f4e79" letter-spacing="0.04em">alt</text>
+<text x="138" y="433" font-family="ui-monospace,Menlo,monospace" font-size="12.8" fill="#44586a">[paid]</text>
+<line x1="46" y1="524" x2="944" y2="524" stroke="#93a3b1" stroke-width="1" stroke-dasharray="5 4"/>
+<rect x="88" y="510" width="68" height="20" fill="#ffffff"/>
+<text x="96" y="525" font-family="ui-monospace,Menlo,monospace" font-size="12.8" fill="#1f4e79">[timeout]</text>
+<line x1="78" y1="78" x2="78" y2="656" stroke="#c2ccd6" stroke-width="1" stroke-dasharray="3.5 4.5"/>
+<line x1="246" y1="78" x2="246" y2="656" stroke="#c2ccd6" stroke-width="1" stroke-dasharray="3.5 4.5"/>
+<line x1="414" y1="78" x2="414" y2="656" stroke="#c2ccd6" stroke-width="1" stroke-dasharray="3.5 4.5"/>
+<line x1="582" y1="78" x2="582" y2="656" stroke="#c2ccd6" stroke-width="1" stroke-dasharray="3.5 4.5"/>
+<line x1="750" y1="78" x2="750" y2="656" stroke="#c2ccd6" stroke-width="1" stroke-dasharray="3.5 4.5"/>
+<line x1="902" y1="78" x2="902" y2="656" stroke="#c2ccd6" stroke-width="1" stroke-dasharray="3.5 4.5"/>
+<rect x="73.5" y="119" width="9" height="18" fill="#e6edf3" stroke="#9fb0bf" stroke-width="0.9"/>
+<rect x="73.5" y="477" width="9" height="18" fill="#e6edf3" stroke="#9fb0bf" stroke-width="0.9"/>
+<rect x="73.5" y="581" width="9" height="18" fill="#e6edf3" stroke="#9fb0bf" stroke-width="0.9"/>
+<rect x="241.5" y="119" width="9" height="18" fill="#e6edf3" stroke="#9fb0bf" stroke-width="0.9"/>
+<rect x="241.5" y="153" width="9" height="18" fill="#e6edf3" stroke="#9fb0bf" stroke-width="0.9"/>
+<rect x="241.5" y="187" width="9" height="18" fill="#e6edf3" stroke="#9fb0bf" stroke-width="0.9"/>
+<rect x="241.5" y="243" width="9" height="18" fill="#e6edf3" stroke="#9fb0bf" stroke-width="0.9"/>
+<rect x="241.5" y="443" width="9" height="18" fill="#e6edf3" stroke="#9fb0bf" stroke-width="0.9"/>
+<rect x="241.5" y="477" width="9" height="18" fill="#e6edf3" stroke="#9fb0bf" stroke-width="0.9"/>
+<rect x="241.5" y="581" width="9" height="18" fill="#e6edf3" stroke="#9fb0bf" stroke-width="0.9"/>
+<rect x="409.5" y="153" width="9" height="18" fill="#e6edf3" stroke="#9fb0bf" stroke-width="0.9"/>
+<rect x="409.5" y="187" width="9" height="18" fill="#e6edf3" stroke="#9fb0bf" stroke-width="0.9"/>
+<rect x="577.5" y="243" width="9" height="18" fill="#e6edf3" stroke="#9fb0bf" stroke-width="0.9"/>
+<rect x="577.5" y="277" width="9" height="18" fill="#e6edf3" stroke="#9fb0bf" stroke-width="0.9"/>
+<rect x="577.5" y="443" width="9" height="18" fill="#e6edf3" stroke="#9fb0bf" stroke-width="0.9"/>
+<rect x="577.5" y="547" width="9" height="18" fill="#e6edf3" stroke="#9fb0bf" stroke-width="0.9"/>
+<rect x="745.5" y="277" width="9" height="18" fill="#e6edf3" stroke="#9fb0bf" stroke-width="0.9"/>
+<rect x="745.5" y="311" width="9" height="18" fill="#e6edf3" stroke="#9fb0bf" stroke-width="0.9"/>
+<rect x="745.5" y="345" width="9" height="18" fill="#e6edf3" stroke="#9fb0bf" stroke-width="0.9"/>
+<rect x="897.5" y="311" width="9" height="18" fill="#e6edf3" stroke="#9fb0bf" stroke-width="0.9"/>
+<rect x="897.5" y="345" width="9" height="18" fill="#e6edf3" stroke="#9fb0bf" stroke-width="0.9"/>
+<rect x="897.5" y="547" width="9" height="18" fill="#e6edf3" stroke="#9fb0bf" stroke-width="0.9"/>
+<line x1="84.5" y1="128" x2="238.5" y2="128" stroke="#16232f" stroke-width="1.25" marker-end="url(#s-ah)"/>
+<rect x="119.6" y="115" width="83.9" height="12.5" fill="#ffffff" opacity="0.94"/>
+<text x="161.5" y="124.6" text-anchor="middle" font-size="13.5" fill="#1b2a37" font-family="ui-monospace,Menlo,monospace">POST /checkout</text>
+<line x1="252.5" y1="162" x2="406.5" y2="162" stroke="#16232f" stroke-width="1.25" marker-end="url(#s-ah)"/>
+<rect x="284.9" y="149" width="89.2" height="12.5" fill="#ffffff" opacity="0.94"/>
+<text x="329.5" y="158.6" text-anchor="middle" font-size="13.5" fill="#1b2a37" font-family="ui-monospace,Menlo,monospace">verify(session)</text>
+<line x1="407.5" y1="196" x2="253.5" y2="196" stroke="#16232f" stroke-width="1.1" stroke-dasharray="5 4" marker-end="url(#s-ao)"/>
+<rect x="280.5" y="183" width="99.9" height="12.5" fill="#ffffff" opacity="0.94"/>
+<text x="330.5" y="192.6" text-anchor="middle" font-size="13.5" fill="#1b2a37" font-family="ui-monospace,Menlo,monospace">200 · user, scope</text>
+<line x1="252.5" y1="252" x2="574.5" y2="252" stroke="#16232f" stroke-width="1.25" marker-end="url(#s-ah)"/>
+<rect x="363.5" y="239" width="99.9" height="12.5" fill="#ffffff" opacity="0.94"/>
+<text x="413.5" y="248.6" text-anchor="middle" font-size="13.5" fill="#1b2a37" font-family="ui-monospace,Menlo,monospace">createOrder(cart)</text>
+<line x1="588.5" y1="286" x2="742.5" y2="286" stroke="#16232f" stroke-width="1.25" marker-end="url(#s-ah)"/>
+<rect x="615.5" y="273" width="99.9" height="12.5" fill="#ffffff" opacity="0.94"/>
+<text x="665.5" y="282.6" text-anchor="middle" font-size="13.5" fill="#1b2a37" font-family="ui-monospace,Menlo,monospace">authorize(amount)</text>
+<line x1="756.5" y1="320" x2="894.5" y2="320" stroke="#16232f" stroke-width="1.25" marker-end="url(#s-ah)"/>
+<rect x="770.2" y="307" width="110.6" height="12.5" fill="#ffffff" opacity="0.94"/>
+<text x="825.5" y="316.6" text-anchor="middle" font-size="13.5" fill="#1b2a37" font-family="ui-monospace,Menlo,monospace">INSERT txn(pending)</text>
+<line x1="895.5" y1="354" x2="757.5" y2="354" stroke="#16232f" stroke-width="1.1" stroke-dasharray="5 4" marker-end="url(#s-ao)"/>
+<rect x="806.0" y="341" width="41.1" height="12.5" fill="#ffffff" opacity="0.94"/>
+<text x="826.5" y="350.6" text-anchor="middle" font-size="13.5" fill="#1b2a37" font-family="ui-monospace,Menlo,monospace">txn_id</text>
+<line x1="575.5" y1="452" x2="253.5" y2="452" stroke="#16232f" stroke-width="1.1" stroke-dasharray="5 4" marker-end="url(#s-ao)"/>
+<rect x="369.9" y="439" width="89.2" height="12.5" fill="#ffffff" opacity="0.94"/>
+<text x="414.5" y="448.6" text-anchor="middle" font-size="13.5" fill="#1b2a37" font-family="ui-monospace,Menlo,monospace">201 { orderId }</text>
+<line x1="239.5" y1="486" x2="85.5" y2="486" stroke="#16232f" stroke-width="1.1" stroke-dasharray="5 4" marker-end="url(#s-ao)"/>
+<rect x="128.6" y="473" width="67.8" height="12.5" fill="#ffffff" opacity="0.94"/>
+<text x="162.5" y="482.6" text-anchor="middle" font-size="13.5" fill="#1b2a37" font-family="ui-monospace,Menlo,monospace">201 Created</text>
+<line x1="588.5" y1="556" x2="894.5" y2="556" stroke="#16232f" stroke-width="1.25" marker-end="url(#s-ah)"/>
+<rect x="680.8" y="543" width="121.3" height="12.5" fill="#ffffff" opacity="0.94"/>
+<text x="741.5" y="552.6" text-anchor="middle" font-size="13.5" fill="#1b2a37" font-family="ui-monospace,Menlo,monospace">UPDATE status=EXPIRED</text>
+<line x1="239.5" y1="590" x2="85.5" y2="590" stroke="#16232f" stroke-width="1.1" stroke-dasharray="5 4" marker-end="url(#s-ao)"/>
+<rect x="107.2" y="577" width="110.6" height="12.5" fill="#ffffff" opacity="0.94"/>
+<text x="162.5" y="586.6" text-anchor="middle" font-size="13.5" fill="#1b2a37" font-family="ui-monospace,Menlo,monospace">409 payment_timeout</text>
+<rect x="20.0" y="36" width="116" height="42" rx="2.5" fill="#eef3f7" stroke="#9fb0bf" stroke-width="1"/>
+<path d="M22.5,36 h111 v3 h-111 z" fill="#1f4e79"/>
+<text x="78" y="62" text-anchor="middle" font-size="12" font-weight="600" fill="#14212e" font-family="ui-monospace,Menlo,monospace">Client</text>
+<rect x="188.0" y="36" width="116" height="42" rx="2.5" fill="#eef3f7" stroke="#9fb0bf" stroke-width="1"/>
+<path d="M190.5,36 h111 v3 h-111 z" fill="#1f4e79"/>
+<text x="246" y="62" text-anchor="middle" font-size="12" font-weight="600" fill="#14212e" font-family="ui-monospace,Menlo,monospace">LB</text>
+<rect x="356.0" y="36" width="116" height="42" rx="2.5" fill="#eef3f7" stroke="#9fb0bf" stroke-width="1"/>
+<path d="M358.5,36 h111 v3 h-111 z" fill="#1f4e79"/>
+<text x="414" y="62" text-anchor="middle" font-size="12" font-weight="600" fill="#14212e" font-family="ui-monospace,Menlo,monospace">Auth</text>
+<rect x="524.0" y="36" width="116" height="42" rx="2.5" fill="#eef3f7" stroke="#9fb0bf" stroke-width="1"/>
+<path d="M526.5,36 h111 v3 h-111 z" fill="#1f4e79"/>
+<text x="582" y="62" text-anchor="middle" font-size="12" font-weight="600" fill="#14212e" font-family="ui-monospace,Menlo,monospace">Order</text>
+<rect x="692.0" y="36" width="116" height="42" rx="2.5" fill="#eef3f7" stroke="#9fb0bf" stroke-width="1"/>
+<path d="M694.5,36 h111 v3 h-111 z" fill="#1f4e79"/>
+<text x="750" y="62" text-anchor="middle" font-size="12" font-weight="600" fill="#14212e" font-family="ui-monospace,Menlo,monospace">Payment</text>
+<rect x="844.0" y="36" width="116" height="42" rx="2.5" fill="#eef3f7" stroke="#9fb0bf" stroke-width="1"/>
+<path d="M846.5,36 h111 v3 h-111 z" fill="#1f4e79"/>
+<text x="902" y="62" text-anchor="middle" font-size="12" font-weight="600" fill="#14212e" font-family="ui-monospace,Menlo,monospace">DB</text>
+<text x="944" y="684" text-anchor="end" font-family="ui-monospace,Menlo,monospace" font-size="8.8" fill="#a4b0bc">solid → sync call　　dashed ⇢ async return</text>
+</svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <span>生命线 <b>6</b></span>
+    <span>消息 <b>11</b></span>
+    <span>嵌套块 <b>2</b></span>
+    <span class="dim">所有箭头严格水平、标签不压线 —— 这是它的核心卖点</span>
+  </div>
+
+  <p class="stage-note">WebSequenceDiagrams 的视觉语言非常“工程制图”：纯白底、黑色细实线表示同步调用、虚线箭头表示返回、浅蓝灰激活条、深蓝 <span class="mono">#1f4e79</span> 只用在块标签和标题栏。没有阴影、没有圆角、没有渐变 —— 它把自己当成图纸而不是海报。</p>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">02</span><h2>官网原样</h2></div>
+  <figure class="shot">
+    <img src="../assets/shots/websequencediagrams.png" alt="WebSequenceDiagrams 官网首页截图">
+    <figcaption>websequencediagrams.com —— 首页标题直接写着 “built for massive architectures”，配图是一张在深色机房里悬浮的时序图渲染结果。它不卖设计感，卖的是“开源工具在规模上崩掉时，我们的布局引擎还能排得整齐”。</figcaption>
+  </figure>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">03</span><h2>定位与差异</h2></div>
+  <div class="grid2">
+    <div class="card">
+      <h3>它是什么</h3>
+      <p>一个<strong>只做时序图</strong>的在线渲染器。你写 <span class="mono">participant</span> / <span class="mono">-&gt;</span> / <span class="mono">loop</span> / <span class="mono">alt</span> 这类纯文本，它把文本排成时序图。历史很长，是这一类工具里最早的一批。</p>
+      <p>除了 Web 编辑器，它还有官方 VS Code 扩展、AI 语法生成，以及一个不太常见的功能：导入 HAR 文件，把真实的 HTTP 调用链直接画成时序图。</p>
+    </div>
+    <div class="card">
+      <h3>和近邻的差别</h3>
+      <ul class="vs">
+        <li><b>vs Mermaid</b>　Mermaid 时序图语法几乎同源，但 Mermaid 是开源库、图型更多；WebSequenceDiagrams 只钻时序图，重点全押在“大规模时布局不崩”上。</li>
+        <li><b>vs PlantUML</b>　PlantUML 的时序图更老派、字体和配色更“UML 教科书”；WebSequenceDiagrams 的默认输出更干净，也更接近现代文档的观感。</li>
+        <li><b>vs Eraser</b>　Eraser 的时序图是设计文档的一部分，AI 起草；这里是从文本到图的最短路径，没有文档层。</li>
+      </ul>
+    </div>
+  </div>
+  <div class="verdict">什么时候选它：<b>你的图有几十个参与者、并且必须打印出来讲清楚</b>。微服务调用链、跨系统时序、HAR 抓包复盘 —— 这类图的难点从来不是画，是排。</div>
+</div></section>
+
+<footer class="page-foot"><div class="wrap">
+  <span>DesignBookmark 30 图工具调研 · websequencediagrams · demo 为风格复刻，非官方产品</span>
+  <span>截图采集于 2026-11-18</span>
+</div></footer>
+
+</body>
+</html>

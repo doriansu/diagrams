@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MindManager · 30 个图工具调研</title>
+<link rel="stylesheet" href="../assets/kit.css">
+<style>
+  :root {
+    --accent: #2e6da4;
+    --bg: #f4f6f9;
+    --panel: #ffffff;
+    --ink: #1e2833;
+    --muted: #6b7885;
+    --line: rgba(30, 40, 51, 0.14);
+  }
+
+  .scroller { overflow-x: auto; }
+  .board {
+    position: relative; width: 1100px; height: 620px; margin: 0 auto;
+    background-color: #fff;
+    background-image:
+      linear-gradient(rgba(46,109,164,.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(46,109,164,.06) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+  .board svg { position: absolute; inset: 0; }
+  .board .node { position: absolute; white-space: nowrap; }
+
+  .root {
+    left: 550px; top: 310px; transform: translate(-50%, -50%);
+    background: #2e6da4; color: #fff;
+    padding: 12px 20px; border-radius: 3px;
+    font-size: 16px; font-weight: 700; letter-spacing: .05em;
+    box-shadow: 0 3px 10px rgba(46,109,164,.28);
+  }
+
+  .l1 {
+    transform: translate(-50%, -50%);
+    display: flex; align-items: stretch; height: 30px;
+    border-radius: 3px; overflow: hidden;
+    background: #eaf1f8; border: 1px solid #b3cbe2;
+    font-size: 13px; font-weight: 600; color: #1e4a73;
+  }
+  .l1 .no {
+    display: flex; align-items: center; padding: 0 9px;
+    background: #2e6da4; color: #fff;
+    font: 600 11px/1 ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  .l1 .tx { display: flex; align-items: center; padding: 0 13px; }
+
+  .l2 {
+    transform: translateY(-50%);
+    background: #fff; border: 1px solid #c6d6e5;
+    border-radius: 2px; padding: 5px 10px; height: 27px;
+    display: flex; align-items: center;
+    font-size: 12.5px; color: #2b3a49;
+    box-shadow: 0 1px 2px rgba(30,40,51,.05);
+  }
+  .l2.left { transform: translate(-100%, -50%); }
+
+  .info {
+    transform: translateY(-50%);
+    background: #fbfcfd; border: 1px solid #c6d6e5;
+    border-left: 3px solid #2e6da4; border-radius: 2px;
+    padding: 5px 9px; font-size: 10.5px; color: #5b6a79;
+    line-height: 1.5; box-shadow: 0 1px 3px rgba(30,40,51,.07);
+  }
+  .info.left { transform: translate(-100%, -50%); border-left: 1px solid #c6d6e5; border-right: 3px solid #2e6da4; text-align: right; }
+  .info b { color: #1e4a73; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <a href="../index.html">← 30 个图工具调研</a>
+  <span class="crumb-sep">/</span>
+  <span>思维导图 / 项目管理</span>
+  <a class="back" href="../index.html">总览</a>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <div class="kicker">Mind map · Freemium</div>
+  <h1>MindManager</h1>
+  <p class="tagline">把想法直接画成可执行的项目结构 —— 导图同时是 WBS。</p>
+  <div class="meta-row">
+    <span>类别 <b>思维导图 / 流程与时间线</b></span>
+    <span>平台 <b>macOS（另有 Microsoft Teams 版）</b></span>
+    <span>价格 <b>Freemium（Essentials / Professional / Enterprise，见官网）</b></span>
+    <span>用户 <b>项目经理、教育工作者与学生</b></span>
+  </div>
+</div></header>
+
+<section class="block"><div class="wrap">
+  <div class="block-head">
+    <span class="num">01</span>
+    <h2>它画出来是什么样</h2>
+    <p>复刻一张「项目 WBS」</p>
+  </div>
+
+  <div class="stage"><div class="scroller">
+    <div class="board">
+      <svg id="wires" width="1100" height="620" viewBox="0 0 1100 620" aria-hidden="true"></svg>
+      <div class="node root">项目 WBS</div>
+      <div id="nodes"></div>
+    </div>
+  </div></div>
+
+  <p class="stage-note"><span>MindManager 的视觉语言：中心是<b>直角矩形</b>而不是胶囊，分支全部走<b>正交折线</b>，拐角干净利落；一级主题带 1 / 2 / 3 编号，部分节点挂一张浅色「任务信息」小卡写日期和负责人 —— 整体是报表的秩序感，不是手绘的松弛感。</span></p>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">02</span><h2>官网原样</h2></div>
+  <figure class="shot">
+    <img src="../assets/shots/mindmanager.png" alt="MindManager 官网首页截图">
+    <figcaption>mindmanager.com —— 首页主视觉是一张甘特 / 任务表的屏幕照片，标题写「从头脑风暴到执行」。定位很清楚：它卖的是把图变成可推进的项目，而不是好看的导图。</figcaption>
+  </figure>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">03</span><h2>定位与差异</h2></div>
+  <div class="grid2">
+    <div class="card">
+      <h3>它是什么</h3>
+      <p>一套<strong>面向项目执行的思维导图软件</strong>。除了导图，它还画时间线图和流程图；节点可以挂任务信息（日期、负责人、优先级），图能直接变成 WBS 和项目计划。分 Essentials / Professional / Enterprise 三档，另有插件和 Microsoft Teams 版本，可与 Teams、SharePoint、Jira 集成。</p>
+      <p>谁在用：需要把工作拆成可追踪结构的项目经理，以及用导图组织课程与资料的教育工作者和学生。</p>
+    </div>
+    <div class="card">
+      <h3>和近邻的差别</h3>
+      <ul class="vs">
+        <li><b>vs Xmind</b>　Xmind 更轻、更好看、模板更多，适合快速发散；MindManager 更重、更企业，节点自带任务字段，图能直接进项目管理流程。</li>
+        <li><b>vs Miro</b>　Miro 是无边白板，导图只是其中一种模板，强在多人实时协作；MindManager 是桌面端的结构化工具，强在单张图的深度和数据字段。</li>
+      </ul>
+    </div>
+  </div>
+  <div class="verdict">什么时候选它：<b>导图要直接变成项目计划</b>的时候 —— 拆 WBS、排时间线、给每条任务标负责人和日期，再和团队现有的 Microsoft 工具链对接。</div>
+</div></section>
+
+<footer class="page-foot"><div class="wrap">
+  <span>DesignBookmark 30 图工具调研 · mindmanager · demo 为风格复刻，非官方产品</span>
+  <span>截图采集于 2026-11-18</span>
+</div></footer>
+
+<script>
+(function () {
+  const svg = document.getElementById('wires');
+  const nodes = document.getElementById('nodes');
+  const NS = 'http://www.w3.org/2000/svg';
+
+  const ROOT = { x: 550, y: 310, w: 132 };
+  const GEO = {
+    r: { l1: 792, l2: 884, info: 992 },
+    l: { l1: 308, l2: 216, info: 204 }
+  };
+
+  const BRANCHES = [
+    { side: 'r', y: 132, no: '1', label: '需求与范围', kids: [
+      { text: '用户调研', dy: -36 },
+      { text: '需求评审', dy:  36, info: ['评审会', '11/20 · 张琳'] }
+    ]},
+    { side: 'r', y: 396, no: '2', label: '设计与开发', kids: [
+      { text: '交互稿',     dy: -36 },
+      { text: '前后端联调', dy:  36, info: ['联调窗口', '12/01–12/06', '王哲'] }
+    ]},
+    { side: 'l', y: 212, no: '3', label: '测试与上线', kids: [
+      { text: '回归测试', dy: -36 },
+      { text: '灰度发布', dy:  36, info: ['发布窗口', '12/15 · 李昂'] }
+    ]},
+    { side: 'l', y: 476, no: '4', label: '复盘归档', kids: [
+      { text: '数据复盘', dy: -36 },
+      { text: '文档归档', dy:  36 }
+    ]}
+  ];
+
+  function el(cls, html, left, top) {
+    const d = document.createElement('div');
+    d.className = 'node ' + cls;
+    d.innerHTML = html;
+    d.style.left = left + 'px';
+    d.style.top = top + 'px';
+    nodes.appendChild(d);
+    return d;
+  }
+
+  function elbow(x1, y1, x2, y2, w) {
+    const mx = x1 + (x2 - x1) / 2;
+    const p = document.createElementNS(NS, 'path');
+    p.setAttribute('d', 'M' + x1 + ' ' + y1 + 'H' + mx + 'V' + y2 + 'H' + x2);
+    p.setAttribute('fill', 'none');
+    p.setAttribute('stroke', '#7ea6c9');
+    p.setAttribute('stroke-width', w);
+    p.setAttribute('stroke-linejoin', 'miter');
+    p.setAttribute('stroke-linecap', 'square');
+    svg.appendChild(p);
+  }
+
+  BRANCHES.forEach(b => {
+    const r = b.side === 'r';
+    const g = GEO[b.side];
+    const l1 = el('l1', '<span class="no">' + b.no + '</span><span class="tx">' + b.label + '</span>', g.l1, b.y);
+    const l1w = l1.offsetWidth;
+    elbow(r ? ROOT.x + ROOT.w / 2 : ROOT.x - ROOT.w / 2, ROOT.y,
+          r ? g.l1 - l1w / 2 : g.l1 + l1w / 2, b.y, 2);
+
+    b.kids.forEach(k => {
+      const kid = el('l2' + (r ? '' : ' left'), k.text, g.l2, b.y + k.dy);
+      const kw = kid.offsetWidth;
+      elbow(r ? g.l1 + l1w / 2 : g.l1 - l1w / 2, b.y, g.l2, b.y + k.dy, 1.4);
+
+      if (k.info) {
+        const card = document.createElement('div');
+        card.className = 'node info' + (r ? '' : ' left');
+        // on the left side the card sits left of the leaf; anchor its right edge
+        // 14px clear of the leaf's left edge (leaf width varies with text)
+        card.style.left = (r ? g.info : g.l2 - kw - 14) + 'px';
+        card.style.top = (b.y + k.dy) + 'px';
+        card.innerHTML = '<b>' + k.info[0] + '</b><br>' + k.info.slice(1).join('<br>');
+        nodes.appendChild(card);
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>

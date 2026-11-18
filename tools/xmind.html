@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Xmind · 30 个图工具调研</title>
+<link rel="stylesheet" href="../assets/kit.css">
+<style>
+  :root {
+    --accent: #ff6b35;
+    --bg: #f7f5f1;
+    --panel: #ffffff;
+    --ink: #241f1b;
+    --muted: #8b8177;
+    --line: rgba(36, 31, 27, 0.12);
+  }
+
+  .scroller { overflow-x: auto; }
+  .board {
+    position: relative; width: 1100px; height: 600px; margin: 0 auto;
+    background-color: #fff;
+    background-image: radial-gradient(circle at 1px 1px, rgba(36,31,27,.07) 1px, transparent 0);
+    background-size: 26px 26px;
+  }
+  .board svg { position: absolute; inset: 0; }
+
+  .node { position: absolute; white-space: nowrap; }
+
+  .center {
+    transform: translate(-50%, -50%);
+    padding: 15px 32px; border-radius: 34px;
+    background: #2c2733; color: #fff;
+    font-size: 20px; font-weight: 600; letter-spacing: .03em;
+    box-shadow: 0 10px 26px rgba(44,39,51,.24);
+  }
+
+  .l1 {
+    transform: translate(-50%, -50%);
+    display: flex; align-items: center; gap: 8px;
+    padding: 9px 17px 9px 12px; border-radius: 22px;
+    color: #fff; font-size: 14.5px; font-weight: 600; letter-spacing: .02em;
+  }
+  .l1 .num {
+    font: 600 10px/1 ui-monospace, "SF Mono", Menlo, monospace;
+    background: rgba(255,255,255,.26); border-radius: 5px; padding: 3px 5px;
+    letter-spacing: 0;
+  }
+
+  .leaf {
+    font-size: 13.5px; color: #453f38;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .leaf.r { transform: translate(0, -50%); }
+  .leaf.l { transform: translate(-100%, -50%); }
+  .leaf .ic { font-size: 11.5px; }
+  .leaf .ic.ok { color: #2e9e5b; }
+  .leaf .ic.time { color: #e08a00; }
+  .leaf .ic.star { color: #e8b31a; }
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <a href="../index.html">← 30 个图工具调研</a>
+  <span class="crumb-sep">/</span>
+  <span>思维导图</span>
+  <a class="back" href="../index.html">总览</a>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <div class="kicker">Mind map · Freemium</div>
+  <h1>Xmind</h1>
+  <p class="tagline">把散落的想法收成一棵向外发散的树，一眼看清结构。</p>
+  <div class="meta-row">
+    <span>类别 <b>思维导图 / 头脑风暴</b></span>
+    <span>平台 <b>Web + 桌面端</b></span>
+    <span>价格 <b>Freemium（版本见官网）</b></span>
+    <span>用户 <b>项目经理、做规划与笔记整理的人</b></span>
+  </div>
+</div></header>
+
+<section class="block"><div class="wrap">
+  <div class="block-head">
+    <span class="num">01</span>
+    <h2>它画出来是什么样</h2>
+    <p>复刻一张「产品发布计划」导图</p>
+  </div>
+
+  <div class="stage"><div class="scroller">
+    <div class="board" id="board">
+      <svg id="wires" width="1100" height="600" viewBox="0 0 1100 600" aria-hidden="true"></svg>
+      <div id="nodes"></div>
+    </div>
+  </div></div>
+
+  <p class="stage-note"><span>Xmind 的视觉语言：从中心胶囊甩出的<b>有机曲线</b>，根部粗、梢部细，像树枝一样自然收窄；一级主题是有底色的彩色胶囊，二级主题退成纯文字；节点旁挂 ✓ / ⏰ / ⭐ 这类小图标和 01–05 编号，让信息密度上来了也不乱。</span></p>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">02</span><h2>官网原样</h2></div>
+  <figure class="shot">
+    <img src="../assets/shots/xmind.png" alt="Xmind 官网首页截图">
+    <figcaption>xmind.app —— 首页自己就是一张导图：旧电脑、书页、草稿纸被细线串起来，线上标着 Chatting、Knowledge、Observation。它卖的不是「画图」，是「把脑子里的东西连起来」。</figcaption>
+  </figure>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">03</span><h2>定位与差异</h2></div>
+  <div class="grid2">
+    <div class="card">
+      <h3>它是什么</h3>
+      <p>一个<strong>思维导图应用</strong>，核心动作只有一个：从一个中心主题往外长枝。围绕这个动作它加了不少现代能力 —— 从语音、Markdown、文档直接生成导图，用 Xmind Agent 边聊边把导图长出来，同一张图还能切到时间线 / 甘特视图看任务依赖，并且可以直接用导图做演示。</p>
+      <p>谁在用：需要把会议、访谈、笔记整理成结构的项目经理，以及做头脑风暴、写方案的人。</p>
+    </div>
+    <div class="card">
+      <h3>和近邻的差别</h3>
+      <ul class="vs">
+        <li><b>vs MindManager</b>　MindManager 更像项目管理软件：WBS 编号、任务信息卡片、与 Teams / SharePoint / Jira 集成；Xmind 更轻，重心在「想清楚」和出图好看。</li>
+        <li><b>vs MindNode</b>　MindNode 只做 Apple 平台的极简导图与大纲，几乎不给功能按钮；Xmind 跨平台，模板、视图、AI 入口都更多。</li>
+      </ul>
+    </div>
+  </div>
+  <div class="verdict">什么时候选它：<b>要把一团乱麻理成一棵树，并且这张图还要拿出去给人看</b>的时候。它比纯大纲工具好看，比项目管理工具轻，跨平台也能用。</div>
+</div></section>
+
+<footer class="page-foot"><div class="wrap">
+  <span>DesignBookmark 30 图工具调研 · xmind · demo 为风格复刻，非官方产品</span>
+  <span>截图采集于 2026-11-18</span>
+</div></footer>
+
+<script>
+(function () {
+  const CX = 550, CY = 300, GAP = 94;
+  const LEFT_X = 270, RIGHT_X = 840, LEFT_LEAF = 150, RIGHT_LEAF = 960;
+
+  const MAP = [
+    { side: 'r', x: RIGHT_X, y: 120, color: '#ff6b35', label: '产品范围', num: '01', kids: [
+      { dy: -36, text: '核心功能清单', ic: '✓', icCls: 'ok' },
+      { dy:  36, text: '竞品差异点',   ic: '⭐', icCls: 'star' }
+    ]},
+    { side: 'r', x: RIGHT_X, y: 300, color: '#2f80ed', label: '上线节奏', num: '02', kids: [
+      { dy: -36, text: '11/25 内测', ic: '⏰', icCls: 'time' },
+      { dy:  36, text: '12/08 公测', ic: '✓',  icCls: 'ok' }
+    ]},
+    { side: 'r', x: RIGHT_X, y: 480, color: '#0fa3a3', label: '发布物料', num: '03', kids: [
+      { dy: -36, text: '官网改版' },
+      { dy:  36, text: '发布会 KV', ic: '⭐', icCls: 'star' }
+    ]},
+    { side: 'l', x: LEFT_X, y: 200, color: '#27ae60', label: '市场推广', num: '04', kids: [
+      { dy: -36, text: 'KOL 种草' },
+      { dy:  36, text: '媒体通稿' }
+    ]},
+    { side: 'l', x: LEFT_X, y: 410, color: '#8e5bf0', label: '风险与预案', num: '05', kids: [
+      { dy: -36, text: '服务器压测', ic: '⏰', icCls: 'time' },
+      { dy:  36, text: '回滚方案',   ic: '✓',  icCls: 'ok' }
+    ]}
+  ];
+
+  const nodes = document.getElementById('nodes');
+  const svg = document.getElementById('wires');
+
+  const center = document.createElement('div');
+  center.className = 'node center';
+  center.textContent = '产品发布计划';
+  center.style.left = CX + 'px';
+  center.style.top = CY + 'px';
+  nodes.appendChild(center);
+
+  MAP.forEach(b => {
+    const el = document.createElement('div');
+    el.className = 'node l1';
+    el.style.left = b.x + 'px';
+    el.style.top = b.y + 'px';
+    el.style.background = b.color;
+    el.style.boxShadow = '0 7px 18px ' + b.color + '3d';
+    el.innerHTML = '<span class="num">' + b.num + '</span>' + b.label;
+    nodes.appendChild(el);
+    b.el = el;
+
+    b.kids.forEach(k => {
+      const leaf = document.createElement('div');
+      leaf.className = 'node leaf ' + b.side;
+      leaf.style.left = (b.side === 'r' ? RIGHT_LEAF : LEFT_LEAF) + 'px';
+      leaf.style.top = (b.y + k.dy) + 'px';
+      leaf.innerHTML = (k.ic ? '<span class="ic ' + (k.icCls || '') + '">' + k.ic + '</span>' : '') +
+                       '<span>' + k.text + '</span>';
+      nodes.appendChild(leaf);
+      k.el = leaf;
+    });
+  });
+
+  function ribbon(p0, p1, w0, w1) {
+    const N = 32, L = [], R = [];
+    const dx = p1.x - p0.x;
+    const c1 = { x: p0.x + dx * 0.45, y: p0.y };
+    const c2 = { x: p0.x + dx * 0.55, y: p1.y };
+    for (let i = 0; i <= N; i++) {
+      const t = i / N, m = 1 - t;
+      const x = m*m*m*p0.x + 3*m*m*t*c1.x + 3*m*t*t*c2.x + t*t*t*p1.x;
+      const y = m*m*m*p0.y + 3*m*m*t*c1.y + 3*m*t*t*c2.y + t*t*t*p1.y;
+      const tx = 3*m*m*(c1.x - p0.x) + 6*m*t*(c2.x - c1.x) + 3*t*t*(p1.x - c2.x);
+      const ty = 3*m*m*(c1.y - p0.y) + 6*m*t*(c2.y - c1.y) + 3*t*t*(p1.y - c2.y);
+      const len = Math.hypot(tx, ty) || 1;
+      const w = (w0 + (w1 - w0) * t) / 2;
+      L.push([x - ty / len * w, y + tx / len * w]);
+      R.push([x + ty / len * w, y - tx / len * w]);
+    }
+    const f = p => p[0].toFixed(1) + ' ' + p[1].toFixed(1);
+    return 'M' + L.map(f).join('L') + 'L' + R.reverse().map(f).join('L') + 'Z';
+  }
+
+  function addPath(d, fill, opacity) {
+    const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    p.setAttribute('d', d);
+    p.setAttribute('fill', fill);
+    p.setAttribute('opacity', opacity);
+    svg.appendChild(p);
+  }
+
+  requestAnimationFrame(() => {
+    MAP.forEach(b => {
+      const w = b.el.offsetWidth;
+      const root = { x: b.side === 'r' ? CX + GAP : CX - GAP, y: CY };
+      const tip = { x: b.side === 'r' ? b.x - w / 2 - 1 : b.x + w / 2 + 1, y: b.y };
+      addPath(ribbon(root, tip, 16, 4.5), b.color, 0.95);
+
+      b.kids.forEach(k => {
+        const start = { x: b.side === 'r' ? b.x + w / 2 + 1 : b.x - w / 2 - 1, y: b.y };
+        const end = { x: b.side === 'r' ? RIGHT_LEAF - 2 : LEFT_LEAF + 2, y: b.y + k.dy };
+        addPath(ribbon(start, end, 4.4, 1.8), b.color, 0.55);
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

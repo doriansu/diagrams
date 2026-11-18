@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mermaid · 30 个图工具调研</title>
+<link rel="stylesheet" href="../assets/kit.css">
+<style>
+  :root {
+    --accent: #ff3670;
+    --bg: #0b0b0d;
+    --panel: #151518;
+  }
+  .playground {
+    display: grid; grid-template-columns: 0.9fr 1.4fr; min-height: 460px;
+  }
+  @media (max-width: 900px) { .playground { grid-template-columns: 1fr; } }
+  .pg-editor {
+    border-right: 1px solid var(--line); display: flex; flex-direction: column;
+    background: #0f0f12;
+  }
+  .pg-editor .bar {
+    display: flex; align-items: center; gap: 8px; padding: 10px 14px;
+    border-bottom: 1px solid var(--line); font-size: 12px; color: var(--muted);
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  .pg-editor .bar .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+  .pg-editor textarea {
+    flex: 1; width: 100%; resize: none; border: 0; outline: 0;
+    background: transparent; color: #d6d6de; padding: 16px;
+    font: 13px/1.7 ui-monospace, "SF Mono", Menlo, monospace;
+    tab-size: 2;
+  }
+  .pg-output {
+    display: flex; align-items: center; justify-content: center;
+    padding: 26px; background:
+      radial-gradient(circle at 1px 1px, rgba(255,255,255,.07) 1px, transparent 0) 0 0/22px 22px,
+      #fff;
+    overflow: auto;
+  }
+  .pg-output svg { max-width: 100%; height: auto; }
+  .pg-tabs {
+    display: flex; gap: 6px; padding: 8px 12px; border-top: 1px solid var(--line);
+    background: #0f0f12;
+  }
+  .pg-tabs button {
+    border: 1px solid var(--line); background: transparent; color: var(--muted);
+    font: 12px ui-sans-serif, system-ui, sans-serif; padding: 5px 11px;
+    border-radius: 7px; cursor: pointer;
+  }
+  .pg-tabs button:hover { color: var(--ink); border-color: rgba(255,255,255,.22); }
+  .pg-tabs button[aria-pressed="true"] {
+    color: #fff; background: var(--accent); border-color: var(--accent);
+  }
+  .pg-err {
+    color: #ff6b6b; font: 12px/1.6 ui-monospace, monospace; padding: 0 16px 12px;
+    white-space: pre-wrap;
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <a href="../index.html">← 30 个图工具调研</a>
+  <span class="crumb-sep">/</span>
+  <span>代码即图</span>
+  <a class="back" href="../index.html">总览</a>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <div class="kicker">Diagram as text · 开源</div>
+  <h1>Mermaid</h1>
+  <p class="tagline">把流程图、时序图、状态图写成一段文本，由渲染器即时生成图形 —— 图从此可以进 Git、进 Code Review、进文档站。</p>
+  <div class="meta-row">
+    <span>类别 <b>APIs &amp; Dev Tools / 图表</b></span>
+    <span>平台 <b>Web / 任意（JS 库）</b></span>
+    <span>价格 <b>开源免费 (MIT)</b></span>
+    <span>用户 <b>写文档的开发者、技术写作者</b></span>
+  </div>
+</div></header>
+
+<section class="block"><div class="wrap">
+  <div class="block-head">
+    <span class="num">01</span>
+    <h2>它画出来是什么样</h2>
+    <p>下方是真实运行的 Mermaid 渲染器 —— 改左边文本，右边即时重画</p>
+  </div>
+
+  <div class="stage">
+    <div class="playground">
+      <div class="pg-editor">
+        <div class="bar"><span class="dot"></span> diagram.mmd</div>
+        <textarea id="src" spellcheck="false">flowchart TD
+    A[用户提交订单] --> B{库存充足?}
+    B -- 是 --> C[锁定库存]
+    B -- 否 --> D[进入补货队列]
+    C --> E[创建支付单]
+    E --> F{支付成功?}
+    F -- 是 --> G[发货]
+    F -- 否 --> H[30 分钟超时释放]
+    H --> C
+    D --> I[通知采购]
+    G --> J([订单完成])
+</textarea>
+        <div class="pg-err" id="err"></div>
+        <div class="pg-tabs" id="tabs">
+          <button data-t="flowchart" aria-pressed="true">流程图</button>
+          <button data-t="sequence">时序图</button>
+          <button data-t="state">状态图</button>
+          <button data-t="class">类图</button>
+        </div>
+      </div>
+      <div class="pg-output" id="out"></div>
+    </div>
+  </div>
+  <p class="stage-note">Mermaid 的视觉语言：直角正交连线、浅色填充 + 深色描边的圆角矩形、菱形判断节点、极简排版。它刻意不做“好看”，做的是“准确且可版本化”。</p>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">02</span><h2>官网原样</h2></div>
+  <figure class="shot">
+    <img src="../assets/shots/mermaid.png" alt="Mermaid 官网首页截图">
+    <figcaption>mermaid.js.org —— 首页直接把“文本 → 图”的对比摆在最显眼的位置，因为这就是它的全部卖点。</figcaption>
+  </figure>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">03</span><h2>定位与差异</h2></div>
+  <div class="grid2">
+    <div class="card">
+      <h3>它是什么</h3>
+      <p>一个 <strong>JavaScript 渲染库</strong>，不是编辑器。你用类 Markdown 的语法描述图，它把文本编译成 SVG。GitHub、GitLab、Notion、Obsidian、VS Code 都已内置，所以很多人“已经在用 Mermaid 而不知道”。</p>
+      <p>支持流程图、时序图、甘特图、类图、状态图、ER 图、C4 架构图、用户旅程等 20 多种图型。</p>
+    </div>
+    <div class="card">
+      <h3>和近邻的差别</h3>
+      <ul class="vs">
+        <li><b>vs Eraser</b>　同样“代码即图”，但 Eraser 是 SaaS：有 AI 生成、版本历史、云协作。Mermaid 只负责渲染，协作要自己搭。</li>
+        <li><b>vs draw.io</b>　draw.io 是拖拽式，所见即所得，适合非工程师；Mermaid 不让你拖，逼你把结构想清楚。</li>
+        <li><b>vs PlantUML</b>　最直接的对手。PlantUML 图型更全（尤其 UML）、渲染更老派；Mermaid 胜在浏览器原生、生态内嵌、语法更松。</li>
+      </ul>
+    </div>
+  </div>
+  <div class="verdict">什么时候选它：<b>图要跟着代码一起演进</b>时。文档里的架构图、PR 里贴的时序图、README 里的流程图 —— 改一行文本就更新，永远不会和实现脱节。要精美出图或非技术同事协作，别选它。</div>
+</div></section>
+
+<footer class="page-foot"><div class="wrap">
+  <span>DesignBookmark 30 图工具调研 · mermaid · demo 为风格复刻，非官方产品</span>
+  <span>截图采集于 2026-11-18</span>
+</div></footer>
+
+<script src="../assets/lib/mermaid.min.js"></script>
+<script>
+const PRESETS = {
+  flowchart: `flowchart TD
+    A[用户提交订单] --> B{库存充足?}
+    B -- 是 --> C[锁定库存]
+    B -- 否 --> D[进入补货队列]
+    C --> E[创建支付单]
+    E --> F{支付成功?}
+    F -- 是 --> G[发货]
+    F -- 否 --> H[30 分钟超时释放]
+    H --> C
+    D --> I[通知采购]
+    G --> J([订单完成])`,
+  sequence: `sequenceDiagram
+    autonumber
+    participant U as 用户
+    participant W as Web
+    participant O as 订单服务
+    participant P as 支付网关
+    U->>W: 提交订单
+    W->>O: POST /orders
+    O->>O: 校验库存
+    O->>P: 创建支付单
+    P-->>O: 返回支付链接
+    O-->>W: 201 Created
+    W-->>U: 跳转支付
+    P->>O: 支付回调
+    O->>O: 更新订单状态
+    O-->>U: 推送发货通知`,
+  state: `stateDiagram-v2
+    [*] --> 待支付
+    待支付 --> 已支付: 支付成功
+    待支付 --> 已取消: 超时 / 主动取消
+    已支付 --> 待发货: 库存锁定
+    待发货 --> 已发货: 出库
+    已发货 --> 已完成: 签收
+    已发货 --> 退款中: 申请退款
+    退款中 --> 已退款: 审核通过
+    已完成 --> [*]
+    已退款 --> [*]`,
+  class: `classDiagram
+    class Order {
+      +String id
+      +Money total
+      +OrderStatus status
+      +pay()
+      +cancel()
+    }
+    class OrderItem {
+      +String sku
+      +int qty
+      +Money price
+    }
+    class Payment {
+      +String id
+      +PayChannel channel
+      +refund()
+    }
+    class User {
+      +String id
+      +String phone
+    }
+    User "1" --> "*" Order
+    Order "1" *-- "*" OrderItem
+    Order "1" --> "0..1" Payment`
+};
+
+const src = document.getElementById('src');
+const out = document.getElementById('out');
+const err = document.getElementById('err');
+
+mermaid.initialize({ startOnLoad: false, theme: 'default', securityLevel: 'loose' });
+
+let seq = 0;
+async function render() {
+  const code = src.value;
+  try {
+    err.textContent = '';
+    const { svg } = await mermaid.render('mmd-' + (++seq), code);
+    out.innerHTML = svg;
+  } catch (e) {
+    err.textContent = String(e.message || e).split('\n').slice(0, 3).join('\n');
+  }
+}
+
+let timer;
+src.addEventListener('input', () => {
+  clearTimeout(timer);
+  timer = setTimeout(render, 220);
+});
+
+document.getElementById('tabs').addEventListener('click', (ev) => {
+  const btn = ev.target.closest('button');
+  if (!btn) return;
+  [...document.querySelectorAll('#tabs button')].forEach(b =>
+    b.setAttribute('aria-pressed', String(b === btn)));
+  src.value = PRESETS[btn.dataset.t];
+  render();
+});
+
+render();
+</script>
+</body>
+</html>

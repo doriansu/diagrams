@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Moqups · 30 个图工具调研</title>
+<link rel="stylesheet" href="../assets/kit.css">
+<style>
+  :root {
+    --accent: #2f6fed;
+    --bg: #ffffff;
+    --panel: #ffffff;
+    --ink: #1f2a3d;
+    --muted: #667085;
+    --line: rgba(16, 24, 40, 0.12);
+  }
+  body { background: var(--bg); }
+  .stage { background: #fff; }
+
+  /* ---------- editor chrome ---------- */
+  .mq-bar {
+    display: flex; align-items: center; gap: 10px;
+    height: 42px; padding: 0 12px; border-bottom: 1px solid #e4e7ec;
+    font-size: 12px; color: #344054; background: #fff;
+  }
+  .mq-logo {
+    width: 20px; height: 20px; border-radius: 5px; background: #2f6fed; color: #fff;
+    display: grid; place-items: center; font-size: 11px; font-weight: 700;
+  }
+  .mq-doc { font-weight: 600; }
+  .mq-doc span { font-weight: 400; color: #98a2b3; }
+  .mq-bar .sp { flex: 1; }
+  .mq-tab {
+    padding: 4px 10px; border-radius: 5px; font-size: 11.5px; color: #667085;
+  }
+  .mq-tab.on { background: #eef4ff; color: #2f6fed; font-weight: 600; }
+  .mq-btn {
+    background: #2f6fed; color: #fff; border-radius: 6px; padding: 4px 11px;
+    font-size: 11.5px; font-weight: 500;
+  }
+
+  .mq-canvas {
+    background: #fff;
+    background-image: radial-gradient(circle at 1px 1px, #e7eaf0 1px, transparent 0);
+    background-size: 18px 18px;
+  }
+  .mq-svg { display: block; width: 100%; height: auto; }
+  .mq-svg text { font-family: ui-sans-serif, -apple-system, "PingFang SC", system-ui, sans-serif; }
+
+  /* wireframe primitives — grayscale only, that's the whole point */
+  .wf-frame { fill: #ffffff; stroke: #b8bec9; stroke-width: 1.5; }
+  .wf-status { fill: #f2f3f5; }
+  .wf-bar { fill: #eeeeee; }
+  .wf-bar.dark { fill: #dcdcdc; }
+  .wf-box { fill: #f7f7f8; stroke: #cccccc; stroke-width: 1; }
+  .wf-input { fill: #ffffff; stroke: #cccccc; stroke-width: 1; }
+  .wf-btn { fill: #e2e2e2; stroke: #c4c4c4; stroke-width: 1; }
+  .wf-img { fill: #ededed; stroke: #d6d6d6; stroke-width: 1; }
+  .wf-t { font-size: 9.5px; fill: #6f6f76; }
+  .wf-t2 { font-size: 8px; fill: #9a9aa2; }
+  .wf-num { font-size: 8px; fill: #b0b0b8; }
+  .wf-arrow { fill: none; stroke: #9aa2b1; stroke-width: 1.2; }
+  .wf-alabel { font-size: 9px; fill: #7b8494; }
+  .wf-flow { fill: #fbfbfc; stroke: #cfd3da; stroke-width: 1; }
+  .wf-flow-lbl { font-size: 9.5px; fill: #5b6472; }
+  .wf-flow-edge { fill: none; stroke: #b6bcc7; stroke-width: 1; }
+  .wf-sec { font-size: 9px; letter-spacing: .1em; fill: #a4abb7; }
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <a href="../index.html">← 30 个图工具调研</a>
+  <span class="crumb-sep">/</span>
+  <span>线框 / 原型</span>
+  <a class="back" href="../index.html">总览</a>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <div class="kicker">Wireframe · 产品设计</div>
+  <h1>Moqups</h1>
+  <p class="tagline">线框、流程图和原型放在同一个画布里，先用灰阶把结构说清楚。</p>
+  <div class="meta-row">
+    <span>类别 <b>Diagrams &amp; Whiteboards</b></span>
+    <span>平台 <b>Web</b></span>
+    <span>价格 <b>Freemium（价格见官网）</b></span>
+    <span>用户 <b>产品经理、UX 设计师、创业者</b></span>
+  </div>
+</div></header>
+
+<section class="block"><div class="wrap">
+  <div class="block-head">
+    <span class="num">01</span>
+    <h2>它画出来是什么样</h2>
+    <p>复刻「移动端注册流程」：三个灰阶线框 + 下方对应流程图</p>
+  </div>
+
+  <div class="stage">
+    <div class="mq-bar">
+      <span class="mq-logo">m</span>
+      <div class="mq-doc">Signup Flow <span>· Wireframe</span></div>
+      <span class="mq-tab on">Wireframe</span>
+      <span class="mq-tab">Diagram</span>
+      <span class="mq-tab">Prototype</span>
+      <span class="sp"></span>
+      <span class="mq-btn">Share</span>
+    </div>
+
+    <div class="mq-canvas">
+      <svg class="mq-svg" viewBox="0 0 1080 720" role="img" aria-label="Moqups 风格移动端注册流程线框">
+        <defs>
+          <marker id="mq-arrow" viewBox="0 0 10 10" refX="9.2" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto">
+            <path d="M0.6 1.6 8.8 5 0.6 8.4z" fill="#9aa2b1"/>
+          </marker>
+          <marker id="mq-arrow-s" viewBox="0 0 10 10" refX="9.2" refY="5" markerWidth="6.5" markerHeight="6.5" markerUnits="userSpaceOnUse" orient="auto">
+            <path d="M0.6 1.8 8.8 5 0.6 8.2z" fill="#b6bcc7"/>
+          </marker>
+        </defs>
+
+        <!-- ===================== phone 1 : 手机号 ===================== -->
+        <text x="120" y="40" class="wf-sec">01 · 输入手机号</text>
+        <rect x="60" y="56" width="180" height="330" rx="18" class="wf-frame"/>
+        <rect x="60" y="56" width="180" height="22" rx="18" class="wf-status"/>
+        <rect x="60" y="68" width="180" height="10" class="wf-status"/>
+        <text x="76" y="71" class="wf-num">9:41</text>
+        <rect x="196" y="65" width="12" height="6" rx="1" fill="#c9ccd3"/>
+        <rect x="212" y="65" width="16" height="6" rx="1" fill="#c9ccd3"/>
+
+        <rect x="108" y="88" width="84" height="7" rx="3.5" class="wf-bar"/>
+        <text x="150" y="120" text-anchor="middle" class="wf-t">创建账户</text>
+        <rect x="76" y="132" width="148" height="5" rx="2.5" class="wf-bar"/>
+        <rect x="92" y="143" width="116" height="5" rx="2.5" class="wf-bar"/>
+
+        <text x="76" y="176" class="wf-t2">手机号</text>
+        <rect x="76" y="182" width="148" height="30" rx="4" class="wf-input"/>
+        <rect x="84" y="195" width="8" height="5" rx="1" class="wf-bar dark"/>
+        <rect x="96" y="195" width="58" height="5" rx="2.5" class="wf-bar"/>
+
+        <rect x="76" y="230" width="148" height="34" rx="6" class="wf-btn"/>
+        <text x="150" y="251" text-anchor="middle" class="wf-t">获取验证码</text>
+
+        <rect x="76" y="282" width="148" height="5" rx="2.5" class="wf-bar"/>
+        <rect x="96" y="293" width="108" height="5" rx="2.5" class="wf-bar"/>
+        <text x="150" y="322" text-anchor="middle" class="wf-t2">已有账户？登录</text>
+        <rect x="132" y="336" width="36" height="4" rx="2" class="wf-bar"/>
+
+        <rect x="138" y="374" width="24" height="4" rx="2" class="wf-bar dark"/>
+
+        <!-- ===================== phone 2 : 验证码 ===================== -->
+        <text x="450" y="40" class="wf-sec">02 · 输入验证码</text>
+        <rect x="390" y="56" width="180" height="330" rx="18" class="wf-frame"/>
+        <rect x="390" y="56" width="180" height="22" rx="18" class="wf-status"/>
+        <rect x="390" y="68" width="180" height="10" class="wf-status"/>
+        <text x="406" y="71" class="wf-num">9:41</text>
+        <rect x="526" y="65" width="12" height="6" rx="1" fill="#c9ccd3"/>
+        <rect x="542" y="65" width="16" height="6" rx="1" fill="#c9ccd3"/>
+
+        <path d="M404 96 l6 -6 6 6" fill="none" stroke="#9a9aa2" stroke-width="1.2"/>
+        <text x="480" y="120" text-anchor="middle" class="wf-t">验证手机号</text>
+        <rect x="406" y="132" width="148" height="5" rx="2.5" class="wf-bar"/>
+        <rect x="422" y="143" width="116" height="5" rx="2.5" class="wf-bar"/>
+        <text x="480" y="164" text-anchor="middle" class="wf-t2">已发送至 138 **** 6621</text>
+
+        <g>
+          <rect x="408" y="182" width="28" height="34" rx="4" class="wf-input"/>
+          <rect x="446" y="182" width="28" height="34" rx="4" class="wf-input"/>
+          <rect x="484" y="182" width="28" height="34" rx="4" class="wf-input"/>
+          <rect x="522" y="182" width="28" height="34" rx="4" class="wf-input"/>
+          <rect x="415" y="196" width="14" height="5" rx="2.5" class="wf-bar dark"/>
+          <rect x="453" y="196" width="14" height="5" rx="2.5" class="wf-bar dark"/>
+        </g>
+
+        <rect x="406" y="232" width="148" height="34" rx="6" class="wf-btn"/>
+        <text x="480" y="253" text-anchor="middle" class="wf-t">验证并继续</text>
+        <text x="480" y="288" text-anchor="middle" class="wf-t2">59s 后可重新发送</text>
+        <rect x="432" y="300" width="96" height="5" rx="2.5" class="wf-bar"/>
+        <rect x="452" y="311" width="56" height="5" rx="2.5" class="wf-bar"/>
+
+        <!-- ===================== phone 3 : 设置密码 ===================== -->
+        <text x="780" y="40" class="wf-sec">03 · 设置密码</text>
+        <rect x="720" y="56" width="180" height="330" rx="18" class="wf-frame"/>
+        <rect x="720" y="56" width="180" height="22" rx="18" class="wf-status"/>
+        <rect x="720" y="68" width="180" height="10" class="wf-status"/>
+        <text x="736" y="71" class="wf-num">9:41</text>
+        <rect x="856" y="65" width="12" height="6" rx="1" fill="#c9ccd3"/>
+        <rect x="872" y="65" width="16" height="6" rx="1" fill="#c9ccd3"/>
+
+        <path d="M734 96 l6 -6 6 6" fill="none" stroke="#9a9aa2" stroke-width="1.2"/>
+        <text x="810" y="120" text-anchor="middle" class="wf-t">设置登录密码</text>
+        <rect x="736" y="132" width="148" height="5" rx="2.5" class="wf-bar"/>
+        <rect x="752" y="143" width="116" height="5" rx="2.5" class="wf-bar"/>
+
+        <text x="736" y="176" class="wf-t2">密码</text>
+        <rect x="736" y="182" width="148" height="30" rx="4" class="wf-input"/>
+        <g fill="#b8b8c0">
+          <circle cx="750" cy="197" r="2.4"/><circle cx="759" cy="197" r="2.4"/>
+          <circle cx="768" cy="197" r="2.4"/><circle cx="777" cy="197" r="2.4"/>
+          <circle cx="786" cy="197" r="2.4"/><circle cx="795" cy="197" r="2.4"/>
+        </g>
+        <text x="736" y="228" class="wf-t2">确认密码</text>
+        <rect x="736" y="234" width="148" height="30" rx="4" class="wf-input"/>
+        <g fill="#b8b8c0">
+          <circle cx="750" cy="249" r="2.4"/><circle cx="759" cy="249" r="2.4"/>
+          <circle cx="768" cy="249" r="2.4"/><circle cx="777" cy="249" r="2.4"/>
+          <circle cx="786" cy="249" r="2.4"/>
+        </g>
+
+        <rect x="736" y="286" width="148" height="34" rx="6" class="wf-btn"/>
+        <text x="810" y="307" text-anchor="middle" class="wf-t">完成注册</text>
+        <text x="810" y="340" text-anchor="middle" class="wf-t2">注册即表示同意服务条款</text>
+        <rect x="766" y="350" width="88" height="4" rx="2" class="wf-bar"/>
+
+        <!-- ===================== transitions ===================== -->
+        <path class="wf-arrow" d="M240 220 H390" marker-end="url(#mq-arrow)"/>
+        <text x="315" y="212" text-anchor="middle" class="wf-alabel">提交</text>
+        <path class="wf-arrow" d="M570 220 H720" marker-end="url(#mq-arrow)"/>
+        <text x="645" y="212" text-anchor="middle" class="wf-alabel">校验通过</text>
+
+        <!-- ===================== flow below ===================== -->
+        <text x="60" y="432" class="wf-sec">FLOW · 对应流程图</text>
+        <path d="M60 446 H1020" stroke="#eceef2" stroke-width="1"/>
+
+        <!-- flow nodes -->
+        <rect x="60" y="474" width="132" height="48" rx="6" class="wf-flow"/>
+        <text x="126" y="503" text-anchor="middle" class="wf-flow-lbl">打开 App</text>
+
+        <rect x="232" y="474" width="132" height="48" rx="6" class="wf-flow"/>
+        <text x="298" y="503" text-anchor="middle" class="wf-flow-lbl">输入手机号</text>
+
+        <path d="M404 474 h132 v48 h-132 z" class="wf-flow"/>
+        <text x="470" y="496" text-anchor="middle" class="wf-flow-lbl">格式合法？</text>
+        <text x="470" y="511" text-anchor="middle" class="wf-t2">正则 + 号段</text>
+
+        <rect x="576" y="474" width="132" height="48" rx="6" class="wf-flow"/>
+        <text x="642" y="503" text-anchor="middle" class="wf-flow-lbl">发送验证码</text>
+
+        <path d="M748 474 h132 v48 h-132 z" class="wf-flow"/>
+        <text x="814" y="496" text-anchor="middle" class="wf-flow-lbl">验证码正确？</text>
+        <text x="814" y="511" text-anchor="middle" class="wf-t2">5 分钟内有效</text>
+
+        <rect x="920" y="474" width="100" height="48" rx="24" class="wf-flow"/>
+        <text x="970" y="503" text-anchor="middle" class="wf-flow-lbl">注册成功</text>
+
+        <!-- flow edges -->
+        <path class="wf-flow-edge" d="M192 498 H232" marker-end="url(#mq-arrow-s)"/>
+        <path class="wf-flow-edge" d="M364 498 H404" marker-end="url(#mq-arrow-s)"/>
+        <path class="wf-flow-edge" d="M536 498 H576" marker-end="url(#mq-arrow-s)"/>
+        <text x="556" y="490" text-anchor="middle" class="wf-t2">是</text>
+        <path class="wf-flow-edge" d="M708 498 H748" marker-end="url(#mq-arrow-s)"/>
+        <text x="728" y="490" text-anchor="middle" class="wf-t2">是</text>
+        <path class="wf-flow-edge" d="M880 498 H920" marker-end="url(#mq-arrow-s)"/>
+
+        <path class="wf-flow-edge" d="M470 522 V562 H298 V522" marker-end="url(#mq-arrow-s)"/>
+        <text x="384" y="556" text-anchor="middle" class="wf-t2">否 · 提示格式错误</text>
+
+        <path class="wf-flow-edge" d="M814 522 V600 H642 V522" marker-end="url(#mq-arrow-s)"/>
+        <text x="728" y="594" text-anchor="middle" class="wf-t2">否 · 允许重发，3 次上限</text>
+
+        <!-- note -->
+        <rect x="60" y="636" width="330" height="56" rx="4" fill="#fafafa" stroke="#e3e5ea" stroke-width="1"/>
+        <text x="74" y="657" class="wf-t2">线框阶段只定结构：字段、按钮、跳转。</text>
+        <text x="74" y="672" class="wf-t2">视觉和品牌色留到高保真原型再处理。</text>
+        <rect x="74" y="680" width="86" height="4" rx="2" class="wf-bar"/>
+      </svg>
+    </div>
+  </div>
+  <p class="stage-note">Moqups 的视觉语言：纯灰阶线框 —— #eee 填充、#ccc 边框、灰色占位条代表文字和图片，连按钮都是灰的。它刻意不带品牌色，因为线框阶段要讨论的是结构，不是视觉。下方流程图沿用同一套灰色语言，和线框是同一张画布上的两块。</p>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">02</span><h2>官网原样</h2></div>
+  <figure class="shot">
+    <img src="../assets/shots/moqups.png" alt="Moqups 官网首页截图">
+    <figcaption>moqups.com —— 深蓝底、大字 “Wireframe, Diagram &amp; Whiteboard Online”。右侧截图里能同时看到灰阶线框和彩色流程图，这正是它一个画布装两种产出的卖点。</figcaption>
+  </figure>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">03</span><h2>定位与差异</h2></div>
+  <div class="grid2">
+    <div class="card">
+      <h3>它是什么</h3>
+      <p>一个 Web 应用，把线框、mockup、流程图、交互原型和团队标注放在同一份文档里。内置大量 UI 控件库（按钮、表单、导航、设备边框），拖出来就能拼界面，再连成可点击的原型。</p>
+      <p>典型用法：产品经理在需求评审前拉一套线框，顺手把用户流程画在同一页，讨论时不用在两个工具之间跳。</p>
+    </div>
+    <div class="card">
+      <h3>和近邻的差别</h3>
+      <ul class="vs">
+        <li><b>vs Whimsical</b>　Whimsical 的线框是彩色的、更“好看”，偏快速表达；Moqups 的线框是灰阶的、控件更细，更接近真实原型评审。</li>
+        <li><b>vs Figma</b>　Figma 做高保真 UI 和设计系统，交付给开发；Moqups 停在线框和流程层，不追求像素级视觉。</li>
+        <li><b>vs draw.io</b>　draw.io 画的是图和拓扑；Moqups 画的是界面和它的交互，流程图只是附属。</li>
+      </ul>
+    </div>
+  </div>
+  <div class="verdict">什么时候选它：<b>你要在动手做视觉之前，把界面结构和用户路径讲清楚</b>时。灰阶线框能让评审聚焦在流程和字段上，而不是“这个蓝色不好看”。</div>
+</div></section>
+
+<footer class="page-foot"><div class="wrap">
+  <span>DesignBookmark 30 图工具调研 · moqups · demo 为风格复刻，非官方产品</span>
+  <span>截图采集于 2026-11-18</span>
+</div></footer>
+
+</body>
+</html>

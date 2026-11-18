@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Whimsical · 30 个图工具调研</title>
+<link rel="stylesheet" href="../assets/kit.css">
+<style>
+  :root {
+    --accent: #6b4eff;
+    --bg: #ffffff;
+    --panel: #fcfcfd;
+    --ink: #1c1b22;
+    --muted: #6f6c7a;
+    --line: rgba(28, 27, 34, 0.10);
+  }
+  body { background: var(--bg); }
+  .stage { background: #fff; }
+
+  /* ---------- whimsical chrome ---------- */
+  .wh-bar {
+    display: flex; align-items: center; gap: 10px;
+    height: 44px; padding: 0 14px; border-bottom: 1px solid #f0eff3;
+    font-size: 12px; color: #3d3b47; background: #fff;
+  }
+  .wh-logo { display: flex; align-items: center; gap: 7px; font-weight: 600; font-size: 12.5px; }
+  .wh-logo i {
+    width: 16px; height: 16px; border-radius: 4px; background: #6b4eff;
+    display: grid; place-items: center; color: #fff; font-style: normal;
+    font-size: 9px; font-weight: 700;
+  }
+  .wh-crumb { color: #a9a5b4; }
+  .wh-doc { font-weight: 600; color: #1c1b22; }
+  .wh-bar .sp { flex: 1; }
+  .wh-avas { display: flex; }
+  .wh-avas i {
+    width: 21px; height: 21px; border-radius: 50%; margin-left: -5px;
+    border: 2px solid #fff; font-style: normal; font-size: 9px;
+    display: grid; place-items: center; color: #fff; font-weight: 600;
+  }
+  .wh-avas i:nth-child(1) { background: #7ed0b0; margin-left: 0; }
+  .wh-avas i:nth-child(2) { background: #f2b8a2; }
+  .wh-avas i:nth-child(3) { background: #b3a8f0; }
+  .wh-share {
+    background: #6b4eff; color: #fff; border-radius: 999px; padding: 4px 12px;
+    font-size: 11.5px; font-weight: 500;
+  }
+
+  .wh-canvas {
+    background: #fff; padding: 0;
+  }
+  .wh-svg { display: block; width: 100%; height: auto; }
+  .wh-svg text { font-family: ui-sans-serif, -apple-system, "PingFang SC", system-ui, sans-serif; }
+
+  /* nodes: big radius, pastel fills, hairline strokes, no shadow */
+  .w-node { stroke-width: 1; }
+  .w-mint { fill: #d9f2e6; stroke: #8fd4b6; }
+  .w-lilac { fill: #e8e2ff; stroke: #b9a9f5; }
+  .w-cream { fill: #fff3cd; stroke: #e8d48a; }
+  .w-blue { fill: #dcebff; stroke: #a5c8f0; }
+  .w-rose { fill: #ffe4ec; stroke: #f0b6c8; }
+  .w-grey { fill: #f3f3f6; stroke: #d6d5de; }
+  .w-t { font-size: 12.5px; fill: #26242e; font-weight: 500; }
+  .w-ts { font-size: 10px; fill: #6f6c7a; }
+  .w-elabel { font-size: 10px; fill: #8b8798; }
+  .w-edge { fill: none; stroke: #c9c6d4; stroke-width: 1.4; }
+  .w-dot { fill: #fff; stroke: #b7b2c8; stroke-width: 1.2; }
+  .w-section { font-size: 10.5px; letter-spacing: .12em; fill: #b0acbc; text-transform: uppercase; }
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <a href="../index.html">← 30 个图工具调研</a>
+  <span class="crumb-sep">/</span>
+  <span>产品团队白板</span>
+  <a class="back" href="../index.html">总览</a>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <div class="kicker">Whiteboard · 产品团队</div>
+  <h1>Whimsical</h1>
+  <p class="tagline">给产品团队用的白板和文档：画流程图、线框和思维导图，快且好看。</p>
+  <div class="meta-row">
+    <span>类别 <b>Diagrams &amp; Whiteboards</b></span>
+    <span>平台 <b>Web / macOS / Windows</b></span>
+    <span>价格 <b>Freemium（价格见官网）</b></span>
+    <span>用户 <b>产品经理、设计师、创业团队</b></span>
+  </div>
+</div></header>
+
+<section class="block"><div class="wrap">
+  <div class="block-head">
+    <span class="num">01</span>
+    <h2>它画出来是什么样</h2>
+    <p>复刻一张「产品流程图」，大圆角 + 粉彩 + 贝塞尔曲线</p>
+  </div>
+
+  <div class="stage">
+    <div class="wh-bar">
+      <div class="wh-logo"><i>✦</i>Whimsical</div>
+      <span class="wh-crumb">/</span>
+      <span class="wh-crumb">Product</span>
+      <span class="wh-crumb">/</span>
+      <span class="wh-doc">新用户激活流程</span>
+      <span class="sp"></span>
+      <div class="wh-avas"><i>A</i><i>M</i><i>K</i></div>
+      <span class="wh-share">Share</span>
+    </div>
+
+    <div class="wh-canvas">
+      <svg class="wh-svg" viewBox="0 0 1080 700" role="img" aria-label="Whimsical 风格产品流程图">
+        <text x="64" y="52" class="w-section">New User Activation · v3</text>
+
+        <!-- ===== top row: acquisition ===== -->
+        <rect x="64" y="82" width="176" height="66" rx="12" class="w-node w-blue"/>
+        <text x="152" y="111" text-anchor="middle" class="w-t">看到落地页</text>
+        <text x="152" y="129" text-anchor="middle" class="w-ts">SEO / 投放</text>
+
+        <rect x="316" y="82" width="176" height="66" rx="12" class="w-node w-lilac"/>
+        <text x="404" y="111" text-anchor="middle" class="w-t">注册账户</text>
+        <text x="404" y="129" text-anchor="middle" class="w-ts">邮箱或第三方登录</text>
+
+        <rect x="568" y="82" width="176" height="66" rx="12" class="w-node w-cream"/>
+        <text x="656" y="111" text-anchor="middle" class="w-t">引导问卷</text>
+        <text x="656" y="129" text-anchor="middle" class="w-ts">3 个问题 · 可跳过</text>
+
+        <!-- ===== middle: first value ===== -->
+        <rect x="820" y="82" width="196" height="66" rx="12" class="w-node w-mint"/>
+        <text x="918" y="111" text-anchor="middle" class="w-t">创建第一个项目</text>
+        <text x="918" y="129" text-anchor="middle" class="w-ts">模板或空白</text>
+
+        <rect x="820" y="244" width="196" height="66" rx="12" class="w-node w-mint"/>
+        <text x="918" y="273" text-anchor="middle" class="w-t">完成首个任务</text>
+        <text x="918" y="291" text-anchor="middle" class="w-ts">aha moment</text>
+
+        <!-- ===== decision ===== -->
+        <path d="M918 366 L1024 430 L918 494 L812 430 Z" class="w-node w-rose"/>
+        <text x="918" y="426" text-anchor="middle" class="w-t">7 日内回访？</text>
+        <text x="918" y="444" text-anchor="middle" class="w-ts">留存判断</text>
+
+        <!-- ===== left: retention loop ===== -->
+        <rect x="556" y="398" width="176" height="66" rx="12" class="w-node w-lilac"/>
+        <text x="644" y="427" text-anchor="middle" class="w-t">推送激活邮件</text>
+        <text x="644" y="445" text-anchor="middle" class="w-ts">第 2 / 4 / 6 天</text>
+
+        <rect x="300" y="398" width="176" height="66" rx="12" class="w-node w-cream"/>
+        <text x="388" y="427" text-anchor="middle" class="w-t">二次引导</text>
+        <text x="388" y="445" text-anchor="middle" class="w-ts">推荐一个模板</text>
+
+        <rect x="300" y="530" width="176" height="66" rx="12" class="w-node w-grey"/>
+        <text x="388" y="559" text-anchor="middle" class="w-t">标记为流失风险</text>
+        <text x="388" y="577" text-anchor="middle" class="w-ts">进入召回名单</text>
+
+        <!-- ===== bottom-left: success ===== -->
+        <rect x="64" y="398" width="176" height="66" rx="12" class="w-node w-mint"/>
+        <text x="152" y="427" text-anchor="middle" class="w-t">成为活跃用户</text>
+        <text x="152" y="445" text-anchor="middle" class="w-ts">周活跃 · 已付费</text>
+
+        <!-- ===================== edges (bezier + dot ends) ===================== -->
+        <g class="w-edge">
+          <path d="M240 115 C268 115 288 115 316 115"/>
+          <path d="M492 115 C520 115 540 115 568 115"/>
+          <path d="M744 115 C772 115 792 115 820 115"/>
+          <path d="M918 148 C918 176 918 204 918 244"/>
+          <path d="M918 310 C918 328 918 344 918 366"/>
+          <path d="M918 494 C918 560 918 620 918 620"/>
+          <path d="M918 620 C700 620 380 620 152 620"/>
+          <path d="M152 620 C152 560 152 510 152 464"/>
+          <path d="M812 430 C760 430 760 430 732 430"/>
+          <path d="M556 431 C520 431 500 431 476 431"/>
+          <path d="M388 464 C388 492 388 508 388 530"/>
+          <path d="M300 431 C272 431 252 431 240 431"/>
+        </g>
+        <g class="w-dot">
+          <circle cx="240" cy="115" r="3.4"/><circle cx="316" cy="115" r="3.4"/>
+          <circle cx="492" cy="115" r="3.4"/><circle cx="568" cy="115" r="3.4"/>
+          <circle cx="744" cy="115" r="3.4"/><circle cx="820" cy="115" r="3.4"/>
+          <circle cx="918" cy="148" r="3.4"/><circle cx="918" cy="244" r="3.4"/>
+          <circle cx="918" cy="310" r="3.4"/><circle cx="918" cy="366" r="3.4"/>
+          <circle cx="918" cy="494" r="3.4"/><circle cx="152" cy="464" r="3.4"/>
+          <circle cx="812" cy="430" r="3.4"/><circle cx="732" cy="430" r="3.4"/>
+          <circle cx="556" cy="431" r="3.4"/><circle cx="476" cy="431" r="3.4"/>
+          <circle cx="388" cy="464" r="3.4"/><circle cx="388" cy="530" r="3.4"/>
+          <circle cx="300" cy="431" r="3.4"/><circle cx="240" cy="431" r="3.4"/>
+        </g>
+
+        <!-- edge labels -->
+        <text x="278" y="106" text-anchor="middle" class="w-elabel">点击 CTA</text>
+        <text x="530" y="106" text-anchor="middle" class="w-elabel">完成注册</text>
+        <text x="782" y="106" text-anchor="middle" class="w-elabel">进入引导</text>
+        <text x="930" y="200" class="w-elabel">开始使用</text>
+        <text x="930" y="342" class="w-elabel">首次成功</text>
+        <text x="772" y="421" text-anchor="middle" class="w-elabel">否</text>
+        <text x="516" y="422" text-anchor="middle" class="w-elabel">仍无动作</text>
+        <text x="398" y="500" class="w-elabel">7 天</text>
+        <text x="270" y="422" text-anchor="middle" class="w-elabel">激活</text>
+        <text x="600" y="612" text-anchor="middle" class="w-elabel">是 · 7 日内回访</text>
+
+        <!-- annotation note -->
+        <rect x="64" y="180" width="300" height="120" rx="12" fill="#fff8e1" stroke="#ecdcae" stroke-width="1"/>
+        <text x="82" y="206" class="w-ts" fill="#7a6a33">备注：激活的定义是「完成首个任务」，</text>
+        <text x="82" y="224" class="w-ts" fill="#7a6a33">不是注册。所有埋点按这个口径统计。</text>
+        <text x="82" y="248" class="w-ts" fill="#a4976a">负责人 · Growth</text>
+        <text x="82" y="266" class="w-ts" fill="#a4976a">上次更新 · 3 天前</text>
+
+        <!-- small legend for pastel semantics -->
+        <g transform="translate(0,56)">
+          <rect x="64" y="600" width="12" height="12" rx="4" class="w-node w-blue"/>
+          <text x="84" y="610" class="w-ts">获客</text>
+          <rect x="136" y="600" width="12" height="12" rx="4" class="w-node w-lilac"/>
+          <text x="156" y="610" class="w-ts">注册 / 召回</text>
+          <rect x="238" y="600" width="12" height="12" rx="4" class="w-node w-cream"/>
+          <text x="258" y="610" class="w-ts">引导</text>
+          <rect x="316" y="600" width="12" height="12" rx="4" class="w-node w-mint"/>
+          <text x="336" y="610" class="w-ts">激活</text>
+          <rect x="392" y="600" width="12" height="12" rx="4" class="w-node w-rose"/>
+          <text x="412" y="610" class="w-ts">判断</text>
+          <rect x="468" y="600" width="12" height="12" rx="4" class="w-node w-grey"/>
+          <text x="488" y="610" class="w-ts">流失</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+  <p class="stage-note">Whimsical 的视觉语言：12px 大圆角、薄荷绿 / 淡紫 / 浅黄的粉彩填充、极细描边、完全没有阴影；节点文字短且居中；连线是平滑贝塞尔曲线，两端是小圆点而不是箭头。整体留白很大 —— 它的好看来自“什么都不加”。</p>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">02</span><h2>官网原样</h2></div>
+  <figure class="shot">
+    <img src="../assets/shots/whimsical.png" alt="Whimsical 官网首页截图">
+    <figcaption>whimsical.com —— 紫色渐变背景上写 “Whiteboards and docs for product builders”，下面直接放一张真实画布：左侧是彩色流程块，右侧是思维导图，同一个文件里两种图并存。</figcaption>
+  </figure>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">03</span><h2>定位与差异</h2></div>
+  <div class="grid2">
+    <div class="card">
+      <h3>它是什么</h3>
+      <p>面向产品团队的白板 + 文档工具。一个文件里可以放流程图、线框、思维导图、看板和文档，支持多人实时编辑、评论、模板库，也有 AI 辅助。</p>
+      <p>它的取舍很明确：不做无限精细的形状库，也不做高保真设计，只把产品工作里最常画的那几种图做得又快又统一。</p>
+    </div>
+    <div class="card">
+      <h3>和近邻的差别</h3>
+      <ul class="vs">
+        <li><b>vs Miro</b>　Miro 是通用无限白板，模板和工作坊玩法更多；Whimsical 的范围更窄，但每种图型的排版质量更稳定、默认样式更好看。</li>
+        <li><b>vs Moqups</b>　Moqups 的线框是灰阶的、控件更细，偏原型评审；Whimsical 的线框带粉彩配色，偏快速对齐。</li>
+        <li><b>vs Lucidchart</b>　Lucidchart 面向系统与流程的严谨表达，形状和连线路由更工程化；Whimsical 牺牲一部分精确度，换阅读体验。</li>
+      </ul>
+    </div>
+  </div>
+  <div class="verdict">什么时候选它：<b>你要把产品流程讲给非设计的人听</b>时。同样的流程，Whimsical 画出来默认就比别的工具干净，评审时不用先花十分钟解释图。</div>
+</div></section>
+
+<footer class="page-foot"><div class="wrap">
+  <span>DesignBookmark 30 图工具调研 · whimsical · demo 为风格复刻，非官方产品</span>
+  <span>截图采集于 2026-11-18</span>
+</div></footer>
+
+</body>
+</html>

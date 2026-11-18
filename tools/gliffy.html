@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gliffy · 30 个图工具调研</title>
+<link rel="stylesheet" href="../assets/kit.css">
+<style>
+  :root {
+    --accent: #1f5fbf;
+    --bg: #f4f6fa;
+    --panel: #ffffff;
+    --ink: #172b4d;
+    --muted: #5e6c84;
+    --line: rgba(9, 30, 66, 0.13);
+  }
+  body { background: var(--bg); }
+
+  .topbar { background: rgba(255,255,255,.9); }
+  header.hero { border-bottom: 1px solid var(--line); }
+  section.block { border-bottom: 1px solid var(--line); }
+
+  /* ---------- fake Confluence ---------- */
+  .cf {
+    background: #f4f6fa; padding: 0 0 26px;
+  }
+  .cf-nav {
+    display: flex; align-items: center; gap: 16px;
+    height: 48px; padding: 0 22px; background: #fff;
+    border-bottom: 1px solid #e4e8ee; font-size: 12.5px; color: #42526e;
+  }
+  .cf-logo { display: flex; align-items: center; gap: 7px; font-weight: 700; color: #1f5fbf; }
+  .cf-logo i {
+    width: 17px; height: 17px; border-radius: 3px; background: #1f5fbf;
+    color: #fff; font-style: normal; font-size: 10px; display: grid; place-items: center;
+    font-weight: 700;
+  }
+  .cf-nav .sp { flex: 1; }
+  .cf-search {
+    width: 190px; height: 26px; border-radius: 4px; background: #f4f5f7;
+    border: 1px solid #dfe1e6; color: #97a0af; font-size: 11.5px;
+    display: flex; align-items: center; padding: 0 9px;
+  }
+  .cf-ava {
+    width: 24px; height: 24px; border-radius: 50%; background: #ffab00;
+    display: grid; place-items: center; font-size: 10px; font-weight: 700; color: #fff;
+  }
+
+  .cf-page {
+    max-width: 940px; margin: 20px auto 0; background: #fff;
+    border: 1px solid #e4e8ee; border-radius: 3px;
+    box-shadow: 0 1px 3px rgba(9, 30, 66, .07);
+    padding: 22px 40px 34px;
+  }
+  .cf-crumb { font-size: 11.5px; color: #6b778c; display: flex; gap: 6px; align-items: center; }
+  .cf-crumb b { color: #42526e; font-weight: 500; }
+  .cf-title { font-size: 26px; font-weight: 600; color: #172b4d; margin: 12px 0 8px; letter-spacing: -0.01em; }
+  .cf-byline { font-size: 11.5px; color: #7a869a; display: flex; gap: 10px; align-items: center; padding-bottom: 14px; border-bottom: 1px solid #ebecf0; }
+  .cf-byline .avatar {
+    width: 18px; height: 18px; border-radius: 50%; background: #4c9aff;
+    color: #fff; font-size: 9px; display: grid; place-items: center; font-weight: 700;
+  }
+  .cf-body { font-size: 13px; color: #42526e; line-height: 1.75; padding: 14px 0 6px; max-width: 720px; }
+  .cf-body p { margin: 0 0 10px; }
+  .cf-h3 { font-size: 15px; font-weight: 600; color: #172b4d; margin: 6px 0 10px; }
+
+  /* ---------- gliffy macro embed ---------- */
+  .cf-macro {
+    margin: 14px 0 4px; border: 1px solid #dfe1e6; border-radius: 4px; overflow: hidden;
+    background: #fff;
+  }
+  .cf-macro-h {
+    display: flex; align-items: center; gap: 8px;
+    padding: 7px 12px; background: #fafbfc; border-bottom: 1px solid #ebecf0;
+    font-size: 11.5px; color: #5e6c84;
+  }
+  .cf-macro-h .g {
+    width: 16px; height: 16px; border-radius: 3px; background: #1f5fbf;
+    color: #fff; font-size: 9px; font-weight: 700; display: grid; place-items: center;
+  }
+  .cf-macro-h b { color: #172b4d; font-weight: 600; }
+  .cf-macro-h .sp { flex: 1; }
+  .cf-macro-h .act { color: #6b778c; font-size: 11px; }
+  .cf-macro-body { padding: 16px 18px 20px; background:
+      linear-gradient(#fbfcfe, #fbfcfe); }
+  .cf-svg { display: block; width: 100%; height: auto; }
+  .cf-svg text { font-family: ui-sans-serif, -apple-system, "PingFang SC", system-ui, sans-serif; }
+  .gl-node { fill: #dbe8f7; stroke: #1f5fbf; stroke-width: 1; }
+  .gl-term { fill: #cfe2f7; stroke: #1f5fbf; stroke-width: 1; }
+  .gl-dec { fill: #eaf1fb; stroke: #1f5fbf; stroke-width: 1; }
+  .gl-lbl { font-size: 11.5px; fill: #17325c; }
+  .gl-lbl-s { font-size: 10px; fill: #40587a; }
+  .gl-edge { fill: none; stroke: #5b779c; stroke-width: 1; }
+  .gl-elabel { font-size: 9.5px; fill: #52678a; }
+  .cf-foot { display: flex; gap: 14px; font-size: 11px; color: #7a869a; padding-top: 10px; }
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <a href="../index.html">← 30 个图工具调研</a>
+  <span class="crumb-sep">/</span>
+  <span>Atlassian 生态</span>
+  <a class="back" href="../index.html">总览</a>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <div class="kicker">Diagramming · Confluence 内嵌</div>
+  <h1>Gliffy</h1>
+  <p class="tagline">在 Confluence 和 Jira 页面里直接画流程图、UML 和架构图，不用切工具。</p>
+  <div class="meta-row">
+    <span>类别 <b>Diagrams &amp; Whiteboards</b></span>
+    <span>平台 <b>Web（Confluence / Jira 插件 + 独立编辑器）</b></span>
+    <span>价格 <b>Freemium（价格见官网）</b></span>
+    <span>用户 <b>用 Atlassian 套件的技术团队</b></span>
+  </div>
+</div></header>
+
+<section class="block"><div class="wrap">
+  <div class="block-head">
+    <span class="num">01</span>
+    <h2>它画出来是什么样</h2>
+    <p>复刻一张 Confluence 页面里的 Gliffy 流程图宏</p>
+  </div>
+
+  <div class="stage">
+    <div class="cf">
+      <div class="cf-nav">
+        <div class="cf-logo"><i>≡</i>Confluence</div>
+        <span>Spaces</span><span>Apps</span>
+        <div class="sp"></div>
+        <div class="cf-search">搜索</div>
+        <div class="cf-ava">S</div>
+      </div>
+
+      <div class="cf-page">
+        <div class="cf-crumb">
+          <span>Engineering</span><span>/</span><span>支付平台</span><span>/</span><b>支付失败排查手册</b>
+        </div>
+        <h1 class="cf-title">支付失败排查手册</h1>
+        <div class="cf-byline">
+          <span class="avatar">W</span><span>王雨 · 更新于 3 天前</span>
+          <span>·</span><span>8 人已阅读</span>
+        </div>
+
+        <div class="cf-body">
+          <p>线上出现支付失败告警时，先确认是渠道侧问题还是我方订单状态机问题。下面的流程图是值班同学的标准处理路径，可以直接在页面里编辑。</p>
+        </div>
+
+        <div class="cf-macro">
+          <div class="cf-macro-h">
+            <span class="g">G</span>
+            <b>Gliffy Diagram</b>
+            <span>· 支付失败排查流程</span>
+            <span class="sp"></span>
+            <span class="act">编辑 · 全屏</span>
+          </div>
+          <div class="cf-macro-body">
+            <svg class="cf-svg" viewBox="0 0 860 430" role="img" aria-label="Gliffy 风格支付失败排查流程图">
+              <defs>
+                <marker id="gl-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto">
+                  <path d="M0 1.4 8.6 5 0 8.6z" fill="#5b779c"/>
+                </marker>
+              </defs>
+
+              <!-- start -->
+              <rect x="140" y="24" width="120" height="34" rx="17" class="gl-term"/>
+              <text x="200" y="46" text-anchor="middle" class="gl-lbl">收到失败告警</text>
+
+              <!-- query order -->
+              <rect x="130" y="82" width="140" height="50" rx="2" class="gl-node"/>
+              <text x="200" y="103" text-anchor="middle" class="gl-lbl">查订单状态</text>
+              <text x="200" y="119" text-anchor="middle" class="gl-lbl-s">order.state</text>
+
+              <!-- decision A -->
+              <path d="M200 154 L266 200 L200 246 L134 200 Z" class="gl-dec"/>
+              <text x="200" y="196" text-anchor="middle" class="gl-lbl">渠道已扣款？</text>
+
+              <!-- reconcile -->
+              <rect x="360" y="170" width="160" height="60" rx="2" class="gl-node"/>
+              <text x="440" y="194" text-anchor="middle" class="gl-lbl">对账渠道流水</text>
+              <text x="440" y="210" text-anchor="middle" class="gl-lbl-s">channel.reconcile()</text>
+
+              <!-- decision B -->
+              <path d="M440 274 L506 320 L440 366 L374 320 Z" class="gl-dec"/>
+              <text x="440" y="316" text-anchor="middle" class="gl-lbl">流水匹配？</text>
+
+              <!-- manual refund -->
+              <rect x="150" y="290" width="150" height="60" rx="2" class="gl-node"/>
+              <text x="225" y="314" text-anchor="middle" class="gl-lbl">人工发起退款</text>
+              <text x="225" y="330" text-anchor="middle" class="gl-lbl-s">refund.manual</text>
+
+              <!-- end ok -->
+              <rect x="640" y="373" width="120" height="34" rx="17" class="gl-term"/>
+              <text x="700" y="395" text-anchor="middle" class="gl-lbl">关闭告警</text>
+
+              <!-- escalate -->
+              <rect x="600" y="303" width="160" height="34" rx="17" class="gl-term" fill="#fde7e4" stroke="#c9372c"/>
+              <text x="680" y="325" text-anchor="middle" class="gl-lbl" fill="#8b2318">升级给支付值班</text>
+
+              <!-- edges -->
+              <path class="gl-edge" d="M200 58 V82" marker-end="url(#gl-arrow)"/>
+              <path class="gl-edge" d="M200 132 V154" marker-end="url(#gl-arrow)"/>
+              <path class="gl-edge" d="M266 200 H360" marker-end="url(#gl-arrow)"/>
+              <text x="300" y="192" class="gl-elabel">否</text>
+              <path class="gl-edge" d="M440 230 V274" marker-end="url(#gl-arrow)"/>
+              <path class="gl-edge" d="M506 320 H600" marker-end="url(#gl-arrow)"/>
+              <text x="546" y="312" class="gl-elabel">否</text>
+              <path class="gl-edge" d="M374 320 H300" marker-end="url(#gl-arrow)"/>
+              <text x="326" y="312" class="gl-elabel">是</text>
+              <path class="gl-edge" d="M225 350 V390 H640" marker-end="url(#gl-arrow)"/>
+              <path class="gl-edge" d="M134 200 H90 V320 H150" marker-end="url(#gl-arrow)"/>
+              <text x="98" y="196" class="gl-elabel">是</text>
+
+              <!-- note -->
+              <rect x="600" y="60" width="200" height="58" fill="#fffbe6" stroke="#d9c98a" stroke-width="1"/>
+              <text x="612" y="80" class="gl-lbl-s" fill="#6b5c2a">备注：超过 30 分钟未恢复，</text>
+              <text x="612" y="95" class="gl-lbl-s" fill="#6b5c2a">按 P1 事故流程升级；</text>
+              <text x="612" y="110" class="gl-lbl-s" fill="#6b5c2a">退款需财务复核。</text>
+            </svg>
+          </div>
+        </div>
+
+        <div class="cf-foot">
+          <span>Gliffy by Perforce</span>
+          <span>·</span>
+          <span>此图可在页面内直接编辑</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="stage-note">Gliffy 的视觉语言：它先是一张 Confluence 页面，然后才是图。流程图形状沿用最传统的画法 —— 胶囊形起止、菱形判断、浅蓝矩形步骤、1px 描边、细而规整的连线；不追求设计感，追求“wiki 里随手画的一张图”。</p>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">02</span><h2>官网原样</h2></div>
+  <figure class="shot">
+    <img src="../assets/shots/gliffy.png" alt="Gliffy 官网首页截图">
+    <figcaption>gliffy.com —— 标题直接把场景写死：“AI-Powered Technical Diagramming for Confluence”。右侧插画里，Confluence 页面卡片和一张流程图并排，就是它的全部定位。</figcaption>
+  </figure>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">03</span><h2>定位与差异</h2></div>
+  <div class="grid2">
+    <div class="card">
+      <h3>它是什么</h3>
+      <p>Perforce 旗下的图表工具，最早以 Confluence / Jira 插件出名。核心场景是在 wiki 页面里直接插入流程图、UML、组织架构图和技术架构图，拖拽操作，几乎不需要培训。</p>
+      <p>也提供独立 Web 编辑器和白板，但真正的差异点一直是“它长在你的 Atlassian 文档里”。</p>
+    </div>
+    <div class="card">
+      <h3>和近邻的差别</h3>
+      <ul class="vs">
+        <li><b>vs draw.io</b>　两者都有 Confluence 插件。draw.io 更通用、更免费、形状库更大；Gliffy 的交互更轻，在 wiki 里更像原生组件。</li>
+        <li><b>vs Lucidchart</b>　Lucidchart 面向跨部门的企业图表体系，模板、数据联动、AI 都更重；Gliffy 只解决“文档里要放一张图”这一件事。</li>
+        <li><b>vs Mermaid</b>　Mermaid 的图是文本渲染出来的，改要改源码；Gliffy 是拖拽出来的，非工程师也能改，但版本管理不如文本友好。</li>
+      </ul>
+    </div>
+  </div>
+  <div class="verdict">什么时候选它：<b>团队的文档、需求、复盘都写在 Confluence 里</b>时。图要跟着页面走、还要让不写代码的人随时改，Gliffy 的嵌入体验是最顺的。</div>
+</div></section>
+
+<footer class="page-foot"><div class="wrap">
+  <span>DesignBookmark 30 图工具调研 · gliffy · demo 为风格复刻，非官方产品</span>
+  <span>截图采集于 2026-11-18</span>
+</div></footer>
+
+</body>
+</html>

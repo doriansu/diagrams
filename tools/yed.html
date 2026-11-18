@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>yEd · 30 个图工具调研</title>
+<link rel="stylesheet" href="../assets/kit.css">
+<style>
+  :root {
+    --accent: #7ab800;
+    --bg: #ffffff;
+    --panel: #f7fbf0;
+    --ink: #1f2a14;
+    --muted: #6b7a5c;
+    --line: rgba(31, 42, 20, 0.12);
+  }
+  body { background: #fff; }
+  .topbar { background: rgba(255,255,255,.88); }
+  .topbar .back { color: var(--muted); }
+  .hero .kicker { color: #5c8a00; }
+  .hero .kicker::before { background: #7ab800; }
+
+  .yed-stage {
+    position: relative;
+    background: #fff;
+    padding: 0;
+  }
+  .yed-stage svg.graph { display: block; width: 100%; height: auto; }
+
+  /* ---------- layout selector (bottom-left, like yEd's toolbar) ---------- */
+  .layout-ctl {
+    position: absolute; left: 14px; bottom: 12px;
+    display: flex; align-items: center; gap: 9px;
+    background: #fff;
+    border: 1px solid rgba(31,42,20,.18);
+    border-radius: 7px;
+    box-shadow: 0 6px 16px -10px rgba(31,42,20,.55);
+    padding: 6px 8px 6px 10px;
+  }
+  .layout-ctl .lbl {
+    font-size: 9.5px; letter-spacing: .11em; text-transform: uppercase;
+    color: #8b9a72; font-weight: 600;
+  }
+  .layout-ctl .seg { display: flex; }
+  .layout-ctl .seg span {
+    font-size: 11px; color: #63714f; padding: 3px 8px;
+    border: 1px solid rgba(31,42,20,.13); border-left: 0;
+    background: #fbfdf7; white-space: nowrap;
+  }
+  .layout-ctl .seg span:first-child { border-left: 1px solid rgba(31,42,20,.13); border-radius: 5px 0 0 5px; }
+  .layout-ctl .seg span:last-child { border-radius: 0 5px 5px 0; }
+  .layout-ctl .seg span.on {
+    background: rgba(122,184,0,.17); border-color: rgba(122,184,0,.55);
+    color: #3d5c00; font-weight: 650;
+  }
+
+  /* ---------- editor chrome strip on top ---------- */
+  .yed-chrome {
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    padding: 9px 16px; border-bottom: 1px solid var(--line);
+    background: #fbfdf7; font-size: 11.5px; color: #7b8a6b;
+  }
+  .yed-chrome .tbtn {
+    border: 1px solid rgba(31,42,20,.14); background: #fff; border-radius: 5px;
+    padding: 3px 8px; font-size: 11px; color: #56654a;
+  }
+  .yed-chrome .tbtn.on { background: rgba(122,184,0,.16); border-color: rgba(122,184,0,.5); color: #3d5c00; }
+  .yed-chrome .sep { width: 1px; height: 14px; background: rgba(31,42,20,.12); }
+  .yed-chrome .right { margin-left: auto; font-family: ui-monospace, Menlo, monospace; }
+
+  .card { background: #fbfdf7; }
+  .verdict { background: rgba(122,184,0,.09); }
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <a href="../index.html">← 30 个图工具调研</a>
+  <span class="crumb-sep">/</span>
+  <span>自动布局</span>
+  <a class="back" href="../index.html">总览</a>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <div class="kicker">Graph editor · 免费桌面应用</div>
+  <h1>yEd</h1>
+  <p class="tagline">把一堆节点和边丢进去，让布局算法替你排好。</p>
+  <div class="meta-row">
+    <span>类别 <b>Diagrams &amp; Whiteboards / 图编辑</b></span>
+    <span>平台 <b>桌面：Windows / macOS / Linux</b></span>
+    <span>价格 <b>免费（yWorks 出品）</b></span>
+    <span>用户 <b>画 BPMN、网络拓扑、家谱、大图的工程与管理岗</b></span>
+  </div>
+</div></header>
+
+<section class="block"><div class="wrap">
+  <div class="block-head">
+    <span class="num">01</span>
+    <h2>它画出来是什么样</h2>
+    <p>34 个节点的服务拓扑，用 Hierarchical 分层布局自动排开</p>
+  </div>
+
+  <div class="stage">
+    <div class="yed-chrome">
+      <span class="tbtn on">Select</span>
+      <span class="tbtn">Edge</span>
+      <span class="tbtn">Label</span>
+      <span class="sep"></span>
+      <span class="tbtn">Fit View</span>
+      <span class="tbtn">Zoom 100%</span>
+      <span class="sep"></span>
+      <span class="right">34 nodes · 55 edges · hierarchical</span>
+    </div>
+    <div class="yed-stage">
+      <svg class="graph" viewBox="0 0 1200 648" role="img" aria-label="yEd 分层自动布局复刻：34 个节点的服务拓扑图">
+<defs>
+  <pattern id="yd-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+    <path d="M20 0H0V20" fill="none" stroke="#eef2e2" stroke-width="1"/>
+  </pattern>
+  <marker id="yd-arr" viewBox="0 0 10 10" refX="9.2" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M0,1.6 L9,5 L0,8.4 z" fill="#8b9a72"/>
+  </marker>
+  <marker id="yd-arr-hl" viewBox="0 0 10 10" refX="9.2" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M0,1.6 L9,5 L0,8.4 z" fill="#5c8a00"/>
+  </marker>
+</defs>
+<rect width="1200" height="648" fill="url(#yd-grid)"/>
+<path d="M300 73 V102 H190 V131" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<path d="M300 73 V102 H330 V131" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<path d="M610 73 V102 H330 V131" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<path d="M610 73 V102 H470 V131" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<path d="M920 73 V102 H890 V131" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<path d="M920 73 V102 H1030 V131" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<path d="M610 73 V131" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<path d="M920 73 V102 H750 V131" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<path d="M190 165 V197 H152 V229" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<text x="171" y="192" text-anchor="middle" font-size="9.5" fill="#7c8a63" font-family="ui-monospace,Menlo,monospace" paint-order="stroke" stroke="#ffffff" stroke-width="3.5" stroke-linejoin="round">REST</text>
+<path d="M190 165 V197 H280 V229" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<path d="M330 165 V197 H280 V229" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<path d="M330 165 V197 H408 V229" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<text x="369" y="192" text-anchor="middle" font-size="9.5" fill="#7c8a63" font-family="ui-monospace,Menlo,monospace" paint-order="stroke" stroke="#ffffff" stroke-width="3.5" stroke-linejoin="round">gRPC</text>
+<path d="M470 165 V197 H408 V229" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<path d="M470 165 V197 H664 V229" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<path d="M610 165 V197 H536 V229" fill="none" stroke="#5c8a00" stroke-width="1.7" marker-end="url(#yd-arr-hl)"/>
+<text x="573" y="192" text-anchor="middle" font-size="9.5" fill="#7c8a63" font-family="ui-monospace,Menlo,monospace" paint-order="stroke" stroke="#ffffff" stroke-width="3.5" stroke-linejoin="round">MQ</text>
+<path d="M610 165 V197 H664 V229" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<path d="M750 165 V197 H1048 V229" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<path d="M750 165 V197 H920 V229" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<path d="M890 165 V197 H536 V229" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<path d="M890 165 V197 H792 V229" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<path d="M1030 165 V197 H792 V229" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<path d="M1030 165 V197 H920 V229" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<path d="M610 165 V197 H1048 V229" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<path d="M152 263 V295 H190 V327" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<path d="M152 263 V295 H330 V327" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<path d="M280 263 V295 H330 V327" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<path d="M408 263 V295 H470 V327" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<text x="439" y="290" text-anchor="middle" font-size="9.5" fill="#7c8a63" font-family="ui-monospace,Menlo,monospace" paint-order="stroke" stroke="#ffffff" stroke-width="3.5" stroke-linejoin="round">cache</text>
+<path d="M536 263 V295 H610 V327" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<text x="573" y="290" text-anchor="middle" font-size="9.5" fill="#7c8a63" font-family="ui-monospace,Menlo,monospace" paint-order="stroke" stroke="#ffffff" stroke-width="3.5" stroke-linejoin="round">1:N</text>
+<path d="M664 263 V295 H750 V327" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<path d="M664 263 V295 H190 V327" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<path d="M792 263 V295 H890 V327" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<path d="M792 263 V295 H750 V327" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<path d="M920 263 V295 H1030 V327" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<path d="M1048 263 V295 H330 V327" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<path d="M536 263 V295 H890 V327" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<path d="M920 263 V295 H470 V327" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<path d="M190 361 V393 H240 V425" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<path d="M330 361 V393 H240 V425" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<path d="M330 361 V393 H400 V425" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<text x="365" y="388" text-anchor="middle" font-size="9.5" fill="#7c8a63" font-family="ui-monospace,Menlo,monospace" paint-order="stroke" stroke="#ffffff" stroke-width="3.5" stroke-linejoin="round">read</text>
+<path d="M470 361 V393 H400 V425" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<path d="M610 361 V393 H560 V425" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<text x="585" y="388" text-anchor="middle" font-size="9.5" fill="#7c8a63" font-family="ui-monospace,Menlo,monospace" paint-order="stroke" stroke="#ffffff" stroke-width="3.5" stroke-linejoin="round">async</text>
+<path d="M610 361 V393 H1040 V425" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<path d="M750 361 V393 H560 V425" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<path d="M890 361 V393 H240 V425" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<path d="M890 361 V393 H720 V425" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<path d="M1030 361 V393 H720 V425" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<text x="875" y="388" text-anchor="middle" font-size="9.5" fill="#7c8a63" font-family="ui-monospace,Menlo,monospace" paint-order="stroke" stroke="#ffffff" stroke-width="3.5" stroke-linejoin="round">bulk</text>
+<path d="M1030 361 V393 H1040 V425" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<path d="M470 361 V393 H720 V425" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<path d="M240 459 V489 H360 V519" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<text x="300" y="484" text-anchor="middle" font-size="9.5" fill="#7c8a63" font-family="ui-monospace,Menlo,monospace" paint-order="stroke" stroke="#ffffff" stroke-width="3.5" stroke-linejoin="round">sync</text>
+<path d="M400 459 V489 H360 V519" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<path d="M560 459 V489 H610 V519" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<text x="585" y="484" text-anchor="middle" font-size="9.5" fill="#7c8a63" font-family="ui-monospace,Menlo,monospace" paint-order="stroke" stroke="#ffffff" stroke-width="3.5" stroke-linejoin="round">topic</text>
+<path d="M720 459 V489 H860 V519" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<path d="M880 459 V489 H610 V519" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<path d="M1040 459 V489 H860 V519" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<path d="M920 73 H1160 V213 H1048 V229" fill="none" stroke="#8b9a72" stroke-width="1.1" marker-end="url(#yd-arr)"/>
+<g><rect x="254" y="39" width="92" height="34" rx="5" fill="#f7fbf0" stroke="#a9c46b" stroke-width="1.2"/><text x="300" y="59.6" text-anchor="middle" font-size="10.5" fill="#3c4a24" font-family="ui-sans-serif,-apple-system,'PingFang SC',system-ui,sans-serif">Web 客户端</text></g>
+<g><rect x="564" y="39" width="92" height="34" rx="5" fill="#f7fbf0" stroke="#a9c46b" stroke-width="1.2"/><text x="610" y="59.6" text-anchor="middle" font-size="10.5" fill="#3c4a24" font-family="ui-sans-serif,-apple-system,'PingFang SC',system-ui,sans-serif">移动端 App</text></g>
+<g><rect x="874" y="39" width="92" height="34" rx="5" fill="#f7fbf0" stroke="#a9c46b" stroke-width="1.2"/><text x="920" y="59.6" text-anchor="middle" font-size="10.5" fill="#3c4a24" font-family="ui-sans-serif,-apple-system,'PingFang SC',system-ui,sans-serif">开放平台</text></g>
+<g><rect x="144" y="131" width="92" height="34" rx="5" fill="#f7fbf0" stroke="#a9c46b" stroke-width="1.2"/><text x="190" y="151.6" text-anchor="middle" font-size="10.5" fill="#3c4a24" font-family="ui-sans-serif,-apple-system,'PingFang SC',system-ui,sans-serif">BFF 聚合层</text></g>
+<g><rect x="284" y="131" width="92" height="34" rx="5" fill="#f7fbf0" stroke="#a9c46b" stroke-width="1.2"/><text x="330" y="151.6" text-anchor="middle" font-size="10.5" fill="#3c4a24" font-family="ui-sans-serif,-apple-system,'PingFang SC',system-ui,sans-serif">API 网关</text></g>
+<g><rect x="424" y="131" width="92" height="34" rx="5" fill="#f7fbf0" stroke="#a9c46b" stroke-width="1.2"/><text x="470" y="151.6" text-anchor="middle" font-size="10.5" fill="#3c4a24" font-family="ui-sans-serif,-apple-system,'PingFang SC',system-ui,sans-serif">鉴权中心</text></g>
+<g><rect x="564" y="131" width="92" height="34" rx="5" fill="#f7fbf0" stroke="#a9c46b" stroke-width="1.2"/><text x="610" y="151.6" text-anchor="middle" font-size="10.5" fill="#3c4a24" font-family="ui-sans-serif,-apple-system,'PingFang SC',system-ui,sans-serif">消息网关</text></g>
+<g><rect x="704" y="131" width="92" height="34" rx="5" fill="#f7fbf0" stroke="#a9c46b" stroke-width="1.2"/><text x="750" y="151.6" text-anchor="middle" font-size="10.5" fill="#3c4a24" font-family="ui-sans-serif,-apple-system,'PingFang SC',system-ui,sans-serif">搜索入口</text></g>
+<g><rect x="844" y="131" width="92" height="34" rx="5" fill="#f7fbf0" stroke="#a9c46b" stroke-width="1.2"/><text x="890" y="151.6" text-anchor="middle" font-size="10.5" fill="#3c4a24" font-family="ui-sans-serif,-apple-system,'PingFang SC',system-ui,sans-serif">结算入口</text></g>
+<g><rect x="984" y="131" width="92" height="34" rx="5" fill="#f7fbf0" stroke="#a9c46b" stroke-width="1.2"/><text x="1030" y="151.6" text-anchor="middle" font-size="10.5" fill="#3c4a24" font-family="ui-sans-serif,-apple-system,'PingFang SC',system-ui,sans-serif">开放网关</text></g>
+<g><rect x="106" y="229" width="92" height="34" rx="5" fill="#f7fbf0" stroke="#a9c46b" stroke-width="1.2"/><text x="152" y="249.6" text-anchor="middle" font-size="10.5" fill="#3c4a24" font-family="ui-sans-serif,-apple-system,'PingFang SC',system-ui,sans-serif">订单服务</text></g>
+<g><rect x="234" y="229" width="92" height="34" rx="5" fill="#f7fbf0" stroke="#a9c46b" stroke-width="1.2"/><text x="280" y="249.6" text-anchor="middle" font-size="10.5" fill="#3c4a24" font-family="ui-sans-serif,-apple-system,'PingFang SC',system-ui,sans-serif">商品服务</text></g>
+<g><rect x="362" y="229" width="92" height="34" rx="5" fill="#7ab800" stroke="#5c8a00" stroke-width="1.2"/><text x="408" y="249.6" text-anchor="middle" font-size="10.5" fill="#ffffff" font-family="ui-sans-serif,-apple-system,'PingFang SC',system-ui,sans-serif">库存服务</text></g>
+<g><rect x="490" y="229" width="92" height="34" rx="5" fill="#f7fbf0" stroke="#a9c46b" stroke-width="1.2"/><text x="536" y="249.6" text-anchor="middle" font-size="10.5" fill="#3c4a24" font-family="ui-sans-serif,-apple-system,'PingFang SC',system-ui,sans-serif">支付服务</text></g>
+<g><rect x="618" y="229" width="92" height="34" rx="5" fill="#f7fbf0" stroke="#a9c46b" stroke-width="1.2"/><text x="664" y="249.6" text-anchor="middle" font-size="10.5" fill="#3c4a24" font-family="ui-sans-serif,-apple-system,'PingFang SC',system-ui,sans-serif">用户服务</text></g>
+<g><rect x="746" y="229" width="92" height="34" rx="5" fill="#f7fbf0" stroke="#a9c46b" stroke-width="1.2"/><text x="792" y="249.6" text-anchor="middle" font-size="10.5" fill="#3c4a24" font-family="ui-sans-serif,-apple-system,'PingFang SC',system-ui,sans-serif">营销服务</text></g>
+<g><rect x="874" y="229" width="92" height="34" rx="5" fill="#f7fbf0" stroke="#a9c46b" stroke-width="1.2"/><text x="920" y="249.6" text-anchor="middle" font-size="10.5" fill="#3c4a24" font-family="ui-sans-serif,-apple-system,'PingFang SC',system-ui,sans-serif">物流服务</text></g>
+<g><rect x="1002" y="229" width="92" height="34" rx="5" fill="#f7fbf0" stroke="#a9c46b" stroke-width="1.2"/><text x="1048" y="249.6" text-anchor="middle" font-size="10.5" fill="#3c4a24" font-family="ui-sans-serif,-apple-system,'PingFang SC',system-ui,sans-serif">搜索服务</text></g>
+<g><rect x="144" y="327" width="92" height="34" rx="5" fill="#f7fbf0" stroke="#a9c46b" stroke-width="1.2"/><text x="190" y="347.6" text-anchor="middle" font-size="10.5" fill="#3c4a24" font-family="ui-sans-serif,-apple-system,'PingFang SC',system-ui,sans-serif">订单库</text></g>
+<g><rect x="284" y="327" width="92" height="34" rx="5" fill="#f7fbf0" stroke="#a9c46b" stroke-width="1.2"/><text x="330" y="347.6" text-anchor="middle" font-size="10.5" fill="#3c4a24" font-family="ui-sans-serif,-apple-system,'PingFang SC',system-ui,sans-serif">商品库</text></g>
+<g><rect x="424" y="327" width="92" height="34" rx="5" fill="#7ab800" stroke="#5c8a00" stroke-width="1.2"/><text x="470" y="347.6" text-anchor="middle" font-size="10.5" fill="#ffffff" font-family="ui-sans-serif,-apple-system,'PingFang SC',system-ui,sans-serif">库存中心</text></g>
+<g><rect x="564" y="327" width="92" height="34" rx="5" fill="#f7fbf0" stroke="#a9c46b" stroke-width="1.2"/><text x="610" y="347.6" text-anchor="middle" font-size="10.5" fill="#3c4a24" font-family="ui-sans-serif,-apple-system,'PingFang SC',system-ui,sans-serif">支付网关</text></g>
+<g><rect x="704" y="327" width="92" height="34" rx="5" fill="#f7fbf0" stroke="#a9c46b" stroke-width="1.2"/><text x="750" y="347.6" text-anchor="middle" font-size="10.5" fill="#3c4a24" font-family="ui-sans-serif,-apple-system,'PingFang SC',system-ui,sans-serif">账户服务</text></g>
+<g><rect x="844" y="327" width="92" height="34" rx="5" fill="#f7fbf0" stroke="#a9c46b" stroke-width="1.2"/><text x="890" y="347.6" text-anchor="middle" font-size="10.5" fill="#3c4a24" font-family="ui-sans-serif,-apple-system,'PingFang SC',system-ui,sans-serif">优惠券服务</text></g>
+<g><rect x="984" y="327" width="92" height="34" rx="5" fill="#f7fbf0" stroke="#a9c46b" stroke-width="1.2"/><text x="1030" y="347.6" text-anchor="middle" font-size="10.5" fill="#3c4a24" font-family="ui-sans-serif,-apple-system,'PingFang SC',system-ui,sans-serif">运单中心</text></g>
+<g><rect x="194" y="425" width="92" height="34" rx="5" fill="#f7fbf0" stroke="#a9c46b" stroke-width="1.2"/><text x="240" y="445.6" text-anchor="middle" font-size="10.5" fill="#3c4a24" font-family="ui-sans-serif,-apple-system,'PingFang SC',system-ui,sans-serif">MySQL 集群</text></g>
+<g><rect x="354" y="425" width="92" height="34" rx="5" fill="#f7fbf0" stroke="#a9c46b" stroke-width="1.2"/><text x="400" y="445.6" text-anchor="middle" font-size="10.5" fill="#3c4a24" font-family="ui-sans-serif,-apple-system,'PingFang SC',system-ui,sans-serif">Redis 缓存</text></g>
+<g><rect x="514" y="425" width="92" height="34" rx="5" fill="#f7fbf0" stroke="#a9c46b" stroke-width="1.2"/><text x="560" y="445.6" text-anchor="middle" font-size="10.5" fill="#3c4a24" font-family="ui-sans-serif,-apple-system,'PingFang SC',system-ui,sans-serif">Kafka 消息</text></g>
+<g><rect x="674" y="425" width="92" height="34" rx="5" fill="#f7fbf0" stroke="#a9c46b" stroke-width="1.2"/><text x="720" y="445.6" text-anchor="middle" font-size="10.5" fill="#3c4a24" font-family="ui-sans-serif,-apple-system,'PingFang SC',system-ui,sans-serif">ES 索引</text></g>
+<g><rect x="834" y="425" width="92" height="34" rx="5" fill="#f7fbf0" stroke="#a9c46b" stroke-width="1.2"/><text x="880" y="445.6" text-anchor="middle" font-size="10.5" fill="#3c4a24" font-family="ui-sans-serif,-apple-system,'PingFang SC',system-ui,sans-serif">对象存储</text></g>
+<g><rect x="994" y="425" width="92" height="34" rx="5" fill="#f7fbf0" stroke="#a9c46b" stroke-width="1.2"/><text x="1040" y="445.6" text-anchor="middle" font-size="10.5" fill="#3c4a24" font-family="ui-sans-serif,-apple-system,'PingFang SC',system-ui,sans-serif">数据仓库</text></g>
+<g><rect x="314" y="519" width="92" height="34" rx="5" fill="#f7fbf0" stroke="#a9c46b" stroke-width="1.2"/><text x="360" y="539.6" text-anchor="middle" font-size="10.5" fill="#3c4a24" font-family="ui-sans-serif,-apple-system,'PingFang SC',system-ui,sans-serif">外部支付渠道</text></g>
+<g><rect x="564" y="519" width="92" height="34" rx="5" fill="#f7fbf0" stroke="#a9c46b" stroke-width="1.2"/><text x="610" y="539.6" text-anchor="middle" font-size="10.5" fill="#3c4a24" font-family="ui-sans-serif,-apple-system,'PingFang SC',system-ui,sans-serif">第三方物流</text></g>
+<g><rect x="814" y="519" width="92" height="34" rx="5" fill="#f7fbf0" stroke="#a9c46b" stroke-width="1.2"/><text x="860" y="539.6" text-anchor="middle" font-size="10.5" fill="#3c4a24" font-family="ui-sans-serif,-apple-system,'PingFang SC',system-ui,sans-serif">风控名单</text></g>
+      </svg>
+
+      <div class="layout-ctl">
+        <span class="lbl">Layout</span>
+        <div class="seg">
+          <span class="on">Hierarchical</span>
+          <span>Organic</span>
+          <span>Orthogonal</span>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+  <p class="stage-note">yEd 的视觉语言是“图论工具”的密度：小圆角矩形节点、1px 细边、正交走线、边标签压在线上、背景淡网格。上面这张图的价值不在单个节点画得多好看，而在 34 个节点被算法排成 6 层、55 条边没有一条交叉到看不清 —— 这是手拖不出来的。</p>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">02</span><h2>官网原样</h2></div>
+  <figure class="shot">
+    <img src="../assets/shots/yed.png" alt="yEd 官网首页截图">
+    <figcaption>yworks.com/products/yed —— 大面积亮绿配深藏青字，右侧两张桌面端截图展示真实界面：左边是星型网络拓扑，右边是 BPMN 流程。首屏就强调自动布局。</figcaption>
+  </figure>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">03</span><h2>定位与差异</h2></div>
+  <div class="grid2">
+    <div class="card">
+      <h3>它是什么</h3>
+      <p>一个<strong>免费的桌面图编辑器</strong>，由 yWorks 出品。能画流程图、BPMN、家谱、网络拓扑，也能导入外部数据（Excel、GraphML 等）后用内置算法自动排布。</p>
+      <p>它真正强的是<strong>布局算法</strong>：Hierarchical / Organic / Orthogonal / Tree / Circular 等，处理上千节点仍然可用。界面是典型的老派桌面软件，不漂亮但极快。</p>
+    </div>
+    <div class="card">
+      <h3>和近邻的差别</h3>
+      <ul class="vs">
+        <li><b>vs draw.io</b>　draw.io 在浏览器里拖拽、易分享；yEd 是本地桌面应用，自动布局能力明显更强，尤其节点一多就拉开差距。</li>
+        <li><b>vs Graphviz</b>　两者都靠算法排版，但 Graphviz 是命令行、纯 DOT 文本；yEd 有图形界面，可以手动微调算法排出来的结果。</li>
+        <li><b>vs Lucidchart</b>　Lucidchart 卖的是协作与模板；yEd 卖的是免费和算法，没有实时协作，也不在云端。</li>
+      </ul>
+    </div>
+  </div>
+  <div class="verdict">什么时候选它：<b>图很大、结构比美观重要、又不想付费</b>时 —— 几百个节点的依赖图、网络拓扑、组织与家谱。要在线协作、要移动端、要现代 UI，它不合适。</div>
+</div></section>
+
+<footer class="page-foot"><div class="wrap">
+  <span>DesignBookmark 30 图工具调研 · yed · demo 为风格复刻，非官方产品</span>
+  <span>截图采集于 2026-11-18</span>
+</div></footer>
+
+</body>
+</html>

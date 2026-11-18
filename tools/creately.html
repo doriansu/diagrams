@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Creately · 30 个图工具调研</title>
+<link rel="stylesheet" href="../assets/kit.css">
+<style>
+  :root {
+    --accent: #7b61ff;
+    --bg: #fbfbfd;
+    --panel: #ffffff;
+    --ink: #221f3a;
+    --muted: #6c6884;
+    --line: rgba(43, 33, 92, 0.12);
+  }
+  body { background: var(--bg); }
+
+  .stage { background: #fff; }
+
+  /* ---------- creately chrome ---------- */
+  .cr-bar {
+    display: flex; align-items: center; gap: 12px;
+    height: 42px; padding: 0 12px; border-bottom: 1px solid #e8e5f3;
+    font-size: 12px; color: #3a3556; background: #fff;
+  }
+  .cr-doc { font-weight: 600; }
+  .cr-doc span { font-weight: 400; color: #8b86a3; }
+  .cr-bar .sp { flex: 1; }
+  .cr-pill {
+    border: 1px solid #ddd8f0; border-radius: 6px; padding: 4px 10px;
+    font-size: 11.5px; color: #5b5478; background: #fff;
+  }
+  .cr-pill.pri { background: #7b61ff; border-color: #7b61ff; color: #fff; }
+  .cr-avas { display: flex; }
+  .cr-avas i {
+    width: 22px; height: 22px; border-radius: 50%; background: #ded8ff;
+    border: 2px solid #fff; margin-left: -6px; font-style: normal; font-size: 9.5px;
+    display: grid; place-items: center; color: #4a3f8f; font-weight: 600;
+  }
+  .cr-avas i:first-child { margin-left: 0; }
+
+  .cr-body { display: grid; grid-template-columns: 158px 1fr; }
+
+  /* left shape library */
+  .cr-lib {
+    border-right: 1px solid #ece9f6; background: #fdfdff; padding: 10px 0;
+    font-size: 11.5px;
+  }
+  .cr-tab {
+    display: flex; align-items: center; gap: 7px; padding: 7px 12px;
+    color: #6c6884; border-left: 2px solid transparent;
+  }
+  .cr-tab.on {
+    color: #4a3f8f; font-weight: 600; background: #f4f1ff;
+    border-left-color: #7b61ff;
+  }
+  .cr-tab i {
+    width: 13px; height: 13px; border: 1.2px solid currentColor; border-radius: 2px;
+    display: block; flex: none;
+  }
+  .cr-tab.on i { background: #7b61ff; border-color: #7b61ff; }
+  .cr-lib-h {
+    font-size: 9.5px; letter-spacing: .1em; color: #a29cb8; text-transform: uppercase;
+    padding: 12px 12px 6px; font-weight: 600;
+  }
+  .cr-lib-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 0 12px;
+  }
+  .cr-lib-cell {
+    height: 40px; border: 1px solid #ece9f6; border-radius: 5px; background: #fff;
+    display: grid; place-items: center;
+  }
+  .cr-lib-cell svg { width: 30px; height: 22px; }
+
+  /* canvas */
+  .cr-canvas {
+    position: relative; background: #fff;
+    background-image: radial-gradient(circle at 1px 1px, #eeebf7 1px, transparent 0);
+    background-size: 16px 16px;
+  }
+  .cr-svg { display: block; width: 100%; height: auto; }
+  .cr-svg text { font-family: ui-sans-serif, -apple-system, "PingFang SC", system-ui, sans-serif; }
+
+  .lane-band { fill: #faf9fe; }
+  .lane-band.alt { fill: #ffffff; }
+  .lane-head { fill: #f2efff; }
+  .lane-line { stroke: #e5e1f2; stroke-width: 1; }
+  .lane-lbl { font-size: 11.5px; font-weight: 600; fill: #4a3f8f; }
+  .lane-sub { font-size: 9.5px; fill: #8b86a3; }
+
+  .b-task { fill: #e8e2ff; stroke: #7b61ff; stroke-width: 1; }
+  .b-task.cyan { fill: #d9f0f4; stroke: #2f9bab; }
+  .b-task.orange { fill: #ffe9d6; stroke: #d98324; }
+  .b-task.grey { fill: #f1f0f6; stroke: #a29cb8; }
+  .b-gw { fill: #fff; stroke: #7b61ff; stroke-width: 1; }
+  .b-ev { fill: #fff; stroke: #4a3f8f; stroke-width: 1.2; }
+  .b-ev-end { fill: #4a3f8f; stroke: #4a3f8f; stroke-width: 1.4; }
+  .b-lbl { font-size: 10.5px; fill: #221f3a; }
+  .b-lbl-s { font-size: 9px; fill: #6c6884; }
+  .b-edge { fill: none; stroke: #6c6884; stroke-width: 1; }
+  .b-msg { fill: none; stroke: #a29cb8; stroke-width: 1; stroke-dasharray: 5 4; }
+  .b-elabel { font-size: 8.5px; fill: #6c6884; }
+  .gw-x { stroke: #7b61ff; stroke-width: 1.2; fill: none; }
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <a href="../index.html">← 30 个图工具调研</a>
+  <span class="crumb-sep">/</span>
+  <span>业务流程</span>
+  <a class="back" href="../index.html">总览</a>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <div class="kicker">Diagramming · 流程与组织</div>
+  <h1>Creately</h1>
+  <p class="tagline">把流程、组织架构和云上系统画在同一套可视化工作区里，并交给 AI 一起维护。</p>
+  <div class="meta-row">
+    <span>类别 <b>Diagrams &amp; Whiteboards</b></span>
+    <span>平台 <b>Web</b></span>
+    <span>价格 <b>Freemium（价格见官网）</b></span>
+    <span>用户 <b>业务分析师、流程/运营、IT 架构</b></span>
+  </div>
+</div></header>
+
+<section class="block"><div class="wrap">
+  <div class="block-head">
+    <span class="num">01</span>
+    <h2>它画出来是什么样</h2>
+    <p>复刻一张「BPMN 采购审批流程」，三泳道 + 左侧形状库</p>
+  </div>
+
+  <div class="stage">
+    <div class="cr-bar">
+      <div class="cr-doc">采购审批流程 <span>· BPMN 2.0</span></div>
+      <div class="sp"></div>
+      <div class="cr-avas"><i>L</i><i>Z</i><i>+4</i></div>
+      <span class="cr-pill">Present</span>
+      <span class="cr-pill pri">Share</span>
+    </div>
+
+    <div class="cr-body">
+      <div class="cr-lib">
+        <div class="cr-tab on"><i></i>Flowchart</div>
+        <div class="cr-tab"><i></i>BPMN</div>
+        <div class="cr-tab"><i></i>UML</div>
+        <div class="cr-tab"><i></i>Mind Map</div>
+        <div class="cr-lib-h">BPMN Shapes</div>
+        <div class="cr-lib-grid">
+          <div class="cr-lib-cell"><svg viewBox="0 0 30 22"><rect x="3" y="5" width="24" height="12" rx="3" fill="#e8e2ff" stroke="#7b61ff"/></svg></div>
+          <div class="cr-lib-cell"><svg viewBox="0 0 30 22"><path d="M15 3 27 11 15 19 3 11z" fill="#fff" stroke="#7b61ff"/><path d="M12 8l6 6M18 8l-6 6" stroke="#7b61ff"/></svg></div>
+          <div class="cr-lib-cell"><svg viewBox="0 0 30 22"><circle cx="15" cy="11" r="8" fill="#fff" stroke="#4a3f8f" stroke-width="1.2"/></svg></div>
+          <div class="cr-lib-cell"><svg viewBox="0 0 30 22"><circle cx="15" cy="11" r="8" fill="#4a3f8f"/></svg></div>
+          <div class="cr-lib-cell"><svg viewBox="0 0 30 22"><rect x="3" y="5" width="24" height="12" rx="3" fill="#d9f0f4" stroke="#2f9bab"/></svg></div>
+          <div class="cr-lib-cell"><svg viewBox="0 0 30 22"><rect x="3" y="5" width="24" height="12" rx="3" fill="#ffe9d6" stroke="#d98324"/></svg></div>
+        </div>
+      </div>
+
+      <div class="cr-canvas">
+        <svg class="cr-svg" viewBox="0 0 900 560" role="img" aria-label="Creately 风格 BPMN 采购审批流程">
+          <defs>
+            <marker id="cr-arrow" viewBox="0 0 10 10" refX="9.4" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto">
+              <path d="M0.8 1.8 8.8 5 0.8 8.2z" fill="#6c6884"/>
+            </marker>
+            <marker id="cr-msg" viewBox="0 0 10 10" refX="9.4" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto">
+              <path d="M1 2 9 5 1 8" fill="none" stroke="#a29cb8" stroke-width="1.2"/>
+            </marker>
+          </defs>
+
+          <!-- lanes -->
+          <rect x="0" y="0" width="900" height="186" class="lane-band"/>
+          <rect x="0" y="186" width="900" height="186" class="lane-band alt"/>
+          <rect x="0" y="372" width="900" height="188" class="lane-band"/>
+
+          <rect x="0" y="0" width="88" height="560" class="lane-head"/>
+          <path d="M88 0 V560" class="lane-line"/>
+          <path d="M0 186 H900" class="lane-line"/>
+          <path d="M0 372 H900" class="lane-line"/>
+
+          <text x="16" y="86" class="lane-lbl">申请人</text>
+          <text x="16" y="103" class="lane-sub">Requester</text>
+          <text x="16" y="272" class="lane-lbl">主管</text>
+          <text x="16" y="289" class="lane-sub">Manager</text>
+          <text x="16" y="458" class="lane-lbl">财务</text>
+          <text x="16" y="475" class="lane-sub">Finance</text>
+
+          <!-- ===== requester lane ===== -->
+          <circle cx="140" cy="94" r="15" class="b-ev"/>
+          <text x="140" y="130" text-anchor="middle" class="b-lbl-s">提交需求</text>
+
+          <rect x="186" y="66" width="126" height="56" rx="8" class="b-task"/>
+          <text x="249" y="90" text-anchor="middle" class="b-lbl">填写采购申请</text>
+          <text x="249" y="105" text-anchor="middle" class="b-lbl-s">金额 · 品类 · 供应商</text>
+
+          <rect x="372" y="66" width="126" height="56" rx="8" class="b-task"/>
+          <text x="435" y="90" text-anchor="middle" class="b-lbl">附比价单</text>
+          <text x="435" y="105" text-anchor="middle" class="b-lbl-s">≥ 3 家</text>
+
+          <!-- ===== manager lane ===== -->
+          <path d="M250 254 L304 279 250 304 196 279 Z" class="b-gw"/>
+          <path d="M244 273l12 12M256 273l-12 12" class="gw-x"/>
+          <text x="250" y="238" text-anchor="middle" class="b-lbl-s">审批意见</text>
+
+          <rect x="350" y="251" width="126" height="56" rx="8" class="b-task cyan"/>
+          <text x="413" y="275" text-anchor="middle" class="b-lbl">主管审批</text>
+          <text x="413" y="290" text-anchor="middle" class="b-lbl-s">预算内 → 直接通过</text>
+
+          <rect x="540" y="251" width="140" height="56" rx="8" class="b-task orange"/>
+          <text x="610" y="275" text-anchor="middle" class="b-lbl">退回补充材料</text>
+          <text x="610" y="290" text-anchor="middle" class="b-lbl-s">驳回理由必填</text>
+
+          <!-- ===== finance lane ===== -->
+          <path d="M340 441 L394 466 340 491 286 466 Z" class="b-gw"/>
+          <path d="M334 460l12 12M346 460l-12 12" class="gw-x"/>
+          <text x="340" y="512" text-anchor="middle" class="b-lbl-s">是否超预算</text>
+
+          <rect x="450" y="438" width="140" height="56" rx="8" class="b-task"/>
+          <text x="520" y="462" text-anchor="middle" class="b-lbl">生成采购订单</text>
+          <text x="520" y="477" text-anchor="middle" class="b-lbl-s">PO → ERP</text>
+
+          <rect x="660" y="438" width="140" height="56" rx="8" class="b-task grey"/>
+          <text x="730" y="462" text-anchor="middle" class="b-lbl">付款排期</text>
+          <text x="730" y="477" text-anchor="middle" class="b-lbl-s">月度批次</text>
+
+          <circle cx="848" cy="466" r="18" class="b-ev-end"/>
+          <circle cx="848" cy="466" r="23" fill="none" stroke="#4a3f8f" stroke-width="1.3"/>
+
+          <!-- ===== sequence flows ===== -->
+          <path class="b-edge" d="M155 94 H186" marker-end="url(#cr-arrow)"/>
+          <path class="b-edge" d="M312 94 H372" marker-end="url(#cr-arrow)"/>
+          <path class="b-edge" d="M435 122 V186 H250 V254" marker-end="url(#cr-arrow)"/>
+          <text x="356" y="180" class="b-elabel">提交审批</text>
+
+          <path class="b-edge" d="M304 279 H350" marker-end="url(#cr-arrow)"/>
+          <text x="314" y="271" class="b-elabel">同意</text>
+
+          <path class="b-edge" d="M250 304 V340 H610 V307" marker-end="url(#cr-arrow)"/>
+          <text x="196" y="332" class="b-elabel" text-anchor="end">驳回</text>
+
+          <path class="b-edge" d="M413 307 V412 H340 V441" marker-end="url(#cr-arrow)"/>
+          <text x="350" y="406" class="b-elabel">转财务</text>
+
+          <path class="b-edge" d="M394 466 H450" marker-end="url(#cr-arrow)"/>
+          <text x="404" y="458" class="b-elabel">否</text>
+
+          <path class="b-edge" d="M340 491 V540 H730 V494" marker-end="url(#cr-arrow)"/>
+          <text x="352" y="534" class="b-elabel">是 · 需追加审批</text>
+
+          <path class="b-edge" d="M590 466 H660" marker-end="url(#cr-arrow)"/>
+          <path class="b-edge" d="M800 466 H825" marker-end="url(#cr-arrow)"/>
+
+          <!-- ===== message flows ===== -->
+          <path class="b-msg" d="M610 307 V352 H686 V134 H498" marker-end="url(#cr-msg)"/>
+          <text x="694" y="250" class="b-elabel">补件通知</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+  <p class="stage-note">Creately 的视觉语言：标准 BPMN —— 圆角矩形任务、带 × 的菱形网关、细描边圆形事件、虚线消息流，套在三条泳道里；填充用紫 / 青 / 橙的柔和色块，靠颜色区分角色而不是靠线。左侧常驻形状库，图型切换是标签式的。</p>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">02</span><h2>官网原样</h2></div>
+  <figure class="shot">
+    <img src="../assets/shots/creately.png" alt="Creately 官网首页截图">
+    <figcaption>creately.com —— 标题 “Plan your org, processes and systems, for you and your AI.”，下面三张卡片分别对应流程映射、组织架构、云基础设施，正是它现在讲的三条产品线。</figcaption>
+  </figure>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="block-head"><span class="num">03</span><h2>定位与差异</h2></div>
+  <div class="grid2">
+    <div class="card">
+      <h3>它是什么</h3>
+      <p>在线可视化协作工具，覆盖面比纯画图更宽：流程图和 BPMN、组织架构、云架构、思维导图、线框，还带自定义数据库和 wiki 式文档。近年的方向是从 HR 数据、流程文档、云账号里自动生成图，再由 AI 标问题、给修正建议。</p>
+      <p>典型用户是业务分析师、流程/运营团队和 IT 架构，而不是纯设计师。</p>
+    </div>
+    <div class="card">
+      <h3>和近邻的差别</h3>
+      <ul class="vs">
+        <li><b>vs Lucidchart</b>　两者都是企业级全图型工具。Lucidchart 更偏系统和产品团队，集成与模板生态更成熟；Creately 更偏业务流程、组织与云架构这类“运营侧”场景。</li>
+        <li><b>vs draw.io</b>　draw.io 是纯编辑器，免费且不碰你的数据；Creately 是带数据库、带 AI、带协作的工作区，按订阅收费。</li>
+        <li><b>vs Miro</b>　Miro 以白板和无边界协作为中心；Creately 的中心是“结构化的图”和它背后的数据源。</li>
+      </ul>
+    </div>
+  </div>
+  <div class="verdict">什么时候选它：<b>要把业务流程、组织关系和系统架构画在同一套体系里</b>，并且希望这些图能从现有数据自动生成、随流程变更同步更新时。</div>
+</div></section>
+
+<footer class="page-foot"><div class="wrap">
+  <span>DesignBookmark 30 图工具调研 · creately · demo 为风格复刻，非官方产品</span>
+  <span>截图采集于 2026-11-18</span>
+</div></footer>
+
+</body>
+</html>

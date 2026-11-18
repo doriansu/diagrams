@@ -1,0 +1,529 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>30 个画图工具，到底各自在画什么 · 调研与 demo</title>
+<style>
+  :root {
+    --bg: #0a0a0c;
+    --panel: #131316;
+    --panel-2: #1a1a1f;
+    --ink: #f0f0f3;
+    --muted: #8c8c97;
+    --line: rgba(255,255,255,.09);
+    --maxw: 1180px;
+    --c1: #ff6b6b;  /* 自由画布 */
+    --c2: #ffa94d;  /* 结构化绘图 */
+    --c3: #4dabf7;  /* 思维导图/规划 */
+    --c4: #b197fc;  /* AI 生成 */
+    --c5: #38d9a9;  /* 代码即图 */
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 15px/1.7 ui-sans-serif, -apple-system, "SF Pro Text", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 28px; }
+
+  /* ---------- hero ---------- */
+  .hero { padding: 92px 0 56px; position: relative; overflow: hidden; }
+  .hero::before {
+    content: ""; position: absolute; inset: -40% -10% auto -10%; height: 560px;
+    background: radial-gradient(ellipse at 30% 20%, rgba(77,171,247,.13), transparent 62%),
+                radial-gradient(ellipse at 72% 40%, rgba(177,151,252,.10), transparent 60%);
+    pointer-events: none;
+  }
+  .hero .wrap { position: relative; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 12px; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 26px;
+  }
+  .eyebrow .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--c5); box-shadow: 0 0 12px var(--c5); }
+  h1 {
+    margin: 0 0 22px; font-size: clamp(38px, 6.2vw, 72px); line-height: 1.02;
+    letter-spacing: -.035em; font-weight: 750;
+  }
+  h1 em { font-style: normal; color: var(--muted); }
+  .lede { margin: 0; max-width: 680px; font-size: 18px; line-height: 1.65; color: #b9b9c4; }
+  .lede b { color: var(--ink); font-weight: 600; }
+
+  .stats { display: flex; flex-wrap: wrap; gap: 40px; margin-top: 46px; padding-top: 28px; border-top: 1px solid var(--line); }
+  .stat .n { font-size: 30px; font-weight: 700; letter-spacing: -.02em; }
+  .stat .l { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+
+  /* ---------- section ---------- */
+  section { padding: 64px 0; border-top: 1px solid var(--line); }
+  .sec-head { margin-bottom: 30px; }
+  .sec-head h2 {
+    margin: 0 0 10px; font-size: clamp(24px, 3vw, 32px); letter-spacing: -.022em; font-weight: 680;
+  }
+  .sec-head p { margin: 0; color: var(--muted); max-width: 760px; font-size: 14.5px; }
+
+  /* ---------- scatter ---------- */
+  .map-shell {
+    border: 1px solid var(--line); border-radius: 16px; background: var(--panel);
+    padding: 8px; overflow: hidden;
+  }
+  #map { display: block; width: 100%; height: auto; }
+  .map-legend { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 18px; font-size: 13px; color: var(--muted); }
+  .map-legend i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 7px; vertical-align: 1px; }
+  .map-hint { margin-top: 12px; font-size: 13px; color: var(--muted); }
+  .map-hint b { color: var(--ink); font-weight: 600; }
+
+  /* ---------- family ---------- */
+  .family { margin-top: 54px; }
+  .family:first-of-type { margin-top: 0; }
+  .family-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 8px; }
+  .family-head h3 { margin: 0; font-size: 20px; letter-spacing: -.015em; font-weight: 660; }
+  .family-head .tag {
+    font-size: 11.5px; padding: 3px 9px; border-radius: 999px;
+    border: 1px solid var(--line); color: var(--muted);
+  }
+  .family-desc { margin: 0 0 20px; color: var(--muted); font-size: 14px; max-width: 820px; }
+
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(268px, 1fr)); gap: 14px; }
+  .card {
+    display: flex; flex-direction: column; gap: 10px;
+    border: 1px solid var(--line); border-radius: 13px; background: var(--panel);
+    padding: 18px 18px 16px; position: relative; overflow: hidden;
+    transition: border-color .18s, transform .18s, background .18s;
+  }
+  .card::after {
+    content: ""; position: absolute; inset: 0 0 auto 0; height: 2px;
+    background: var(--fam, var(--c1)); opacity: .8;
+  }
+  .card:hover { border-color: rgba(255,255,255,.22); transform: translateY(-2px); background: var(--panel-2); }
+  .card .top { display: flex; align-items: center; gap: 9px; }
+  .card .name { font-size: 16.5px; font-weight: 650; letter-spacing: -.01em; }
+  .card .pill {
+    margin-left: auto; font-size: 10.5px; letter-spacing: .04em;
+    padding: 2px 7px; border-radius: 5px; color: var(--muted);
+    background: rgba(255,255,255,.05);
+  }
+  .card .pill.free { color: #38d9a9; background: rgba(56,217,169,.1); }
+  .card .what { font-size: 13.5px; color: #b6b6c1; line-height: 1.6; min-height: 44px; }
+  .card .draws {
+    font-size: 12.5px; color: var(--muted); padding-top: 10px;
+    border-top: 1px dashed var(--line);
+  }
+  .card .draws b { color: var(--ink); font-weight: 600; }
+  .card .go { margin-top: auto; font-size: 12.5px; color: var(--fam); font-weight: 600; }
+  .card .go::after { content: " →"; }
+
+  /* ---------- matrix ---------- */
+  .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 14px; }
+  table { border-collapse: collapse; width: 100%; min-width: 900px; font-size: 13.5px; }
+  th, td { padding: 11px 14px; text-align: left; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  th { background: var(--panel-2); font-weight: 600; font-size: 12.5px; color: #c8c8d2; position: sticky; top: 0; }
+  tbody tr:hover { background: rgba(255,255,255,.03); }
+  td:first-child { font-weight: 600; }
+  .yes { color: #38d9a9; }
+  .no { color: #55555f; }
+  .partial { color: #ffa94d; }
+  .matrix-note { margin-top: 12px; font-size: 12.5px; color: var(--muted); }
+
+  /* ---------- decision ---------- */
+  .decisions { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 14px; }
+  .decision {
+    border: 1px solid var(--line); border-radius: 13px; padding: 20px 22px;
+    background: linear-gradient(180deg, var(--panel-2), var(--panel));
+  }
+  .decision .q { font-size: 15px; font-weight: 650; margin-bottom: 8px; }
+  .decision .a { font-size: 14px; color: #b6b6c1; }
+  .decision .a b { color: var(--ink); }
+  .decision .why { margin-top: 10px; font-size: 12.5px; color: var(--muted); }
+
+  footer { padding: 46px 0 70px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12.5px; }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; }
+  footer a { text-decoration: underline; text-underline-offset: 3px; }
+</style>
+</head>
+<body>
+
+<div class="hero"><div class="wrap">
+  <div class="eyebrow"><span class="dot"></span> DesignBookmark · Diagrams &amp; Whiteboards</div>
+  <h1>30 个画图工具，<br><em>到底各自在画什么</em></h1>
+  <p class="lede">
+    这份调研把 DesignBookmark 上的 30 个图工具按<b>「输入方式 × 自由度」</b>排到一张图上，
+    逐个说明它产出什么、长什么样、和邻居差在哪，并<b>给每个工具做了一个本地 demo</b>——
+    不用注册、不用试用，打开就能看到它的图是什么质感。
+  </p>
+  <div class="stats">
+    <div class="stat"><div class="n">30</div><div class="l">工具</div></div>
+    <div class="stat"><div class="n">7</div><div class="l">能力家族</div></div>
+    <div class="stat"><div class="n">30</div><div class="l">本地 demo 页</div></div>
+    <div class="stat"><div class="n">3</div><div class="l">嵌入真库（可交互）</div></div>
+    <div class="stat"><div class="n">2026-11-18</div><div class="l">取证日期</div></div>
+  </div>
+</div></div>
+
+<section><div class="wrap">
+  <div class="sec-head">
+    <h2>一张图看清这 30 个工具的位置</h2>
+    <p>
+      横轴是<b>你怎么把图做出来</b>：左边全靠鼠标拖拽，右边全靠打字。纵轴是<b>图有多自由</b>：
+      下面是空白画布想画啥画啥，上面是被形状库和模板约束住的结构化图。
+      越靠右下，工具越像"编译器"；越靠左上，越像"纸"。
+    </p>
+  </div>
+  <div class="map-shell"><svg id="map" viewBox="0 0 1040 600" role="img" aria-label="30 个图工具的二维定位图"></svg></div>
+  <div class="map-legend" id="legend"></div>
+  <p class="map-hint">悬停看一句话定位，<b>点击圆点</b>直接跳到该工具的 demo 页。</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sec-head">
+    <h2>按能力家族分组</h2>
+    <p>同一家族内部才是真正的竞品；跨家族比较意义不大——它们解决的不是同一个问题。</p>
+  </div>
+
+  <div class="family">
+    <div class="family-head"><h3>自由画布 / 白板</h3><span class="tag" style="color:var(--c1);border-color:rgba(255,107,107,.35)">先有空间，后有结构</span></div>
+    <p class="family-desc">本质是"无限大的纸 + 一堆便签/图形"。适合发散、工作坊、评审；不适合交付一张需要精确表达的系统图。选型看的是<b>模板质量、协作体验、留存成本</b>，不是画图能力。</p>
+    <div class="cards" data-fam="c1"></div>
+  </div>
+
+  <div class="family">
+    <div class="family-head"><h3>结构化绘图</h3><span class="tag" style="color:var(--c2);border-color:rgba(255,169,77,.35)">形状库 + 吸附对齐</span></div>
+    <p class="family-desc">架构图、流程图、UML、BPMN 的主场。共同点是<b>形状语义化</b>（菱形=判断、圆柱=数据库）、连线自动吸附、对齐辅助线。差别在：精度上限、模板/图标库、以及是否内嵌在你的协作工具里。</p>
+    <div class="cards" data-fam="c2"></div>
+  </div>
+
+  <div class="family">
+    <div class="family-head"><h3>思维导图</h3><span class="tag" style="color:var(--c3);border-color:rgba(77,171,247,.35)">从中心长出去</span></div>
+    <p class="family-desc">只有一个中心主题、只允许树状发散。约束看着像缺点，实际是优点：<b>它逼你想清楚层级</b>。这一族拼的是"输入速度"和"展开/收起的阅读体验"，不是图形丰富度。</p>
+    <div class="cards" data-fam="c3"></div>
+  </div>
+
+  <div class="family">
+    <div class="family-head"><h3>UX 规划 / 站点地图</h3><span class="tag" style="color:var(--c3);border-color:rgba(77,171,247,.35)">给"网站"画图</span></div>
+    <p class="family-desc">专门为"一个网站/产品有多少页面、怎么串起来"服务。比通用绘图工具多了<b>页面层级、内容清单、交付物导出</b>——本质是规划工具，不是画图工具。</p>
+    <div class="cards" data-fam="c3b"></div>
+  </div>
+
+  <div class="family">
+    <div class="family-head"><h3>AI 生成 / 图文转换</h3><span class="tag" style="color:var(--c4);border-color:rgba(177,151,252,.35)">描述 → 图</span></div>
+    <p class="family-desc">你把文字或数据给它，它把图还给你。省掉的是"摆位置"这件事。代价是<b>结构精度和可复现性</b>——AI 生成的图很难进版本管理，也很难让三个人画出一模一样的图。</p>
+    <div class="cards" data-fam="c4"></div>
+  </div>
+
+  <div class="family">
+    <div class="family-head"><h3>代码即图 / 文本即图</h3><span class="tag" style="color:var(--c5);border-color:rgba(56,217,169,.35)">图是源码的副产品</span></div>
+    <p class="family-desc">图和代码住在一起：能 diff、能 review、能随代码更新。代价是<b>排版不由你控制</b>，而且非工程师基本用不了。这一族内部的分歧是"语法有多重"。</p>
+    <div class="cards" data-fam="c5"></div>
+  </div>
+
+  <div class="family">
+    <div class="family-head"><h3>可嵌入的画布引擎</h3><span class="tag" style="color:var(--c1);border-color:rgba(255,107,107,.35)">不是产品，是零件</span></div>
+    <p class="family-desc">它们不是给你画图用的，是给<b>你写进自己产品里</b>用的。判断标准完全不同：看包体积、License、数据结构是否可序列化、能不能白标。</p>
+    <div class="cards" data-fam="c1b"></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sec-head">
+    <h2>横向对比</h2>
+    <p>只看能决定选型的那几个维度。定性判断基于公开产品信息，不作为法律或采购依据。</p>
+  </div>
+  <div class="table-wrap">
+    <table id="matrix">
+      <thead><tr>
+        <th>工具</th><th>主要产出</th><th>输入方式</th><th>实时协作</th><th>离线/自托管</th><th>免费可用</th><th>最适合</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <p class="matrix-note">「离线/自托管」一栏：桌面应用天然离线；draw.io 有桌面版与自托管；Excalidraw 可自托管；tldraw 提供 SDK。SaaS 型工具的"离线"仅指弱网编辑，不等于数据留在本地。</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sec-head">
+    <h2>我要画 X，该选谁</h2>
+    <p>按真实场景给结论，不给"都很好"。</p>
+  </div>
+  <div class="decisions">
+    <div class="decision">
+      <div class="q">系统架构图，要进文档、要随代码更新</div>
+      <div class="a"><b>Mermaid</b> 或 <b>Eraser</b>。</div>
+      <div class="why">Mermaid 免费、GitHub/Notion 原生渲染，代价是排版粗糙；Eraser 图更漂亮、能写文档，但绑 SaaS。</div>
+    </div>
+    <div class="decision">
+      <div class="q">给老板/客户看的一张漂亮架构图</div>
+      <div class="a"><b>Lucidchart</b> 或 <b>OmniGraffle</b>。</div>
+      <div class="why">Lucidchart 在线协作、模板多；OmniGraffle 是 Mac 本地应用，精度和排版控制最强，适合交付级。</div>
+    </div>
+    <div class="decision">
+      <div class="q">完全免费、不登录、打开就画</div>
+      <div class="a"><b>Excalidraw</b> 或 <b>draw.io</b>。</div>
+      <div class="why">Excalidraw 手绘风格、能自托管；draw.io 形状库最全、有桌面版。两者都不锁你。</div>
+    </div>
+    <div class="decision">
+      <div class="q">团队工作坊、头脑风暴、复盘</div>
+      <div class="a"><b>Miro</b> / <b>Mural</b> / <b>FigJam</b> 三选一。</div>
+      <div class="why">Miro 模板和插件生态最厚；Mural 的工作坊流程引导更强；FigJam 只在你的团队已经用 Figma 时才最优。</div>
+    </div>
+    <div class="decision">
+      <div class="q">理清一个复杂问题的思路</div>
+      <div class="a"><b>Xmind</b> 或 <b>MindNode</b>。</div>
+      <div class="why">Xmind 功能全、跨平台、能出甘特/时间线；MindNode 是 Apple 生态里最顺手的，极简但只能 Mac/iOS。</div>
+    </div>
+    <div class="decision">
+      <div class="q">网站改版的页面结构和内容盘点</div>
+      <div class="a"><b>FlowMapp</b> 或 <b>Octopus.do</b>。</div>
+      <div class="why">FlowMapp 能把站点图、线框、报价串成一份提案；Octopus.do 更轻、更快出图。要爬现有站点做盘点，用 DYNO Mapper。</div>
+    </div>
+    <div class="decision">
+      <div class="q">写 PPT 时从一段文字快速变出配图</div>
+      <div class="a"><b>Napkin</b>。</div>
+      <div class="why">它的产品定义就是"把文字变成可编辑的视觉"，输出能进 PPT。学术图/图形摘要则用 ExplainViz。</div>
+    </div>
+    <div class="decision">
+      <div class="q">把白板能力嵌进自己的产品</div>
+      <div class="a"><b>tldraw</b> 或 <b>Excalidraw</b>。</div>
+      <div class="why">tldraw 是 SDK-first 的产品，文档和 API 面向集成；Excalidraw 开源可改，但要自己搭协作后端。</div>
+    </div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <span>调研对象：<a href="https://designbookmark.com/productivity/diagrams">DesignBookmark · Diagrams &amp; Whiteboards</a> · 30 个工具</span>
+  <span>截图与事实采集于 2026-11-18 · demo 为风格复刻，非官方产品</span>
+</div></footer>
+
+<script>
+/* ============ 数据 ============ */
+// x: 0=纯拖拽 → 100=纯文本   y: 0=自由画布 → 100=严格结构
+const TOOLS = [
+  { slug:"miro",        name:"Miro",          fam:"c1",  x:8,  y:13, dx:12,  dy:-10, a:"start",
+    what:"无限白板，团队工作坊的默认选项", draws:"便签墙 · 泳道图 · 头脑风暴模板", price:"Freemium", by:"跨职能团队、产品经理" },
+  { slug:"mural",       name:"Mural",         fam:"c1",  x:13, y:27, dx:12,  dy:4,   a:"start",
+    what:"带流程引导的 AI 工作坊空间", draws:"Design Sprint 看板 · 投票 · 分区模板", price:"Freemium", by:"咨询顾问、设计工作坊主持人" },
+  { slug:"figjam",      name:"FigJam",        fam:"c1",  x:16, y:19, dx:-12, dy:4,   a:"end",
+    what:"Figma 的白板，设计评审顺手用", draws:"用户旅程图 · 便签 · 情绪曲线", price:"Freemium", by:"已在用 Figma 的设计团队" },
+  { slug:"ziteboard",   name:"Ziteboard",     fam:"c1",  x:4,  y:5,  dx:12,  dy:4,   a:"start",
+    what:"极干净的在线白板，主打教学辅导", draws:"手写板书 · 数学公式 · PDF 批注", price:"Freemium", by:"家教、线上授课老师" },
+  { slug:"novastart",   name:"Novastart",     fam:"c1",  x:20, y:7,  dx:12,  dy:4,   a:"start",
+    what:"把应用和 AI agent 摆在同一条无限画布上", draws:"应用窗口集群 · agent 协作空间", price:"Freemium", by:"多任务并行的个人与小队" },
+  { slug:"milanote",    name:"Milanote",      fam:"c1",  x:9,  y:38, dx:12,  dy:4,   a:"start",
+    what:"给创意人用的灵感墙/情绪板", draws:"图片拼贴 · 色板 · 便签 · 卡片流", price:"Freemium", by:"设计师、内容创作者" },
+  { slug:"excalidraw",  name:"Excalidraw",    fam:"c1b", x:23, y:14, dx:12,  dy:4,   a:"start",
+    what:"手绘风格白板，开源、可自托管", draws:"手绘感架构图 · 草图 · 临时示意", price:"Free", by:"工程师、想画得「不那么正式」的人" },
+  { slug:"tldraw",      name:"tldraw",        fam:"c1b", x:16, y:2,  dx:12,  dy:-8,  a:"start",
+    what:"可嵌进自己产品的无限画布 SDK", draws:"任意画布内容（由你定义）", price:"Free", by:"做白板/画布产品的开发者" },
+
+  { slug:"whimsical",   name:"Whimsical",     fam:"c2",  x:28, y:47, dx:-12, dy:-10, a:"end",
+    what:"为产品经理做的「快而美」图与线框", draws:"流程图 · 线框稿 · 思维导图 · 文档", price:"Freemium", by:"产品经理、创业者" },
+  { slug:"moqups",      name:"Moqups",        fam:"c2",  x:32, y:57, dx:12,  dy:4,   a:"start",
+    what:"线框稿 + 流程图 + 原型在一处", draws:"灰阶线框 · 用户流程 · 原型", price:"Freemium", by:"UX 设计师、独立开发者" },
+  { slug:"gliffy",      name:"Gliffy",        fam:"c2",  x:26, y:64, dx:-12, dy:4,   a:"end",
+    what:"长在 Confluence / Jira 里的绘图插件", draws:"流程图 · UML · 组织图", price:"Freemium", by:"用 Atlassian 全家桶的公司" },
+  { slug:"creately",    name:"Creately",      fam:"c2",  x:33, y:72, dx:-12, dy:4,   a:"end",
+    what:"图 + 白板 + 自定义数据库 + wiki", draws:"BPMN · 组织图 · 云架构 · 流程图", price:"Freemium", by:"做流程梳理的企业团队" },
+  { slug:"drawio",      name:"draw.io",       fam:"c2",  x:40, y:81, dx:12,  dy:-10, a:"start",
+    what:"免费开源的通用绘图，形状库最全", draws:"网络拓扑 · UML · 任意框图", price:"Free", by:"所有人，尤其不想付费的团队" },
+  { slug:"lucidchart",  name:"Lucidchart",    fam:"c2",  x:45, y:88, dx:-12, dy:-10, a:"end",
+    what:"企业级在线绘图，AI + 数据联动", draws:"系统架构 · 流程优化 · 云架构图", price:"Freemium", by:"架构师、流程负责人、大企业" },
+  { slug:"omnigraffle", name:"OmniGraffle",   fam:"c2",  x:21, y:77, dx:-12, dy:4,   a:"end",
+    what:"Mac 上的印刷级绘图工具", draws:"高精度架构图 · iOS 导航图 · 原型", price:"买断", by:"设计师、要交付精美图的架构师" },
+  { slug:"yed",         name:"yEd",           fam:"c2",  x:50, y:94, dx:12,  dy:-10, a:"start",
+    what:"免费桌面图编辑器，强在自动布局", draws:"密集网络图 · BPMN · 家谱 · 依赖图", price:"Free", by:"要处理大图的工程师与研究者" },
+  { slug:"overflow",    name:"Overflow",      fam:"c2",  x:42, y:38, dx:-12, dy:-10, a:"end",
+    what:"把设计稿自动连成用户流程图", draws:"设计稿节点 · 可点击流程演示", price:"Freemium", by:"UX 设计师、设计评审" },
+
+  { slug:"xmind",       name:"Xmind",         fam:"c3",  x:57, y:62, dx:12,  dy:4,   a:"start",
+    what:"最主流的思维导图，还能出甘特图", draws:"有机曲线思维导图 · 时间线 · 甘特", price:"Freemium", by:"产品经理、学生、做规划的人" },
+  { slug:"mindmanager", name:"MindManager",   fam:"c3",  x:52, y:71, dx:-12, dy:4,   a:"end",
+    what:"企业级思维导图，导图即项目计划", draws:"WBS · 时间线 · 工作流导图", price:"Freemium", by:"项目经理、需要把导图变任务的人" },
+  { slug:"mindnode",    name:"MindNode",      fam:"c3",  x:61, y:54, dx:12,  dy:4,   a:"start",
+    what:"Apple 生态里最顺手的极简导图", draws:"极简单色导图 · 大纲", price:"Freemium", by:"Mac / iPad / iPhone 用户" },
+
+  { slug:"flowmapp",    name:"FlowMapp",      fam:"c3b", x:41, y:60, dx:12,  dy:-10, a:"start",
+    what:"从站点图到报价的一站式 UX 规划", draws:"站点地图 · 用户流 · 线框 · 提案", price:"Freemium", by:"建站公司、UX 顾问" },
+  { slug:"octopus-do",  name:"Octopus.do",    fam:"c3b", x:35, y:50, dx:-12, dy:16,  a:"end",
+    what:"最快的可视化站点地图", draws:"彩色卡片式站点树", price:"Freemium", by:"快速出结构的建站者" },
+  { slug:"writemaps",   name:"WriteMaps",     fam:"c3b", x:37, y:66, dx:-12, dy:12,  a:"end",
+    what:"给每个页面收集内容的站点地图", draws:"带页面缩略与备注的站点树", price:"Freemium", by:"内容策略、网站改版负责人" },
+  { slug:"dyno-mapper", name:"DYNO Mapper",   fam:"c3b", x:49, y:76, dx:-12, dy:-12, a:"end",
+    what:"爬现有网站生成站点图 + 内容盘点", draws:"自动爬取的站点图 · 健康度评分", price:"Freemium", by:"SEO、内容审计、内网治理" },
+
+  { slug:"napkin",      name:"napkin",        fam:"c4",  x:82, y:44, dx:12,  dy:4,   a:"start",
+    what:"把文字变成可编辑的图与信息图", draws:"粉彩流程图 · 信息图 · 数据图", price:"Freemium", by:"做 PPT 和社媒图的人" },
+  { slug:"explainviz",  name:"ExplainViz",    fam:"c4",  x:84, y:59, dx:12,  dy:4,   a:"start",
+    what:"AI 画科研图形摘要与研究海报", draws:"Graphical abstract · 机制图 · 海报", price:"Freemium", by:"科研人员、论文作者" },
+  { slug:"eraser",      name:"Eraser",        fam:"c4",  x:74, y:79, dx:-12, dy:-10, a:"end",
+    what:"AI + 代码生成技术设计图与文档", draws:"深色系架构图 · 云图 · 设计文档", price:"Freemium", by:"工程团队、技术负责人" },
+
+  { slug:"mermaid",     name:"Mermaid",       fam:"c5",  x:94, y:86, dx:-12, dy:18,  a:"end",
+    what:"写文本生成图，GitHub/Notion 原生支持", draws:"流程图 · 时序图 · 状态图 · 甘特", price:"Free", by:"写文档的开发者" },
+  { slug:"websequencediagrams", name:"WebSequenceDiagrams", fam:"c5", x:97, y:95, dx:-12, dy:-10, a:"end",
+    what:"纯文本画时序图，专治超大架构", draws:"多参与者时序图 · 循环/分支块", price:"Freemium", by:"后端架构师" },
+  { slug:"wiretext",    name:"Wiretext",      fam:"c5",  x:92, y:76, dx:-12, dy:4,   a:"end",
+    what:"用 Unicode 制表符画线框稿", draws:"纯文本线框图（ASCII art 级）", price:"Freemium", by:"极客、需要图能进纯文本场景的人" }
+];
+
+const FAM = {
+  c1:  { label:"自由画布 / 白板", color:"var(--c1)", hex:"#ff6b6b" },
+  c1b: { label:"可嵌入画布引擎", color:"var(--c1)", hex:"#ff6b6b" },
+  c2:  { label:"结构化绘图",      color:"var(--c2)", hex:"#ffa94d" },
+  c3:  { label:"思维导图",        color:"var(--c3)", hex:"#4dabf7" },
+  c3b: { label:"UX 规划 / 站点图", color:"var(--c3)", hex:"#4dabf7" },
+  c4:  { label:"AI 生成 / 图文转换", color:"var(--c4)", hex:"#b197fc" },
+  c5:  { label:"代码即图 / 文本即图", color:"var(--c5)", hex:"#38d9a9" }
+};
+
+/* ============ 散点图 ============ */
+(function () {
+  const svg = document.getElementById("map");
+  const W = 1040, H = 600, L = 66, R = 34, T = 34, B = 54;
+  const px = x => L + (x / 100) * (W - L - R);
+  const py = y => (H - B) - (y / 100) * (H - T - B);
+
+  const NS = "http://www.w3.org/2000/svg";
+  const el = (n, attrs = {}) => {
+    const e = document.createElementNS(NS, n);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    return e;
+  };
+
+  // 网格
+  const gGrid = el("g");
+  for (let i = 0; i <= 4; i++) {
+    const y = T + (i / 4) * (H - T - B);
+    gGrid.appendChild(el("line", { x1:L, x2:W-R, y1:y, y2:y, stroke:"rgba(255,255,255,.06)", "stroke-dasharray":"3 6" }));
+    const x = L + (i / 4) * (W - L - R);
+    gGrid.appendChild(el("line", { x1:x, x2:x, y1:T, y2:H-B, stroke:"rgba(255,255,255,.04)", "stroke-dasharray":"3 6" }));
+  }
+  svg.appendChild(gGrid);
+
+  // 轴
+  svg.appendChild(el("line", { x1:L, x2:W-R, y1:H-B, y2:H-B, stroke:"rgba(255,255,255,.22)" }));
+  svg.appendChild(el("line", { x1:L, x2:L, y1:T, y2:H-B, stroke:"rgba(255,255,255,.22)" }));
+  const ax = el("text", { x:(L+W-R)/2, y:H-16, fill:"#8c8c97", "font-size":"12.5", "text-anchor":"middle" });
+  ax.textContent = "输入方式　拖拽 ———————————————→ 打字"; svg.appendChild(ax);
+  const ay = el("text", { x:18, y:(T+H-B)/2, fill:"#8c8c97", "font-size":"12.5", "text-anchor":"middle", transform:`rotate(-90 18 ${(T+H-B)/2})` });
+  ay.textContent = "自由度　空白画布 ———————→ 模板约束"; svg.appendChild(ay);
+  // 点 + 标签
+  const gDots = el("g");
+  TOOLS.forEach(t => {
+    const fam = FAM[t.fam];
+    const cx = px(t.x), cy = py(t.y);
+    const g = el("g", { style:"cursor:pointer" });
+
+    const halo = el("circle", { cx, cy, r:14, fill:fam.hex, opacity:0, style:"transition:opacity .15s" });
+    const dot = el("circle", { cx, cy, r:5.5, fill:fam.hex, stroke:"#0a0a0c", "stroke-width":2 });
+    const label = el("text", {
+      x: cx + t.dx, y: cy + t.dy, fill:"#c9c9d3", "font-size":"11.5",
+      "text-anchor": t.a, "paint-order":"stroke", stroke:"#0a0a0c", "stroke-width":"3.5", "stroke-linejoin":"round", style:"pointer-events:none;transition:fill .15s"
+    });
+    label.textContent = t.name;
+
+    g.append(halo, dot, label);
+    g.addEventListener("mouseenter", () => {
+      halo.setAttribute("opacity", "0.18");
+      label.setAttribute("fill", "#fff");
+      tip.textContent = t.name + " — " + t.what;
+      tip.setAttribute("opacity", "1");
+    });
+    g.addEventListener("mouseleave", () => {
+      halo.setAttribute("opacity", "0");
+      label.setAttribute("fill", "#c9c9d3");
+      tip.setAttribute("opacity", "0");
+    });
+    g.addEventListener("click", () => { location.href = "tools/" + t.slug + ".html"; });
+
+    const title = el("title");
+    title.textContent = t.name + "：" + t.what;
+    g.appendChild(title);
+    gDots.appendChild(g);
+  });
+  svg.appendChild(gDots);
+
+  const tip = el("text", { x:L, y:T-12, fill:"#fff", "font-size":"12.5", opacity:"0", style:"pointer-events:none" });
+  svg.appendChild(tip);
+
+  // legend
+  const lg = document.getElementById("legend");
+  [["c1","自由画布 / 白板"],["c1b","可嵌入画布引擎"],["c2","结构化绘图"],["c3","思维导图"],["c3b","UX 规划 / 站点图"],["c4","AI 生成"],["c5","代码即图"]]
+    .forEach(([k, label]) => {
+      const s = document.createElement("span");
+      s.innerHTML = `<i style="background:${FAM[k].hex}"></i>${label}`;
+      lg.appendChild(s);
+    });
+})();
+
+/* ============ 卡片 ============ */
+(function () {
+  const famMap = { c1:"c1", c1b:"c1b", c2:"c2", c3:"c3", c3b:"c3b", c4:"c4", c5:"c5" };
+  Object.entries(famMap).forEach(([fam, key]) => {
+    const host = document.querySelector(`.cards[data-fam="${fam}"]`);
+    if (!host) return;
+    TOOLS.filter(t => t.fam === key).forEach(t => {
+      const a = document.createElement("a");
+      a.className = "card";
+      a.href = "tools/" + t.slug + ".html";
+      a.style.setProperty("--fam", FAM[key].hex);
+      a.innerHTML = `
+        <div class="top">
+          <span class="name">${t.name}</span>
+          <span class="pill ${t.price === "Free" ? "free" : ""}">${t.price}</span>
+        </div>
+        <div class="what">${t.what}</div>
+        <div class="draws">典型产出：<b>${t.draws}</b></div>
+        <div class="go">打开 demo</div>`;
+      host.appendChild(a);
+    });
+  });
+})();
+
+/* ============ 对比表 ============ */
+(function () {
+  // 主要产出 / 输入方式 / 实时协作 / 离线自托管 / 免费可用 / 最适合
+  const ROWS = [
+    ["Miro",           "白板 · 工作坊",     "拖拽",   "yes", "no",      "Freemium", "团队发散与共创"],
+    ["Mural",          "工作坊看板",        "拖拽",   "yes", "no",      "Freemium", "有引导流程的会议"],
+    ["FigJam",         "白板 · 旅程图",     "拖拽",   "yes", "no",      "Freemium", "Figma 团队的评审"],
+    ["Ziteboard",      "手写板书",          "拖拽",   "yes", "no",      "Freemium", "线上教学"],
+    ["Novastart",      "应用/agent 画布",   "拖拽",   "yes", "no",      "Freemium", "多任务并行的桌面替代"],
+    ["Milanote",       "灵感墙",            "拖拽",   "yes", "no",      "Freemium", "创意项目整理"],
+    ["Excalidraw",     "手绘示意图",        "拖拽",   "yes", "yes",     "Free",     "工程草图、可自托管"],
+    ["tldraw",         "任意画布",          "拖拽",   "yes", "yes(SDK)","Free",     "嵌入自有产品"],
+    ["Whimsical",      "流程图 · 线框",     "拖拽",   "yes", "no",      "Freemium", "产品经理快速出图"],
+    ["Moqups",         "线框 · 原型",       "拖拽",   "yes", "no",      "Freemium", "UX 设计与原型"],
+    ["Creately",       "BPMN · 组织图",     "拖拽",   "yes", "no",      "Freemium", "企业流程梳理"],
+    ["Lucidchart",     "企业架构图",        "拖拽",   "yes", "no",      "Freemium", "大型组织系统图"],
+    ["draw.io",        "任意框图",          "拖拽",   "yes", "yes",     "Free",     "免费通用绘图"],
+    ["Gliffy",         "流程图 · UML",      "拖拽",   "yes", "no",      "Freemium", "Confluence/Jira 内嵌"],
+    ["OmniGraffle",    "高精度架构图",      "拖拽",   "no",  "yes",     "买断",     "Mac 上交付级出图"],
+    ["yEd",            "密集网络图",        "拖拽+自动布局", "no", "yes", "Free",    "大图自动排版"],
+    ["Overflow",       "用户流程图",        "导入设计稿", "yes", "no",  "Freemium", "设计评审与演示"],
+    ["Xmind",          "思维导图 · 甘特",   "拖拽+Markdown", "yes", "yes", "Freemium","规划与梳理思路"],
+    ["MindManager",    "WBS · 项目导图",    "拖拽",   "yes", "yes",     "Freemium", "导图转项目计划"],
+    ["MindNode",       "极简导图",          "拖拽",   "yes", "yes",     "Freemium", "Apple 生态个人使用"],
+    ["FlowMapp",       "站点图 · 提案",     "拖拽",   "yes", "no",      "Freemium", "建站项目全流程"],
+    ["Octopus.do",     "站点地图",          "拖拽",   "yes", "no",      "Freemium", "快速出站点结构"],
+    ["WriteMaps",      "站点图 · 内容清单", "拖拽",   "yes", "no",      "Freemium", "内容规划"],
+    ["DYNO Mapper",    "爬取式站点图",      "爬虫生成", "yes", "no",    "Freemium", "站点审计与 SEO"],
+    ["napkin",         "粉彩图 · 信息图",   "文本→AI", "partial", "no", "Freemium", "演示与社媒配图"],
+    ["ExplainViz",     "科研图形摘要",      "描述→AI", "no",  "no",      "Freemium", "论文与海报"],
+    ["Eraser",         "深色架构图 · 文档", "代码/AI", "yes", "no",      "Freemium", "工程团队设计文档"],
+    ["Mermaid",        "流程图 · 时序图",   "纯文本", "partial", "yes",   "Free",     "文档内嵌、可版本化"],
+    ["WebSequenceDiagrams", "时序图",       "纯文本", "partial", "yes(自托管)", "Freemium", "超大系统时序"],
+    ["Wiretext",       "Unicode 线框",      "纯文本", "partial", "no",   "Freemium", "纯文本环境的线框"]
+  ];
+  const yn = v => v === "yes" ? '<span class="yes">✓</span>'
+    : v === "no" ? '<span class="no">—</span>'
+    : `<span class="partial">${v === "partial" ? "部分" : v.replace("yes(", "✓ ").replace(")", "")}</span>`;
+  const tb = document.querySelector("#matrix tbody");
+  ROWS.forEach(r => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${yn(r[3])}</td><td>${yn(r[4])}</td><td>${r[5] === "Free" ? '<span class="yes">免费</span>' : r[5]}</td><td>${r[6]}</td>`;
+    tb.appendChild(tr);
+  });
+})();
+</script>
+</body>
+</html>
