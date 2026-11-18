@@ -1,0 +1,272 @@
+[
+ {
+  "slug": "mindmanager",
+  "url": "https://www.mindmanager.com/",
+  "title": "MindManager 思维导图软件 | MindManager",
+  "og": "https://www.mindmanager.com/static/mm/images/social-og/mm-2023-OG-gen.png",
+  "desc": "The MindManager product line up delivers visualization tools to organize data, track projects, and present information. ",
+  "h1": "思维导图变得简单 ",
+  "shot": true
+ },
+ {
+  "slug": "xmind",
+  "url": "https://xmind.app/",
+  "title": "Xmind - Mind Map Maker & AI Brainstorming Tool",
+  "og": "https://xmind.com/hp/og/com-20261028.png",
+  "desc": "Create mind maps online or on desktop with Xmind. Brainstorm ideas, organize thoughts, use AI, templates, and visual structures to plan projects clearly.",
+  "h1": "Map\nas you talk.",
+  "shot": true
+ },
+ {
+  "slug": "dyno-mapper",
+  "url": "https://dynomapper.com/",
+  "title": "Visual Sitemap Generator | DYNO Mapper",
+  "og": "https://dynomapper.com/wp-content/uploads/2025/09/dm_colors_on_black_small.png",
+  "desc": "Visual sitemap generator for mapping site structure, managing content, and improving SEO. Plan and optimize your website with DYNO Mapper.",
+  "h1": "VISUAL SITEMAP GENERATOR\n·CRAWLER · MCP SERVER\nMap every site you run. Even the ones behind a login.",
+  "shot": true
+ },
+ {
+  "slug": "napkin",
+  "url": "https://www.napkin.ai/",
+  "title": "Napkin AI - Turn Text into AI Diagrams and Visuals",
+  "og": "https://www.napkin.ai/assets/og-image-v5.png?v=2",
+  "desc": "Just paste your text, and Napkin AI instantly turns it into flowcharts, mind maps, infographics, diagrams, data charts & slides. No design skills needed.",
+  "h1": "Get visuals\nfrom your text",
+  "shot": true
+ },
+ {
+  "slug": "ziteboard",
+  "url": "https://ziteboard.com/",
+  "title": "Ziteboard | Online Whiteboard with Realtime Collaboration",
+  "og": "https://ziteboard.com/wp-content/uploads/2015/06/Lightweight-Online-Whiteboard-for-Collaboration.png",
+  "desc": "Ziteboard is a zoomable online whiteboard with realtime collaboration for tutoring. Explain, sketch, teach anything.",
+  "h1": "Online Whiteboard with Realtime Collaboration",
+  "shot": true
+ },
+ {
+  "slug": "gliffy",
+  "url": "https://www.gliffy.com/",
+  "title": "AI-Powered Technical Diagramming for Confluence | Gliffy by Perforce",
+  "og": null,
+  "desc": null,
+  "h1": "AI-Powered Technical Diagramming for Confluence",
+  "shot": true
+ },
+ {
+  "slug": "overflow",
+  "url": "https://overflow.io/",
+  "title": "User flow diagramming tool for design teams | Overflow",
+  "og": "https://overflow.io/assets/images/social/homepage.png?v=1780121081819",
+  "desc": "Create interactive user flows and stunning design presentations to engage your audience in synchronous or asynchronous design critique.",
+  "h1": "User flows done right",
+  "shot": true
+ },
+ {
+  "slug": "mindnode",
+  "url": "https://www.mindnode.com/",
+  "title": "MindNode",
+  "og": "https://cdn.sanity.io/images/rcrh40p3/production/8d8a770d2f5e5543981b63d04a4e525d42f8b3d4-1201x631.png?w=1200&q=85&fm=webp&fit=max",
+  "desc": "MindNode helps you capture, connect, and evolve ideas visually as mind maps and outlines.",
+  "h1": "Your Brain Doesn’t Think in Straight Lines.",
+  "shot": true
+ },
+ {
+  "slug": "yed",
+  "url": "https://www.yworks.com/products/yed",
+  "title": "yEd - Graph Editor",
+  "og": "https://www.yworks.com/resources/social-media/tc-yed.png",
+  "desc": "yEd is a free desktop application to quickly create, import, edit, and automatically arrange diagrams. It runs on Windows, macOS, and Unix/Linux.",
+  "h1": "yEd - graph editor\nHigh-quality diagrams made easy",
+  "shot": true
+ },
+ {
+  "slug": "moqups",
+  "url": "https://moqups.com/",
+  "title": "Online Mockup, Wireframe & UI Prototyping Tool | Moqups",
+  "og": "https://landing.moqups.com/img/homepage/moqups-com-hero.png",
+  "desc": "Moqups is a streamlined and intuitive web app that helps you create and collaborate on wireframes, mockups, diagrams and prototypes — for any type of project.",
+  "h1": "Wireframe, Diagram & Whiteboard Online",
+  "shot": true
+ },
+ {
+  "slug": "websequencediagrams",
+  "url": "https://www.websequencediagrams.com/",
+  "title": "WebSequenceDiagrams - Draw sequence diagrams online in seconds",
+  "og": "https://www.websequencediagrams.com/logo.svg",
+  "desc": "Draw sequence diagrams in seconds using\n        this free online tool.",
+  "h1": "The only sequence diagram engine built for massive architectures.",
+  "shot": true
+ },
+ {
+  "slug": "writemaps",
+  "url": "https://writemaps.com/",
+  "title": "WriteMaps | Create Sitemaps Online",
+  "og": null,
+  "desc": "Create sitemaps online using WriteMaps online sitemapping tool and sitemap generator. Add notes, gather content, and share your sitemap with others.",
+  "h1": "CREATE SITEMAPS THE FASTEST WAY",
+  "shot": true
+ },
+ {
+  "slug": "novastart",
+  "url": "https://novastart.com/",
+  "title": "Novastart | The Infinite Canvas OS",
+  "og": "https://novastart.com/og.png",
+  "desc": "Novastart is an infinite canvas operating system where your apps, teammates and AI agents work together on one shared canvas. Download the app or install the OS.",
+  "h1": "NOVASTART\nAn infinite canvas OS",
+  "shot": true
+ },
+ {
+  "slug": "explainviz",
+  "url": "https://explainviz.com/",
+  "title": "AI Scientific Figure & Diagram Maker | ExplainViz",
+  "og": "https://explainviz.com/images/explainviz/og-explainviz.jpg",
+  "desc": "Create accurate, publication-ready scientific figures with AI. Draft graphical abstracts, research frameworks, and posters, then edit and export as SVG.",
+  "h1": "Publication-ready scientific figures, from a description",
+  "shot": true
+ },
+ {
+  "slug": "omnigraffle",
+  "url": "https://www.omnigroup.com/omnigraffle",
+  "title": "Visual Communication Software To Make Pro Diagrams - OmniGraffle - The Omni Group",
+  "og": "https://www.omnigroup.com/assets/img/icons/omnigraffle-mac@2x.png",
+  "desc": "Visual communication software that helps people make professional-looking content quickly.",
+  "h1": "You've got some explaining to do",
+  "shot": true
+ },
+ {
+  "slug": "miro",
+  "url": "https://miro.com/",
+  "title": "AI Innovation Workspace | Miro",
+  "og": "https://framerusercontent.com/assets/Bab0War93Jeq5MpDPwqKFiyI.png",
+  "desc": "Speed up product development from ideation to launch. Align teams, break tool silos and ship what customers need in one AI-powered visual platform.",
+  "h1": "Human collaboration at the speed of AI",
+  "shot": true
+ },
+ {
+  "slug": "mural",
+  "url": "https://www.mural.co/",
+  "title": "AI-powered visual workspace for team collaboration | Mural",
+  "og": "https://cdn.prod.website-files.com/62e11362da2667ac3d0e6ed5/638f50f56076f389d91406a0_Mural_OG_image_launch.png",
+  "desc": "Boost team collaboration and innovation with Mural, the AI-powered visual workspace. Plan, strategize, and execute projects seamlessly on one intuitive tool.",
+  "h1": "Sync up. Speed up. Stand out.",
+  "shot": true
+ },
+ {
+  "slug": "figjam",
+  "url": "https://www.figma.com/figjam/",
+  "title": "FigJam: The Online Collaborative Whiteboard for Teams",
+  "og": "https://cdn.sanity.io/images/599r6htc/regionalized/f17d3078c6c170d8395dd57aab930b84e88fa6e1-2400x1260.png?w=1200&q=70&fit=max&auto=format",
+  "desc": "A visual collaborative whiteboard where teams can diagram, brainstorm, and organize ideas together.",
+  "h1": "FigJam",
+  "shot": true
+ },
+ {
+  "slug": "excalidraw",
+  "url": "https://excalidraw.com/",
+  "title": "Excalidraw Whiteboard",
+  "og": "https://excalidraw.com/og-image-3.png",
+  "desc": "Excalidraw is a virtual collaborative whiteboard tool that lets you easily sketch diagrams that have a hand-drawn feel to them.",
+  "h1": "Excalidraw",
+  "shot": true
+ },
+ {
+  "slug": "tldraw",
+  "url": "https://www.tldraw.com/",
+  "title": "tldraw • very good free whiteboard",
+  "og": "https://www.tldraw.com/social-og.png",
+  "desc": "A free and instant collaborative whiteboarding tool.",
+  "h1": "tldraw - free and instant collaborative whiteboarding",
+  "shot": true
+ },
+ {
+  "slug": "whimsical",
+  "url": "https://whimsical.com/",
+  "title": "Whimsical — Whiteboards and docs for product builders",
+  "og": "https://whimsical.com/_next_public/cards/default-260714.png",
+  "desc": "Shape ideas into plans with your team and the AI agents you already use.",
+  "h1": null,
+  "shot": true
+ },
+ {
+  "slug": "lucidchart",
+  "url": "https://www.lucidchart.com/",
+  "title": "Lucidchart | Diagramming Powered By Intelligence",
+  "og": null,
+  "desc": "Create next-generation diagrams with AI, data, and automation in Lucidchart. Understand and optimize every system and process.",
+  "h1": "Diagramming powered by intelligence",
+  "shot": true
+ },
+ {
+  "slug": "drawio",
+  "url": "https://www.drawio.com/",
+  "title": "Security-first diagramming for teams | draw.io",
+  "og": "https://www.drawio.com/img/blog/drawio-social-card.png",
+  "desc": "Free diagramming application with 100M+ users. Store your data wherever you want—we can't access it.",
+  "h1": "Security-first diagramming for teams",
+  "shot": true
+ },
+ {
+  "slug": "eraser",
+  "url": "https://www.eraser.io/",
+  "title": "Eraser – AI-native architecture platform",
+  "og": "https://www.eraser.io/assets/og-image.png",
+  "desc": "Eraser is the AI-native architecture platform: models, maps, diagrams, agents and harnesses grounded in your cloud, code, CMDB and spreadsheets.",
+  "h1": "AI-native\narchitecture platform",
+  "shot": true
+ },
+ {
+  "slug": "mermaid",
+  "url": "https://mermaid.js.org/",
+  "title": "Mermaid | Diagramming and charting tool",
+  "og": "https://mermaid.js.org/mermaid-logo-horizontal.png",
+  "desc": "Mermaid is a JavaScript diagramming and charting tool that renders Markdown-inspired text definitions into flowcharts, sequence diagrams, Gantt charts and more.",
+  "h1": "Mermaid is going on a diet",
+  "shot": true
+ },
+ {
+  "slug": "creately",
+  "url": "https://creately.com/",
+  "title": "Plan Your Org, Processes and Systems with AI",
+  "og": "https://creately.com/static/assets/common/logos/creately/logo-on-dark-1200x630.png",
+  "desc": "Org planning, process mapping and cloud architecture software that you and your AI work on together. Start from your HR data, procedures and cloud account. Free to start.",
+  "h1": "Plan your org, processes and systems,\nfor you and your AI.",
+  "shot": true
+ },
+ {
+  "slug": "milanote",
+  "url": "https://milanote.com/",
+  "title": "Milanote - the tool for organizing creative projects",
+  "og": "https://images.milanote.com/milanote%2Feb461c66-1c77-4e5c-9372-5ac7bb556ee7_milanote-share-preview.png?auto=format,compress",
+  "desc": "Milanote is an easy-to-use tool to organize your ideas and projects into visual boards. Add notes, images, links and files, organize them visually and share them with your team.",
+  "h1": "Get organized. Stay creative.",
+  "shot": true
+ },
+ {
+  "slug": "flowmapp",
+  "url": "https://www.flowmapp.com/",
+  "title": "Flowmapp website planning tool: Sitemaps, User Flows, Wireframes, and Content",
+  "og": "https://cdn.prod.website-files.com/649ae86ac1a4be707b656519/65fe17942989eb1e1145dbea_Open%20Graph.webp",
+  "desc": "Flowmapp is an AI-driven planning platform for creating effective website sales proposals by adding brief, designing sitemap, planning website structure, making wireframes, creating content, estimating project costs and creating invoices.",
+  "h1": "Visual platform for planning UX and pitching web design",
+  "shot": true
+ },
+ {
+  "slug": "octopus",
+  "url": "https://octopus.do/",
+  "title": "Octopus.do, Visual Sitemap Tool, Website Planner, Architecture",
+  "og": "/static/og-image-03.png",
+  "desc": "FREE visual sitemap builder with lo-fi wireframes for prototyping website architecture & structure. Use our website planning and site mapping tool to create a site map instantly. Our website diagram tool and website mapping is extremely fast and easy, we promise!",
+  "h1": "Lightning⚡fast visual\nsitemap builder",
+  "shot": true
+ },
+ {
+  "slug": "wiretext",
+  "url": "https://wiretext.app/",
+  "title": "Wiretext — Unicode Wireframe Design Tool",
+  "og": "https://wiretext.app/opengraph-image?f4cb4b39558746c8",
+  "desc": "A Unicode wireframe design tool where everything renders as box-drawing characters. Create wireframes, diagrams, and mockups. Share as text.",
+  "h1": "Wiretext: Unicode wireframe design tool — draw with text",
+  "shot": true
+ }
+]
